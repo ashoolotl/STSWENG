@@ -1,0 +1,72 @@
+extends base
+
+block stylesheets 
+    link(rel='stylesheet', href='/partials/navbar.css')
+    link(rel='stylesheet', href='/user-profile.css')
+    link(rel='stylesheet', href='/featured.css')
+
+block content
+    header Registered Vehicles
+
+
+    .registered-cars
+        each vehicleClass in vehicleClassification 
+           
+            hr
+            .car 
+                img(src=`/images/vehicleClassification/${vehicleClass.photo}`)
+                .car-status 
+                    .car-info 
+                        p.car-text= vehicleClass.name 
+                    button#vehicleClassificationEditBtn.edit-btn(type='button', data-id=vehicleClass._id) Edit 
+                    button#vehicleClassificationDeleteBtn.delete-btn(type='button', data-id=vehicleClass._id) Delete
+            
+        hr
+        button#add 
+            img#id(src='/images/add.png')
+
+        #addCarPopup.popupContainer 
+            .popupContent 
+                span#closePopup.closePopup &times;
+                h1#title Add a Vehicle Classification 
+
+                form#addCarForm
+                    label(for='vehicleClassification') Vehicle Classification
+                    input(type='text', id='vehicleClassification' name='vehicleClassification')
+                    label(for='photo') Upload Image 
+                    input(type='file', id='photo', name='photo', accept='image/*')
+                    button(type='submit') Submit
+
+
+
+        #editCarPopup.popupContainer 
+            .popupContent 
+                span#closePopupEdit.closePopup &times;
+                h1 Edit A Vehicle Classification
+
+                form#editCarForm
+                    label(for='vehicleClassification') Vehicle Classification
+                    input(type='text', id='vehicleClassificationEdit' name='vehicleClassificationEdit')
+                    label(for='photoEdit') Upload Image 
+                    input(type='file', id='photoEdit', name='photoEdit', accept='image/*')
+                    button(type='submit') Submit
+                    input(type='vehicleClassId', name='vehicleClassId', id='vehicleClassId', hidden='true')
+
+                    
+        #successPopup.popupContainer 
+            .popupContent 
+                span#closeSuccessPopup.closePopup &times;   
+                h1 Completed 
+                p The Vehicle Classification has been added successfully.
+                button(type='submit' id='closeBtn') Done
+
+
+        #successPopupEdit.popupContainer 
+            .popupContent 
+                span#closeSuccessPopupEdit.closePopup &times;   
+                h1 Completed 
+                p The Vehicle Classification has been updated successfully.
+                button(type='submit' id='closeBtnEdit') Done
+
+block scripts 
+    script(src='/js/addVehicleClassification.js')

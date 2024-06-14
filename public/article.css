@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
+
+@font-face {
+    font-family: 'Crillee';
+    src: url('./fonts/Crillee\ Italic\ BT.ttf') format('truetype');
+}
+
+body {
+    margin: 0;
+    font-family: Montserrat;
+    background: linear-gradient(to right, #1C1B1E, #3A3A3C);
+}
+
+header {
+    font-family: 'Crillee';
+    position: relative;
+    height: 100px;
+    color: #ED1C24;
+    font-size: 3.0rem;
+
+    text-align: center;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#article-container {
+    display: flex;
+    flex-direction: column;
+    padding-left: 15%;
+    padding-right: 15%;
+    padding-top: 2rem;
+    z-index: -9999;
+}
+
+#article-container h1 {
+    font-family: 'Crillee';
+    color: white;
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+#date {
+    font-size: 18px;
+    color: #ED1C24;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#article-body {
+    color: whitesmoke;
+    font-size: 18px;
+}

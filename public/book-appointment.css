@@ -1,0 +1,106 @@
+.popupContent {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 15px;
+}
+
+.popupContent .contentWrapper {
+    display: flex;
+    align-items: center;
+    /* Align items vertically */
+}
+
+.popupContent img {
+    width: 180px;
+    margin-right: 10px;
+    /* Adjust margin between image and info */
+}
+
+.info-item {
+    color: whitesmoke;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /* Align items vertically */
+}
+
+
+.info-item span {
+    margin-left: 250px;
+}
+
+#cart button,
+#addPopup button,
+#bookingPopup button,
+.dateTimeSubmit {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+    /* Add some top margin */
+}
+
+#cart button:hover,
+#bookingPopup button:hover,
+.dateTimeSubmit:hover {
+    background-color: #45a049;
+}
+
+#addDateTimePopup,
+#dateTimePopup {
+    width: fit-content;
+}
+
+.content {
+    display: flex;
+    justify-content: space-around;
+}
+
+/* Cart Popup */
+#cart {
+    display: none;
+    /* Initially hide the cart */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(to right, #1C1B1E, #3A3A3C);
+    padding: 20px;
+    border-radius: 10px;
+    color: red;
+    /* Change the text color as needed */
+    z-index: 9999;
+    width: 75%;
+    font-size: 18px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    /* Add box shadow */
+    overflow-y: auto;
+    /* Add vertical scrollbar */
+    max-height: 80%;
+    /* Limit the maximum height of the cart popup */
+}
+
+
+#cart .content {
+    margin-bottom: 10px;
+}
+
+.addMore,
+.cartSubmit {
+    margin-left: 150px;
+}
+
+.buttons {
+
+    display: flex;
+    flex-direction: row;
+    width: 500px;
+    /* Adjust the width as needed */
+
+    padding-left: 225px;
+}

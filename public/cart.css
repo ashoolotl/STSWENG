@@ -1,0 +1,287 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
+
+@font-face {
+    font-family: 'Crillee';
+    src: url('./fonts/Crillee\ Italic\ BT.ttf') format('truetype');
+}
+
+body {
+    margin: 0;
+    font-family: Montserrat;
+    background: linear-gradient(to right, #1C1B1E, #3A3A3C);
+}
+
+header {
+    font-family: 'Crillee';
+    position: relative;
+    height: 100px;
+    color: #ED1C24;
+    font-size: 3.0rem;
+
+    text-align: center;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ITEM CONTAINER */
+#top-container {
+    display: flex;
+    flex-direction: row;
+    height: 10rem;
+}
+
+.top-container-labels {
+    text-align: center;
+    width: 50%;
+    height: 100%;
+    padding-top: 2.5rem;
+}
+
+.top-container-labels p {
+    color: white;
+    font-size: 225%;
+    font-weight: bolder;
+}
+
+#item-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.item {
+    height: 20rem;
+    border-bottom: 2px solid whitesmoke;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 13%;
+    padding-right: 10%;
+    overflow: visible;
+}
+
+.left-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 60%;
+}
+
+.right-item {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 40%;
+}
+
+.right-item h1 {
+    color: white;
+}
+
+.right-item p {
+    color: rgba(237, 66, 28, 0.8);
+}
+
+/* CHECKBOX */
+.checkmark-container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.checkmark-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: transparent;
+    border: 2px solid #ED1C24;
+    border-radius: 2px;
+}
+
+
+.checkmark-container:hover input~.checkmark {
+    background-color: rgba(237, 28, 36, 0.5);
+}
+
+
+.checkmark-container input:checked~.checkmark {
+    background-color: red;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkmark-container input:checked~.checkmark:after {
+    display: block;
+}
+
+.checkmark-container .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+/* END OF CHECKBOX */
+
+.image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.item img {
+    height: 15rem;
+    width: 15rem;
+    object-fit: cover;
+    border: 2px solid #ED1C24;
+    border-radius: 10px;
+    margin-left: 1rem;
+    display: block;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 93%;
+    height: 100%;
+    background-color: rgba(237, 28, 36, 0.1);
+    z-index: 1;
+    border-radius: 10px;
+    margin-left: 1rem;
+}
+
+.item-details {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    margin-left: 1rem;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-grow: 1;
+}
+
+/* DROPDOWN */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    margin-top: auto;
+    width: 100%;
+}
+
+/* Dropdown toggle button */
+.dropdown-toggle {
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: inherit;
+    text-align: left;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    /* Change back to absolute positioning */
+    background-color: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    width: inherit;
+    /* Set width to auto */
+    max-width: 100%;
+    /* Limit width to 100% */
+    border-radius: 5px;
+    z-index: 9999;
+    /* Increase z-index to ensure it's above other elements */
+}
+
+/* Dropdown menu items */
+.dropdown-menu li {
+    padding: 10px 20px;
+}
+
+/* Dropdown menu item links */
+.dropdown-menu li a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    /* Display as block element */
+    width: 100%;
+    /* Set width to 100% */
+}
+
+/* Show dropdown menu when clicked */
+.dropdown.active .dropdown-menu {
+    display: block;
+}
+
+/* Arrow indicator */
+.dropdown-toggle::after {
+    content: '▼';
+    font-size: 12px;
+    margin-left: 5px;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+
+/* Rotate arrow indicator when dropdown is active */
+.dropdown.active .dropdown-toggle::after {
+    content: '▲';
+}
+
+/* CHECKOUT BUTTON */
+#checkout-button {
+    position: sticky;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #2A2F3B;
+    padding: 0;
+    z-index: 999;
+}
+
+#checkout-button button {
+    width: 100%;
+    height: 5rem;
+    color: white;
+    background-color: rgba(237, 28, 36, 0.6);
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    font-weight: bold;
+}

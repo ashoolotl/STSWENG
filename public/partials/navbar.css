@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
+
+body {
+    margin: 0;
+    font-family: Montserrat;
+}
+
+.navbar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #0E0D10;
+    padding: 10px 20px;
+}
+
+.navbar-left {
+    display: flex;
+    flex-direction: row;
+    margin-right: auto;
+    align-items: center;
+}
+
+.navbar-right {
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
+    align-items: center;
+}
+
+.navbar-right a {
+    margin-left: -10px !important;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    margin: 0 20px;
+}
+
+.logo img {
+    width: 150px;
+    margin-right: 30px;
+}
+
+.username {
+    position: relative;
+    display: inline-block;
+    margin-right: 18px;
+    margin-top: -3px;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+   }
+   
+   .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    width:162px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    margin-left: 6px;
+   }
+   
+   .dropdown-content a {
+    color: gray;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+   }
+   
+   .dropdown-content a:hover{
+    color:black;
+}
+   
+   .dropdown:hover .dropdown-content {
+    display: block;
+   }
+   
+   .dropbtn {
+    position: relative;
+    background-color: transparent;
+    border: 0;
+    margin-right: 30px;
+}
+
+.username-text {
+    color: gray;
+    position: absolute;
+    font-family: Montserrat;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.user-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    color: #666666 !important;
+    text-decoration: none;
+}
+
+.user-link span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.footer {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    background-color:#0E0D10; /* Set your desired background color */
+    color: #fff; /* Set your desired text color */
+    padding: 20px;
+}
+
+.footer_content {
+    display: flex;
+    flex-direction: row;
+    color: white;
+    justify-content: space-between;
+    padding-right: 8rem;
+    padding-left:  8rem;
+}
+
+.socials,
+.autoworx,
+.services,
+.quick {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.socials h3,
+.autoworx h3,
+.services h3,
+.quick h3 {
+    margin-bottom: 0px;
+}
+
+.socials p,
+.autoworx p,
+.services p,
+.quick p {
+    font-size: small;
+    margin-bottom: 0px;
+}

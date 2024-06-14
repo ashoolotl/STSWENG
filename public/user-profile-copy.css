@@ -1,0 +1,296 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
+
+body {
+    margin: 0;
+    font-family: Montserrat;
+    background: linear-gradient(to right, #1C1B1E, #3A3A3C);
+}
+
+header {
+    position: relative;
+    height: 200px;
+    background: #717171;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+
+/*profile*/
+.profile-container {
+    position: relative;
+    margin-top: -85px;
+    text-align: center;
+    color: white;
+}
+
+.profile-container h1 {
+    font-size: 30px;
+}
+
+.profile-container h1 span {
+    color: red !important;
+}
+
+.profile-container p {
+    font-size: 15px;
+}
+
+#profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 15px solid #4F4F4F;
+    overflow: hidden;
+    margin: 0 auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
+
+#profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/*registered cars*/
+.registered-cars {
+    margin: 30px;
+    color: white;
+    font-size: 12px;
+}
+
+.car {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.car-status {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    /* Allows items to wrap onto the next line */
+    margin-left: 200px;
+    gap: 250px;
+    /* Adjust the gap size between flex items */
+    font-size: 18px;
+}
+
+.car-info {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    /* Add space between rows */
+}
+
+.car-text {
+    margin-bottom: 5px;
+    /* Add space between label and value */
+}
+
+.car img {
+    width: 180px;
+}
+
+#add {
+    /* margin-top: 30px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center; */
+
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+}
+
+#addPhoto {
+    margin-top: 30px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+/*active subscriptions*/
+
+.active-subscriptions {
+    margin: 30px;
+    color: white;
+    font-size: 12px;
+}
+
+.subscriptions {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    /*max of two subscriptions per row*/
+}
+
+/* popup container */
+
+.popupContainer {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(to right, #1C1B1E, #3A3A3C);
+    padding: 20px;
+    border-radius: 10px;
+    color: whitesmoke;
+    z-index: 9999;
+    width: 75%;
+    font-size: 18px;
+}
+
+.popupContent {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.closePopup {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+#successPopup {
+    background-color: #B6DA9F;
+}
+
+#successPopup p {
+    color: whitesmoke;
+}
+
+/* popup form */
+
+.popupContent form {
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+.popupContent form label {
+    display: block;
+    margin-bottom: 5px;
+    color: whitesmoke;
+}
+
+.popupContent form input[type="text"],
+.popupContent form input[type="number"],
+.popupContent form input[type="password"],
+.popupContent form select {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.popupContent form select {
+    width: 100%;
+}
+
+.popupContent form button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.popupContent form button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.popupContent #closeBtn {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.popupContent #closeBtn:hover {
+    background-color: #45a049;
+}
+
+.popupContent form label[for="uploadImage"] {
+    display: block;
+    margin-bottom: 5px;
+    color: whitesmoke;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*tokens popup*/
+
+.tokenContainer {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(to right, #1C1B1E, #3A3A3C);
+    padding: 20px;
+    border-radius: 10px;
+    color: whitesmoke;
+    z-index: 9999;
+    width: auto;
+    font-size: 18px;
+}
+
+.image-select{
+    display: flex;
+    align-items: center;
+}
+.image-select img{
+    margin-left: 10px;
+    width: 350px;
+}
+.contentWrapper{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.booking,
+.dateTimeSubmit {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px; /* Add some top margin */
+}
+
+.booking:hover,
+.dateTimeSubmit:hover {
+    background-color: #45a049;
+}
+
+.content{
+    display: flex;
+    justify-content: space-around;
+}

@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
+
+body {
+    margin: 0;
+    font-family: Montserrat;
+    background: linear-gradient(to right, #1C1B1E, #3A3A3C);
+}
+
+header {
+    position: relative;
+    height: 200px;
+    background: #717171;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+
+/*profile*/
+.profile-container {
+    position: relative;
+    margin-top: -85px;
+    text-align: center;
+    color: white;
+}
+
+.profile-container h1 {
+    font-size: 30px;
+}
+
+.profile-container h1 span {
+    color: red !important;
+}
+
+.profile-container p {
+    font-size: 15px;
+}
+
+#profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 15px solid #4F4F4F;
+    overflow: hidden;
+    margin: 0 auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
+
+#profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/*registered cars*/
+.registered-cars {
+    margin: 30px;
+    color: white;
+    font-size: 12px;
+}
+
+.car {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.car-status {
+    display: flex;
+    gap: 250px;
+    font-size: 18px;
+}
+
+.more-info-btn {
+    font-size: 18px;
+    background-color: transparent;
+    /* Make background transparent */
+    color: white;
+    border: 1px solid white;
+    /* Add a border for visibility */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    padding: 5px 10px;
+}
+
+.more-info-btn:hover {
+    background-color: rgba(237, 28, 36, 1);
+    /* Add hover effect */
+}
+
+.car-info {
+    display: flex;
+    align-items: center;
+}
+
+.car-text {
+    margin-right: 45px;
+    margin-left: 70px;
+}
+
+.car img {
+    width: 180px;
+}
+
+.status {
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.current {
+    border: solid 1px white;
+    border-radius: 5px;
+    padding: 5px 10px;
+    transition: background-color 0.3s ease;
+
+}
+
+.current:hover {
+    background-color: black;
+    /* Add hover effect */
+}
+
+.more-info-btn {
+    margin-left: 30px;
+    font-size: 18px;
+    background-color: transparent;
+    /* Make background transparent */
+    color: white;
+    border: 1px solid white;
+    /* Add a border for visibility */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    padding: 5px 10px;
+}
+
+.more-info-btn:hover {
+    background-color: rgba(237, 28, 36, 1);
+    /* Add hover effect */
+}
+
+/* Popup */
+.popupContainer {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(to right, #1C1B1E, #3A3A3C);
+    padding: 20px;
+    border-radius: 10px;
+    color: whitesmoke;
+    z-index: 9999;
+    width: fit-content;
+    font-size: 18px;
+}
+
+.popupContent {
+    text-align: center;
+
+}
+
+.closePopup {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    color: whitesmoke;
+    /* Added to match the popup content */
+    font-size: 20px;
+    /* Added for better visibility */
+}
+
+.info-item {
+    margin: 30px;
+}
+
+.info-item label {
+    color: rgba(237, 28, 36)
+}
+
+#order-date-select {
+    border: solid 1px white;
+    border-radius: 5px;
+    padding: 5px 10px;
+    transition: background-color 0.3s ease;
+
+}

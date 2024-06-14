@@ -1,0 +1,32 @@
+doctype html
+html 
+    head 
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        link(rel='icon' type='image/png' href='/images/logo-red.png')
+        
+        title AutoWorxPro | #{title}
+        block stylesheets
+           
+      
+
+
+    body 
+
+        include _header
+        
+        block content 
+
+        include _footer
+   
+        script(src='https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js')
+
+
+        block scripts
+        //- script(src='/js/login.js')
+        //- script(src='/js/register.js')
+        //- script(src='/js/addService.js')
+        //- script(src='/js/addVehicleClassification.js')
+        //- script(src='/js/addSubscription.js')
+        //-script(src='/js/registerVehicle.js')
+        script(src='/js/logout.js')

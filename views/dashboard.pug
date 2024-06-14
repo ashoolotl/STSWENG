@@ -1,0 +1,147 @@
+extends base
+
+block stylesheets
+    link(rel='stylesheet', href='/partials/navbar.css')
+    link(rel='stylesheet', href='/user-profile-copy.css')
+    
+block content 
+    header
+    .profile-container
+        #profile-picture
+            img(src="./images/filler-icon.jpg", alt="Profile Picture")
+        h1 Hi, 
+            span=user.firstName 
+        p What would you like to get started on today?
+
+    .registered-cars
+        h2 Registered Cars
+        hr
+        each vehicle in vehicles 
+            .car
+               
+                img(src=`/images/vehicleClassification/${vehicle.classification}.jpeg`)
+                .car-status
+                    .car-info
+                        p.car-text Status:
+                        p.status= vehicle.status
+                    .car-info
+                        p.car-text Plate Number:
+                        p.status=vehicle.plateNumber
+            hr
+
+        button#add
+            img#addPhoto(src="/images/add.png")
+
+        #addCarPopup.popupContainer 
+            .popupContent 
+                span#closePopup.closePopup &times;
+                h1 Add a Car 
+                form#addCarForm
+                    label(for='classType') Classification
+                    br
+                    select#classType(name="classType", required)
+                        option(value="", disabled, selected) Select Class Type
+                        each vehicleClassification in vehicleClassifications
+                            option(value=`${vehicleClassification.name}`)=vehicleClassification.name 
+                    br
+
+                    label(for='carBrand') Brand 
+                    input(type='text' id='carBrand', name='carBrand' required)
+                    
+                    label(for='plateNumber') Plate Number (3 Digits, 3 Letters, 4 Digits)
+                    input(type='text' id='plateNumber' name='plateNumber',pattern="\[0-9\]\{3\}\[A-Z\]\{3\}\[0-9\]\{4\}", title="Plate number must be in the format 3Digits3Letters4Digits" ,required)
+
+                    input(type='hidden' name='userId' value=user._id, id='userId')
+                    button(type='submit') Submit
+                    
+            #successPopup.popupContainer 
+                .popupContent 
+                    span#closeSuccessPopup.closePopup &times;
+                    h1 Completed 
+                    p Your car has been added successfully 
+                    button(type='submit' id='closeBtn') Done 
+
+
+    //- services
+
+    #active-services.active-subscriptions
+        h2 Active Services 
+        .subscriptions
+            each service of serviceAvailed 
+                
+                img(src=`/images/services/${service.product}.jpeg`, alt=`Image for ${service.product}`, style="width: 592px; height: 316px; border-radius: 20px;", onclick=`showPopupService('${service.id}')`)
+    //- popup for service
+    
+    #servicePopup.tokenContainer
+        span.closePopup(onclick=`closePopupService()`) &times;
+        
+        h2#servicePopupRemainingTokens Remaining Tokens 
+        
+        h2#servicePopupPlateNumber vehicle XXXX1234
+        hr
+        .popupContent
+            span.bookingPopupPlateNumber
+                    strong Price: 1 Token 
+            .contentWrapper.Tokens
+                
+                .image-select
+                    input(type="radio", checked=true)
+                    img#servicePopupImg.tokenPopupImage(src=`/images/services/HYPER WASH.jpeg`, alt=`service1`)
+                    input#serviceBookingId(type='hidden')
+        hr
+        button.booking(onclick="showDateTimePopupService()") Proceed to Booking
+ 
+    //- popup for service date time
+    #dateTimePopupService.tokenContainer
+        span.closePopup(onclick="closeDateTimePopupService()") &times;
+        h2 Select Date and Time
+            .content
+                - const now = new Date(Date.now() + (3600000 * 8)); // Adjusting for UTC+8 (Philippine Time)
+                input(type="date", id="bookingDate", min=`${now.toISOString().split('T')[0]}`, value=`${now.toISOString().split('T')[0]}`)
+                input(type="time", id="bookingTime", value="09:00", onchange="validateTime()")
+        hr
+        button.dateTimeSubmit(onclick="submitDateTimeServiceBooking()") Submit
+
+    //-Subscriptions
+    
+    #active-subscriptions.active-subscriptions
+        h2 Active Subscriptions 
+        .subscriptions
+            each subscription of subscriptionsAvailed  
+                
+                img(src=`/images/subscriptions/${subscription.product}.jpeg`, alt=`Image for ${subscription.product}`, style="width: 592px; height: 316px; border-radius: 20px;", onclick=`showPopupSubscription('${subscription._id}')`)
+    //- popup for selecting subscription
+
+    #subscriptionPopup.tokenContainer
+        span.closePopup(onclick=`closePopupSubscription()`) &times;
+        h2#subscriptionPopupPlateNumber Subscription For Vehicle XXXX1234
+        #generatedCodeHere
+
+    //- popup for date time
+
+    #dateTimePopupSubscription.tokenContainer
+        span.closePopup(onclick="closeDateTimePopupSubscription()") &times;
+        h2 Select Date and Time
+            .content
+                - const nowSubscription = new Date(Date.now() + (3600000 * 8)); // Adjusting for UTC+8 (Philippine Time)
+                input(type="date", id="bookingDateSubscription", min=`${nowSubscription.toISOString().split('T')[0]}`, value=`${nowSubscription.toISOString().split('T')[0]}`)
+                input(type="time", id="bookingTimeSubscription", value="09:00", onchange="validateTime()")
+        hr
+        button.dateTimeSubmit(onclick="submitDateTimeSubscriptionBooking()") Submit
+
+
+
+
+        
+  
+
+        
+
+        
+block scripts 
+    script(src='/js/registerVehicle.js')
+    script(src='/js/availService.js')
+    script(src='/js/useSubscription.js')
+
+
+

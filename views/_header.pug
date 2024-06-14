@@ -1,0 +1,53 @@
+.navbar
+    .navbar-left
+        .logo
+            a(href="#")
+                img(src="./images/logo-red.png")
+        a(href="/") Home
+        a(href="/subscriptions") Subscriptions
+        a(href="/services") Services
+    .navbar-right
+
+        if user
+            if user.role === 'user'
+                .dropdown
+                    button.dropbtn.user-link 
+                        img(src="/images/usernamebg.png", alt="User Profile Image")
+                        span=`Hello, ${user.firstName}`
+                        
+                    .dropdown-content 
+                        a(href='/dashboard') User Profile
+                        a(onclick='logout()') Log Out 
+
+                a(href="/carts" class="cart-icon")
+                    img(src="./images/cart.png")
+                a(href="#" class="search-icon")
+                    img(src="./images/search.png")
+            if user.role === 'admin'
+                .dropdown
+                    button.dropbtn.user-link 
+                        img(src="/images/usernamebg.png", alt="User Profile Image")
+                        span=`Hello, ${user.firstName}`
+                        
+                    .dropdown-content
+                        a(href='/adminDashboard') Manage Bookings
+                        a(href='/vehicle-classifications') Manage Vehicle Classifications
+                        a(href='/services') Manage Services 
+                        a(href='/subscriptions') Manage Subscriptions 
+
+                        a(onclick='logout()') Log Out 
+            if user==='nouser'
+                .username
+                    a(href="/login" class="user-link")
+                        img(src="./images/usernamebg.png", alt="User Profile Image" )
+                        span Register/LogIn
+                   
+        else
+            .username
+                    a(href="/login" class="user-link")
+                        img(src="./images/usernamebg.png", alt="User Profile Image")
+                        span Register/Log In
+                   
+
+
+

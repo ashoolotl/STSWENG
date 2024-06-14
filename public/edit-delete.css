@@ -1,0 +1,93 @@
+#editPopup,
+#successEditPopup,
+#deletePopup,
+#successDeletePopup {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+}
+
+#successEditPopup p,
+#deletePopup p,
+#successDeletePopup p {
+    color: whitesmoke;
+}
+
+.confirm-edit-btn,
+.cancel-edit-btn,
+.confirm-delete-btn,
+.cancel-delete-btn,
+.close-delete-btn {
+    font-family: Montserrat;
+    font-size: 1.2rem;
+    padding: 10px;
+    margin-right: 10px;
+    background-color: #ED1C24;
+    color: white;
+    background-color: transparent;
+    border: 2px solid white;
+    cursor: pointer;
+    border-radius: 2px;
+    z-index: 1;
+}
+
+.confirm-edit-btn:hover,
+.cancel-edit-btn:hover,
+.confirm-delete-btn:hover,
+.cancel-delete-btn:hover,
+.close-delete-btn:hover {
+    background-color: #FF5555;
+}
+
+.edit-buttons,
+.delete-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.edit-buttons {
+    margin-top: 2rem;
+}
+
+.subscription-name-label {
+    color: #ED1C24;
+}
+
+.edit-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    width: 75%;
+    margin: auto;
+}
+
+.edit-form label {
+    font-weight: bold;
+    color: #ED1C24;
+}
+
+.edit-form input[type="text"],
+.edit-form textarea {
+    border: 2px solid #ED1C24;
+    border-radius: 10px;
+    padding: 8px;
+    width: 100%;
+    height: auto;
+    resize: none;
+}
+
+.edit-form textarea {
+    height: 100px;
+}
+
+.confirm-edit-btn:disabled {
+    opacity: 0.5;
+    background-color: transparent;
+}
+
+.confirm-edit-btn:disabled:hover {
+    background-color: transparent;
+}

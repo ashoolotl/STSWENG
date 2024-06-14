@@ -1,0 +1,311 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
+
+@font-face {
+    font-family: 'Crillee';
+    src: url('./fonts/Crillee\ Italic\ BT.ttf') format('truetype');
+}
+
+body {
+    margin: 0;
+    font-family: Montserrat;
+    background: linear-gradient(to right, #1C1B1E, #3A3A3C);
+}
+
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    /* Adjust the alpha (fourth value) for darkness */
+    z-index: 1;
+}
+
+header {
+    font-family: 'Crillee';
+    position: relative;
+    height: 100px;
+    color: #ED1C24;
+    font-size: 3.0rem;
+
+    text-align: center;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*top part*/
+
+.top-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+}
+
+.top-item {
+    position: relative;
+    width: 40%;
+    max-height: 21rem;
+    justify-content: center;
+    align-items: center;
+    margin: 50px;
+    margin-bottom: 10px;
+    background-color: transparent;
+    overflow: hidden;
+}
+
+.top-item p {
+    color: white;
+    font-size: 300%;
+    font-weight: bolder;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    /* Optional: Add padding for better readability */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+#add {
+    background-color: transparent;
+    border: 0;
+    /* Add a smooth transition for the hover effect */
+}
+
+
+.top-item img {
+    width: 100%;
+    height: 100%;
+    height: auto;
+    display: block;
+    transition: box-shadow 0.3s ease;
+}
+
+.top-item img:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+.top-item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 86.5%;
+    background: linear-gradient(to bottom, rgba(255, 0, 0, 0.5), rgba(255, 0, 0, 0));
+    pointer-events: none;
+}
+
+
+.top-item-add {
+    position: relative;
+    width: 40%;
+    justify-content: center;
+    align-items: center;
+    margin: 50px;
+    margin-bottom: 10px;
+}
+
+.top-item-add img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    background-color: rgba(0, 0, 0, 0);
+    /* Ensure transparency */
+    transition: box-shadow 0.3s ease;
+    border-radius: 30px;
+}
+
+.top-item-add img:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+
+/*pop up*/
+
+.popupContainer {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(to right, #1C1B1E, #3A3A3C);
+    padding: 20px;
+    border-radius: 10px;
+    color: red;
+    z-index: 9999;
+    width: 75%;
+    font-size: 18px;
+}
+
+.popupContent {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    max-height: 40rem;
+}
+
+.closePopup {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+/* popup form */
+
+.popupContent form {
+    max-width: 100%;
+    width: 70%;
+    margin: 0 auto;
+}
+
+.popupContent form label {
+    display: block;
+    margin-bottom: 5px;
+    color: whitesmoke;
+    width: 100%;
+    /* Set a fixed width for labels */
+}
+
+
+.popupContent form input[type="text"],
+.popupContent form input[type="number"],
+.popupContent form input[type="password"],
+.popupContent form select,
+.popupContent form textarea {
+    width: calc(100% - 20px);
+    /* Adjust the width as needed */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.popupContent form button[type="submit"] {
+    margin-top: 25px;
+    background-color: #ED1C24;
+    color: white;
+    padding: 12px 20px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.popupContent form button[type="submit"]:hover {
+    background-color: #FF5555;
+}
+
+.popupContent form label[for="uploadImage"] {
+    display: block;
+    margin-bottom: 5px;
+    color: whitesmoke;
+}
+
+.popupContent form input[type="file"] {
+    width: calc(100% - 80px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.popupContent form input[type="file"]:hover {
+    border-color: #ED1C24;
+    /* Change border color on hover if needed */
+}
+
+
+
+/*bottom part*/
+
+.bottom-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+}
+
+.bottom-item {
+    position: relative;
+    width: 100%;
+    height: 30rem;
+    max-height: 30rem;
+    overflow: hidden;
+}
+
+.bottom-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    opacity: 0.2;
+}
+
+.bottom-item-content {
+    position: absolute;
+    top: 45%; /* Adjust this value as needed */
+    left: 0; /* Aligns the text to the left edge of the container */
+    transform: translateY(-50%); /* Adjusts the vertical position */
+    text-align: left; /* Aligns the text to the left */
+    color: white;
+    padding: 10%; /* Adjust padding as needed */
+}
+
+    
+
+.bottom-item h2 {
+    font-family: 'Crillee';
+    color: #ED1C24;
+    text-decoration: underline;
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.bottom-item h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.bottom-item p {
+    line-height: 1.6;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.buttons-container {
+    display: flex;
+}
+
+.add-to-cart-btn,
+.book-appointment-btn,
+.edit-btn,
+.delete-btn {
+    font-family: Montserrat;
+    font-size: 1.2rem;
+    padding: 10px;
+    margin-right: 10px;
+    background-color: #ED1C24;
+    color: white;
+    background-color: transparent;
+    border: 2px solid white;
+    /* Set the border for the outline */
+    cursor: pointer;
+    border-radius: 2px;
+    z-index: 1;
+}
+
+.add-to-cart-btn:hover,
+.book-appointment-btn:hover,
+.edit-btn:hover,
+.delete-btn:hover {
+    background-color: #FF5555;
+}
