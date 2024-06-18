@@ -18,7 +18,25 @@ function login(email, password) {
 }
 
 
+//TODO: When HTML popups are implemented, Cypress doesn't detect current popups.
+describe('Invalid Logins', () => {
 
+  beforeEach(() => {
+    cy.visit(siteURL + '/login');
+  });
+
+  it.skip('Empty email', () => {
+    cy.get('button').click();
+    cy.contains('Please fill out this field').should('be.visible');
+  });
+
+  it.skip('Empty password', () => {
+  });
+
+  it.skip('Invalid Credentials', () => {
+  });
+
+});
 
 describe('Valid Logins', () => {
   beforeEach(() => {
