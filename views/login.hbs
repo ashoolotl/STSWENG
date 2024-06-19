@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="partials/navbar.css">
+    <title>Login Page</title>
+
+    <script src="/js/login.js"></script>
+</head>
+
+<body>
+
+    <div class="login">
+        <div class="login-container">
+            <h2>Login to your Account</h2>
+            <p>Welcome back Fill in the following details</p>
+            <form action="/login" method="post">
+                <input id="email" type="text" name="email" placeholder="you@example.com" required>
+                <input id="password" type="password" name="password" placeholder="●●●●●●●●" required>
+                <button type="submit">Log In</button>
+            </form>
+            <p>Don't have an Account? <a href="/register">Register Here</a></p>
+        </div>
+        <div class="pictures">
+            <div id="title">
+                <img src="./images/logo-red.png">
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
