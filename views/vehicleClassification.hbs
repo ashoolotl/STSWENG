@@ -2,180 +2,156 @@
 <html>
 
 <head>
-    <title>Homepage</title>
-    <link rel="stylesheet" href="homepage.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Registered Vehicles</title>
+    <link rel="stylesheet" href="user-profile-copy-modified.css">
+    <link rel="stylesheet" href="edit-delete-modified.css">
     <link rel="stylesheet" href = "partials/navbar.css">
 
 </head>
 
 <body>
-    <script src="homepage.js"></script>
+    <script src="add-vehicle.js"></script>
+    <script src="edit-delete-modified.js"></script>
 
-    <div class="navbar">
-        <div class="navbar-left">
-          <div class="logo">
-            <a href="#"><img src="./images/logo-red.png"></a>
-          </div>
-          <a href="./homepage.html">Home</a>
-          <a href="./Subscriptions-user.html">Subscriptions</a>
-          <a href="./featured-user.html">Services</a>
-          <a href="./contactus.html">Contact Us</a>
-        </div>
-        <div class="navbar-right">
-    
-           <div class="username">
-            <a href="./login.html" class="user-link">
-              <img src="./images/usernamebg.png" alt="User Profile Image">
-              <span>Login/Register</span>
-            </a>
-          </div>
-       
-          <a href="#" class="cart-icon"><img src="./images/cart.png"></a>
-          <a href="#" class="search-icon"><img src="./images/search.png"></a>
-        </div>
-      </div>
+    {{> _header }}
 
-    <div class="header">
+    <div id="overlay"></div>
 
-        <div class="image_size">
+    <header>
+        <h1>Registered Vehicles</h1>
+    </header>
 
-            <div class="carousel-container">
-                <div class="carousel-inner">
-                    <div class="carousel-item">
-                        <div class="image_size">
-                            <img src="./images/featured/2.jpg" alt="Featured 1" data-index="1">
-                            <div class="gradient-overlay"></div>
-                            <div class="dark-gradient-overlay"></div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="image_size">
-                            <img src="./images/featured/1.jpg" alt="Featured 2" data-index="2">
-                            <div class="gradient-overlay"></div>
-                            <div class="dark-gradient-overlay"></div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="image_size">
-                            <img src="./images/featured/3.jpg" alt="Featured 3" data-index="3">
-                            <div class="gradient-overlay"></div>
-                            <div class="dark-gradient-overlay"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-controls">
-                    <div class="carousel-btn prev" onclick="prevSlide()">&#10094;</div>
-                    <div class="carousel-btn next" onclick="nextSlide()">&#10095;</div>
-                </div>
-                <div class="page-indicator">
-                    <ul class="page-number">
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                    </ul>
-                </div>
+    <div class="registered-cars">
+
+        <!--car details currently static convert to changeable + change names of classes too-->
+        <hr>
+        <div class="car">
+            <img src="/images/vehicleClassification/sedan.png">
+            <div class="car-status">
+              <div class="car-info">
+                <p class="car-text">Status:</p>
+                <p class="status">Not Available</p>
+              </div>
+              <div class="car-info">
+                <p class="car-text">Plate Number:</p>
+                <p class="status">XXX 4567</p>
+              </div>
+              <div class="car-info">
+                <p class="car-text">Contact Person:</p>
+                <p class="status">Not Available</p>
+              </div>
+              <div class="buttons-container">
+                <button class="edit-btn" onclick="showEditPopup()">Edit</button>
+                <button class="delete-btn" onclick="showDeletePopup()">Delete</button>
+              </div>
             </div>
+        </div>
+        <hr>
 
+        <button id="add">
+            <img id="addPhoto" src="./images/add.png">
+        </button> <!--pop up should appear here in order to register new cars-->
 
-            <div class="header_content">
-                <h1>Unleash the shine, <br> elevate the style</h1>
-                <p>Book an appointment with us now!</p>
-                <button class="book-appointment-btn">Book an Appointment</button>
+        <!-- popup here -->
+        <div id="addCarPopup" class="popupContainer">
+            <div class="popupContent">
+                <span id="closePopup" class="closePopup">&times;</span>
+                <h1>Add a Car</h1>
+                <form id="addCarForm">
+
+                    <label for="vehicleName">Name</label>
+                    <input type="text" id="vehicleName" name="vehicleName" required><br>
+                    <label for="uploadImage">Upload Image</label>
+                    <input type="file" id="uploadImage" name="uploadImage" accept="image/*">
+
+                    <button type="submit">Submit</button>
+                </form>
             </div>
+        </div>
 
+        <div id="successPopup" class="popupContainer">
+            <div class="popupContent">
+                <span id="closeSuccessPopup" class="closePopup">&times;</span>
+                <h1>Completed</h1>
+                <p>The vehicle classification has been added successfully.</p>
+                <button type="submit" id="closeBtn">Done</button>
+            </div>
+        </div>
+
+        <hr>
+
+
+    </div>
+
+    <!--edit-delete-->
+
+    <!-- EDIT POPUP -->
+    <div id="editPopup" class="popupContainer" style="display: none;">
+        <span class="closePopup" onclick="closeEditPopup()">&times;</span>
+        <h2>Edit <span class="subscription-name-label">Vehicle</span>'s Details</h2>
+
+        <!-- REPLACE PLACEHOLDERS WITH VALUES FETCHED FROM DATABASE -->
+        <form class="edit-form">
+            <label for="plateNumber">Plate Number</label>
+            <input type="text" id="plateNumber" name="plateNumber" placeholder="Plate Number" required>
+
+            <label for="contactNumber">Contact Number</label>
+            <input type="text" id="contactNumber" name="contactNumber" placeholder="Contact Number" required>
+
+            <label for="details">Details</label>
+            <textarea id="details" name="details" placeholder="Additional Information" required></textarea>
+        </form>
+
+        <div class="edit-buttons">
+            <button class="confirm-edit-btn" onclick="showEditConfirmPopup()" disabled>Confirm</button>
+            <button class="cancel-edit-btn" onclick="closeEditPopup()">Cancel</button>
         </div>
     </div>
 
-
-    <div class="about">
-        <header>About Us</header>
-        <div class="about_image_size">
-            <div class="about-gradient-overlay"></div>
-            <img src="./images/featured/1.jpg" alt="About Image">
-            <div class="about_content">
-                <h1>Lorem Ipsum</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-                    ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
-                    in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
-            </div>
+    <!-- SUCCESSFUL EDIT POPUP -->
+    <div id="successEditPopup" class="popupContainer" style="display: none;">
+        <span class="closePopup" onclick="closeEditConfirmPopup()">&times;</span>
+        <h2>Edit Successful</h2>
+        <p>
+            <!-- Lagay mo nalang sa loob nung span yung Vehicle name, for now nilagay ko muna si Vehicle  -->
+            <span class="subscription-name-label">Vehicle</span> has been successfully edited.
+        </p>
+        <div class="delete-buttons">
+            <button class="close-delete-btn" onclick="closeEditConfirmPopup()">Close</button>
         </div>
     </div>
 
-    <div class="newsletter">
-        <header>Newsletter</header>
-        <div class="newsletter_image_size">
-            <div class="newsletter-gradient-overlay"></div>
-            <img src="./images/featured/3.jpg" alt="Newsletter Image">
-
-            <div class="newsletter_content">
-                <div class="item1">
-                    <img src="./images/news1.jpg" alt="Newsletter 1">
-                    <h2>Title 01</h2>
-                    <p>Lorem ipsum dolor sit amet.</p>
-                    <p class="read_more">Read more...</p>
-                </div>
-
-                <div class="item2">
-                    <img src="./images/news2.jpg" alt="Newsletter 2">
-                    <h2>Title 02</h2>
-                    <p>Lorem ipsum dolor sit amet.</p>
-                    <p class="read_more">Read more...</p>
-                </div>
-
-                <div class="item3">
-                    <img src="./images/news3.jpg" alt="Newsletter 3">
-                    <h2>Title 03</h2>
-                    <p>Lorem ipsum dolor sit amet.</p>
-                    <p class="read_more">Read more...</p>
-                </div>
-
-            </div>
-
+    <!-- DELETE POPUP -->
+    <div id="deletePopup" class="popupContainer" style="display: none;">
+        <span class="closePopup" onclick="closeDeletePopup()">&times;</span>
+        <h2>Delete Confirmation</h2>
+        <p>
+            Are you sure you want to delete this vehicle? This action cannot be undone.
+        </p>
+        <div class="delete-buttons">
+            <button class="confirm-delete-btn" onclick="showDeleteConfirmPopup()">Confirm</button>
+            <button class="cancel-delete-btn" onclick="closeDeletePopup()">Cancel</button>
         </div>
     </div>
 
-    <div class="footer">
-        <div class="footer_content">
-          <div class="socials">
-            <h3>Stay Connected</h3>
-            <p>Address: Dublin, Ireland</p>
-            <p>Phone: (+355) 123 45 67</p>
-            <h5>Follow us on social media</h5>
-            <img src="./images/holder.png" alt="Soc meds">
-          </div>
-    
-          <div class="autoworx">
-            <h3>Autoworx Pro.</h3>
-            <p>About Us</p>
-            <p>Careers</p>
-            <p>Collaboration</p>
-            <p>Dashboard</p>
-            <p>Policies</p>
-          </div>
-    
-          <div class="services">
-            <h3>Customer Services</h3>
-            <p>Rules and Regulations</p>
-            <p>Terms of Use</p>
-            <p>Return Procedure</p>
-            <p>Privacy Policy</p>
-            <p>Forums</p>
-          </div>
-    
-          <div class="quick">
-            <h3>Quick Access</h3>
-            <p>Contact Us</p>
-            <p>Blog</p>
-            <p>Returns and Refunds</p>
-            <p>Track Order</p>
-            <p>FAQ</p>
-          </div>
+    <!-- SUCCESSFUL DELETE POPUP -->
+    <div id="successDeletePopup" class="popupContainer" style="display: none;">
+        <span class="closePopup" onclick="closeDeleteConfirmPopup()">&times;</span>
+        <h2>Delete Successful</h2>
+        <p>
+            <!-- Lagay mo nalang sa loob nung span yung Vehicle name, for now nilagay ko muna si Vehicle -->
+            <span class="subscription-name-label">Vehicle</span> has been successfully deleted.
+        </p>
+        <div class="delete-buttons">
+            <button class="close-delete-btn" onclick="closeDeleteConfirmPopup()">Close</button>
         </div>
     </div>
+
+    {{> _footer }}
 
 </body>
 

@@ -2,180 +2,181 @@
 <html>
 
 <head>
-    <title>Homepage</title>
-    <link rel="stylesheet" href="homepage.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Cart</title>
+    <link rel="stylesheet" href="cart.css">
     <link rel="stylesheet" href = "partials/navbar.css">
 
 </head>
 
 <body>
-    <script src="homepage.js"></script>
 
-    <div class="navbar">
-        <div class="navbar-left">
-          <div class="logo">
-            <a href="#"><img src="./images/logo-red.png"></a>
-          </div>
-          <a href="./homepage.html">Home</a>
-          <a href="./Subscriptions-user.html">Subscriptions</a>
-          <a href="./featured-user.html">Services</a>
-          <a href="./contactus.html">Contact Us</a>
-        </div>
-        <div class="navbar-right">
+    {{> _header }}
     
-           <div class="username">
-            <a href="./login.html" class="user-link">
-              <img src="./images/usernamebg.png" alt="User Profile Image">
-              <span>Login/Register</span>
-            </a>
-          </div>
-       
-          <a href="#" class="cart-icon"><img src="./images/cart.png"></a>
-          <a href="#" class="search-icon"><img src="./images/search.png"></a>
+    <div id="top-container">
+        <div class="top-container-labels">
+            <p>Order</p>
         </div>
-      </div>
+        <div class="top-container-labels">
+            <p>Subtotal</p>
+        </div>
+    </div>
 
-    <div class="header">
+    <div id="item-container">
+        <!-- ITEM 01 -->
+        <div class="item">
 
-        <div class="image_size">
+            <div class="left-item">
+                <label class="checkmark-container">
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                </label>
 
-            <div class="carousel-container">
-                <div class="carousel-inner">
-                    <div class="carousel-item">
-                        <div class="image_size">
-                            <img src="./images/featured/2.jpg" alt="Featured 1" data-index="1">
-                            <div class="gradient-overlay"></div>
-                            <div class="dark-gradient-overlay"></div>
-                        </div>
+
+                <div class="image-container">
+                    <img src="./images/cart/1.jpg" alt="Image 1">
+                    <div class="overlay"></div>
+                </div>
+
+                <div class="item-details">
+                    <h1>Express Wash</h1>
+                    <p>Carwash, Blow Dry, Gloss Finish, Tyre Dressing</p>
+                    <div class="dropdown">
+                        <button class="dropdown-toggle">Rusi 200</button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Rusi 200</a></li>
+                            <li><a href="#">Toyota Lite Ace</a></li>
+                            <li><a href="#">Honda City</a></li>
+                        </ul>
                     </div>
-                    <div class="carousel-item">
-                        <div class="image_size">
-                            <img src="./images/featured/1.jpg" alt="Featured 2" data-index="2">
-                            <div class="gradient-overlay"></div>
-                            <div class="dark-gradient-overlay"></div>
-                        </div>
+
+                </div>
+            </div>
+
+            <div class="right-item">
+                <h1>€20</h1>
+                <p>Remove</p>
+            </div>
+
+        </div>
+
+        <!-- ITEM 02 -->
+        <div class="item">
+            <div class="left-item">
+                <label class="checkmark-container">
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                </label>
+
+                <div class="image-container">
+                    <img src="./images/cart/2.jpg" alt="Image 1">
+                    <div class="overlay"></div>
+                </div>
+
+                <div class="item-details">
+                    <h1>Subscription 02</h1>
+                    <p>8 Express Wash, 2 Master Wash</p>
+                    <div class="dropdown">
+                        <button class="dropdown-toggle">Toyota Lite Ace</button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Rusi 200</a></li>
+                            <li><a href="#">Toyota Lite Ace</a></li>
+                            <li><a href="#">Honda City</a></li>
+                        </ul>
                     </div>
-                    <div class="carousel-item">
-                        <div class="image_size">
-                            <img src="./images/featured/3.jpg" alt="Featured 3" data-index="3">
-                            <div class="gradient-overlay"></div>
-                            <div class="dark-gradient-overlay"></div>
-                        </div>
+
+                </div>
+            </div>
+
+            <div class="right-item">
+                <h1>€220</h1>
+                <p>Remove</p>
+            </div>
+        </div>
+
+        <!-- ITEM 03 -->
+        <div class="item">
+            <div class="left-item">
+                <label class="checkmark-container">
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                </label>
+
+                <div class="image-container">
+                    <img src="./images/cart/3.jpg" alt="Image 1">
+                    <div class="overlay"></div>
+                </div>
+
+                <div class="item-details">
+                    <h1>Master Wash</h1>
+                    <p>Carwash, Blow Dry, Gloss Finish, Tyre Dressing, <br> Interior Vaccuum, Dashboard Dressing</p>
+                    <div class="dropdown">
+                        <button class="dropdown-toggle">Honda City</button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Rusi 200</a></li>
+                            <li><a href="#">Toyota Lite Ace</a></li>
+                            <li><a href="#">Honda City</a></li>
+                        </ul>
                     </div>
-                </div>
-                <div class="carousel-controls">
-                    <div class="carousel-btn prev" onclick="prevSlide()">&#10094;</div>
-                    <div class="carousel-btn next" onclick="nextSlide()">&#10095;</div>
-                </div>
-                <div class="page-indicator">
-                    <ul class="page-number">
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                    </ul>
+
                 </div>
             </div>
 
-
-            <div class="header_content">
-                <h1>Unleash the shine, <br> elevate the style</h1>
-                <p>Book an appointment with us now!</p>
-                <button class="book-appointment-btn">Book an Appointment</button>
-            </div>
-
-        </div>
-    </div>
-
-
-    <div class="about">
-        <header>About Us</header>
-        <div class="about_image_size">
-            <div class="about-gradient-overlay"></div>
-            <img src="./images/featured/1.jpg" alt="About Image">
-            <div class="about_content">
-                <h1>Lorem Ipsum</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-                    ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
-                    in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
+            <div class="right-item">
+                <h1>€40</h1>
+                <p>Remove</p>
             </div>
         </div>
     </div>
 
-    <div class="newsletter">
-        <header>Newsletter</header>
-        <div class="newsletter_image_size">
-            <div class="newsletter-gradient-overlay"></div>
-            <img src="./images/featured/3.jpg" alt="Newsletter Image">
-
-            <div class="newsletter_content">
-                <div class="item1">
-                    <img src="./images/news1.jpg" alt="Newsletter 1">
-                    <h2>Title 01</h2>
-                    <p>Lorem ipsum dolor sit amet.</p>
-                    <p class="read_more">Read more...</p>
-                </div>
-
-                <div class="item2">
-                    <img src="./images/news2.jpg" alt="Newsletter 2">
-                    <h2>Title 02</h2>
-                    <p>Lorem ipsum dolor sit amet.</p>
-                    <p class="read_more">Read more...</p>
-                </div>
-
-                <div class="item3">
-                    <img src="./images/news3.jpg" alt="Newsletter 3">
-                    <h2>Title 03</h2>
-                    <p>Lorem ipsum dolor sit amet.</p>
-                    <p class="read_more">Read more...</p>
-                </div>
-
-            </div>
-
-        </div>
+    <div id="checkout-button">
+        <button id="proceed-to-booking">Proceed to Booking</button>
     </div>
 
-    <div class="footer">
-        <div class="footer_content">
-          <div class="socials">
-            <h3>Stay Connected</h3>
-            <p>Address: Dublin, Ireland</p>
-            <p>Phone: (+355) 123 45 67</p>
-            <h5>Follow us on social media</h5>
-            <img src="./images/holder.png" alt="Soc meds">
-          </div>
-    
-          <div class="autoworx">
-            <h3>Autoworx Pro.</h3>
-            <p>About Us</p>
-            <p>Careers</p>
-            <p>Collaboration</p>
-            <p>Dashboard</p>
-            <p>Policies</p>
-          </div>
-    
-          <div class="services">
-            <h3>Customer Services</h3>
-            <p>Rules and Regulations</p>
-            <p>Terms of Use</p>
-            <p>Return Procedure</p>
-            <p>Privacy Policy</p>
-            <p>Forums</p>
-          </div>
-    
-          <div class="quick">
-            <h3>Quick Access</h3>
-            <p>Contact Us</p>
-            <p>Blog</p>
-            <p>Returns and Refunds</p>
-            <p>Track Order</p>
-            <p>FAQ</p>
-          </div>
-        </div>
-    </div>
+    {{> _footer }}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var dropdownToggle = document.querySelectorAll('.dropdown-toggle');
+            var dropdowns = document.querySelectorAll('.dropdown');
+
+            dropdownToggle.forEach(function (toggle, index) {
+                toggle.addEventListener('click', function () {
+                    dropdowns[index].classList.toggle('active');
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var checkboxes = document.querySelectorAll('.checkmark-container input[type="checkbox"]');
+            var proceedButton = document.getElementById('proceed-to-booking');
+
+            // Initial setup
+            updateProceedButton();
+
+            // Add event listener to each checkbox
+            checkboxes.forEach(function (checkbox) {
+                checkbox.addEventListener('change', function () {
+                    updateProceedButton();
+                });
+            });
+
+            function updateProceedButton() {
+                // Count the number of checked checkboxes
+                var checkedCount = document.querySelectorAll('.checkmark-container input[type="checkbox"]:checked').length;
+
+                // Update the button text to include the count
+                proceedButton.textContent = 'Proceed to Booking (' + checkedCount + ')';
+
+                // Enable or disable the button based on the count
+                proceedButton.disabled = checkedCount === 0;
+            }
+        });
+
+    </script>
 
 </body>
 
