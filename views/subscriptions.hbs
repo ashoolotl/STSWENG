@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>Subscriptions | Edit/Delete</title>
+  <link rel="stylesheet" href="featured.css">
+  <link rel="stylesheet" href="book-appointment.css">
+  <link rel="stylesheet" href="cart.css">
+  <link rel="stylesheet" href = "partials/navbar.css">
+
+  <!-- NEW CSS FILE -->
+  <link rel="stylesheet" href = "edit-delete.css">
+
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+ {{> _header }}
+
+  <div id="overlay"></div>
+
+  <header>
+    Subscriptions
+  </header>
+
+  <div class="top-container">
+    <div class="top-item">
+      <a href="#Sub1"><img src="./images/featured/1.jpg" alt="Image 1"></a>
+      <p>Subscription 01</p>
+    </div>
+    <div class="top-item">
+      <a href="#Sub2"><img src="./images/featured/2.jpg" alt="Image 2"></a>
+      <p>Subscription 02</p>
+    </div>
+    <div class="top-item">
+      <a href="#Sub3"><img src="./images/featured/3.jpg" alt="Image 3"></a>
+      <p>Subscription 03</p>
+    </div>
+    <div class="top-item">
+      <a href="#Sub4"><img src="./images/featured/4.jpg" alt="Image 4"></a>
+      <p>Subscription 04</p>
+    </div>
+  </div>
+
+  <!-- SUBSCRIPTIONS DETAILS -->
+  <div class="bottom-container">
+
+    <div class="bottom-item" id="Sub1">
+      <img src="./images/featured/1.jpg" alt="Image 1">
+      <div class="bottom-item-content">
+         <h2 onclick="additionalInfoPopup()">Subscription 01</h2>
+         <h3>4 Express Wash, 1 Master Wash</h3>
+         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
+          aute irure dolor
+          in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+          cupidatat non proident, sunt in culpa qui
+          officia deserunt mollit anim id est laborum.</p>
+         <div class="buttons-container">
+           <button class="edit-btn" onclick="showEditPopup()">Edit</button>
+           <button class="delete-btn" onclick="showDeletePopup()">Delete</button>
+         </div>
+      </div>
+     </div>
+     
+
+     <div class="bottom-item" id="Sub2">
+      <img src="./images/featured/2.jpg" alt="Image 1">
+      <div class="bottom-item-content">
+         <h2 onclick="additionalInfoPopup()">Subscription 02</h2>
+         <h3>4 Express Wash, 1 Master Wash</h3>
+         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
+          aute irure dolor
+          in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+          cupidatat non proident, sunt in culpa qui
+          officia deserunt mollit anim id est laborum.</p>
+         <div class="buttons-container">
+            <button class="edit-btn" onclick="showEditPopup()">Edit</button>
+            <button class="delete-btn" onclick="showDeletePopup()">Delete</button>
+         </div>
+      </div>
+     </div>
+
+     <div class="bottom-item" id="Sub3">
+      <img src="./images/featured/3.jpg" alt="Image 1">
+      <div class="bottom-item-content">
+         <h2 onclick="additionalInfoPopup()">Subscription 03</h2>
+         <h3>4 Express Wash, 1 Master Wash</h3>
+         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
+          aute irure dolor
+          in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+          cupidatat non proident, sunt in culpa qui
+          officia deserunt mollit anim id est laborum.</p>
+         <div class="buttons-container">
+            <button class="edit-btn" onclick="showEditPopup()">Edit</button>
+            <button class="delete-btn" onclick="showDeletePopup()">Delete</button>
+         </div>
+      </div>
+     </div>
+
+     <div class="bottom-item" id="Sub4">
+      <img src="./images/featured/1.jpg" alt="Image 1">
+      <div class="bottom-item-content">
+         <h2 onclick="additionalInfoPopup()">Subscription 04</h2>
+         <h3>4 Express Wash, 1 Master Wash</h3>
+         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
+          aute irure dolor
+          in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+          cupidatat non proident, sunt in culpa qui
+          officia deserunt mollit anim id est laborum.</p>
+         <div class="buttons-container">
+            <button class="edit-btn" onclick="showEditPopup()">Edit</button>
+            <button class="delete-btn" onclick="showDeletePopup()">Delete</button>
+         </div>
+      </div>
+     </div>
+
+     <!-- EDIT POPUP -->
+    <div id="editPopup" class="popupContainer" style="display: none;">
+        <span class="closePopup" onclick="closeEditPopup()">&times;</span>
+        <h2>Edit <span class="subscription-name-label">Subscription 01</span>'s Details</h2>
+
+        <!-- REPLACE PLACEHOLDERS WITH VALUES FETCHED FROM DATABASE -->
+        <form class="edit-form">
+            <label for="subscriptionName">Subscription Name</label>
+            <input type="text" id="subscriptionName" name="subscriptionName" placeholder="Subscription 01" required>
+
+            <label for="washes">Description</label>
+            <input type="text" id="washes" name="washes" placeholder="4 Express Wash, 1 Master Wash" required>
+
+            <label for="details">Details</label>
+            <textarea id="details" name="details" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." required></textarea>
+        </form>
+
+        <div class="edit-buttons">
+            <button class="confirm-edit-btn" onclick="showEditConfirmPopup()" disabled>Confirm</button>
+            <button class="cancel-edit-btn" onclick="closeEditPopup()">Cancel</button>
+        </div>
+    </div>
+     <!-- SUCCESSFUL EDIT POPUP -->
+     <div id="successEditPopup" class="popupContainer" style="display: none;">
+        <span class="closePopup" onclick="closeEditConfirmPopup()">&times;</span>
+        <div class="popupContent">
+        <h2>Edit Successful</h2>
+        <p>
+            <!-- Lagay mo nalang sa loob nung span yung Subscription name, for now nilagay ko muna si Subscription 01 -->
+            <span class="subscription-name-label">Subscription 01</span> has been successfully edited.
+        </p>
+        <div class="delete-buttons">
+            <button class="close-delete-btn" onclick="closeEditConfirmPopup()">Close</button>
+        </div>
+      </div>
+    </div>
+
+     <!-- DELETE POPUP -->
+     <div id="deletePopup" class="popupContainer" style="display: none;">
+        <span class="closePopup" onclick="closeDeletePopup()">&times;</span>
+        <div class="popupContent">
+        <h2>Delete Confirmation</h2>
+        <p>
+            Are you sure you want to delete this subscription? This action cannot be undone.
+        </p>
+        <div class="delete-buttons">
+            <button class="confirm-delete-btn" onclick="showDeleteConfirmPopup()">Confirm</button>
+            <button class="cancel-delete-btn" onclick="closeDeletePopup()">Cancel</button>
+        </div>
+      </div>
+     </div>
+     <!-- SUCCESSFUL DELETE POPUP -->
+    <div id="successDeletePopup" class="popupContainer" style="display: none;">
+        <span class="closePopup" onclick="closeDeleteConfirmPopup()">&times;</span>
+        <div class="popupContent">
+        <h2>Delete Successful</h2>
+        <p>
+            <!-- Lagay mo nalang sa loob nung span yung Subscription name, for now nilagay ko muna si Subscription 01 -->
+            <span class="subscription-name-label">Subscription 01</span> has been successfully deleted.
+        </p>
+        <div class="delete-buttons">
+            <button class="close-delete-btn" onclick="closeDeleteConfirmPopup()">Close</button>
+        </div>
+      </div>
+    </div>
+
+
+ 
+
+<script src="edit-delete.js"></script>
+
+</body>
+
+</html>

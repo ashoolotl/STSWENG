@@ -1,7 +1,8 @@
 .popupContent {
     display: flex;
-    flex-direction: row;
-    margin-bottom: 15px;
+    flex-direction: column;
+    height: 95%;
+    align-items: center;
 }
 
 .popupContent .contentWrapper {
@@ -33,32 +34,42 @@
 #addPopup button,
 #bookingPopup button,
 .dateTimeSubmit {
-    width: 100%;
+    font-family: Montserrat;
+    font-size: 1.2rem;
     padding: 10px;
-    background-color: #4CAF50;
+    margin-right: 10px;
+    background-color: #ED1C24;
     color: white;
-    border: none;
-    border-radius: 5px;
+    background-color: transparent;
+    border: 2px solid white;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 20px;
-    /* Add some top margin */
+    border-radius: 2px;
+    z-index: 1;
 }
 
 #cart button:hover,
+#addPopup button:hover,
 #bookingPopup button:hover,
 .dateTimeSubmit:hover {
-    background-color: #45a049;
+    background-color: #FF5555;
 }
 
-#addDateTimePopup,
+/* #addDateTimePopup,
 #dateTimePopup {
     width: fit-content;
-}
+} */
 
 .content {
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
+    width: 95%;
+    align-items: center;
+    margin: auto;
+}
+
+.content input {
+    margin: 10px;
 }
 
 /* Cart Popup */
@@ -103,4 +114,41 @@
     /* Adjust the width as needed */
 
     padding-left: 225px;
+    margin: 20px;
+}
+
+#cart h2 {
+    text-align: center;
+}
+
+#addDateTimePopup,
+#bookingPopup,
+#addPopup {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+}
+
+#addDateTimePopup button,
+#bookingPopup button,
+#addPopup button {
+    margin-top: auto;
+}
+
+#addDateTimePopup input {
+    justify-content: center;
+}
+
+#bookingPopup .popupContent,
+#addPopup .popupContent {
+    height: unset;
+}
+
+#bookingPopup button,
+#addPopup button {
+    position: absolute; /* Position the button absolutely within the container */
+    bottom: 20px; /* Adjust as needed */
+    left: 50%; /* Center the button horizontally */
+    transform: translateX(-50%);
 }

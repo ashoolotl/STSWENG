@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Cart</title>
+    <link rel="stylesheet" href="cart.css">
+    <link rel="stylesheet" href = "partials/navbar.css">
+
+</head>
+
+<body>
+
+    {{> _header }}
+    
+    <div id="top-container">
+        <div class="top-container-labels">
+            <p>Order</p>
+        </div>
+        <div class="top-container-labels">
+            <p>Subtotal</p>
+        </div>
+    </div>
+
+    <div id="item-container">
+        <!-- ITEM 01 -->
+        <div class="item">
+
+            <div class="left-item">
+                <label class="checkmark-container">
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                </label>
+
+
+                <div class="image-container">
+                    <img src="./images/cart/1.jpg" alt="Image 1">
+                    <div class="overlay"></div>
+                </div>
+
+                <div class="item-details">
+                    <h1>Express Wash</h1>
+                    <p>Carwash, Blow Dry, Gloss Finish, Tyre Dressing</p>
+                    <div class="dropdown">
+                        <button class="dropdown-toggle">Rusi 200</button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Rusi 200</a></li>
+                            <li><a href="#">Toyota Lite Ace</a></li>
+                            <li><a href="#">Honda City</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="right-item">
+                <h1>€20</h1>
+                <p>Remove</p>
+            </div>
+
+        </div>
+
+        <!-- ITEM 02 -->
+        <div class="item">
+            <div class="left-item">
+                <label class="checkmark-container">
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                </label>
+
+                <div class="image-container">
+                    <img src="./images/cart/2.jpg" alt="Image 1">
+                    <div class="overlay"></div>
+                </div>
+
+                <div class="item-details">
+                    <h1>Subscription 02</h1>
+                    <p>8 Express Wash, 2 Master Wash</p>
+                    <div class="dropdown">
+                        <button class="dropdown-toggle">Toyota Lite Ace</button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Rusi 200</a></li>
+                            <li><a href="#">Toyota Lite Ace</a></li>
+                            <li><a href="#">Honda City</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="right-item">
+                <h1>€220</h1>
+                <p>Remove</p>
+            </div>
+        </div>
+
+        <!-- ITEM 03 -->
+        <div class="item">
+            <div class="left-item">
+                <label class="checkmark-container">
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                </label>
+
+                <div class="image-container">
+                    <img src="./images/cart/3.jpg" alt="Image 1">
+                    <div class="overlay"></div>
+                </div>
+
+                <div class="item-details">
+                    <h1>Master Wash</h1>
+                    <p>Carwash, Blow Dry, Gloss Finish, Tyre Dressing, <br> Interior Vaccuum, Dashboard Dressing</p>
+                    <div class="dropdown">
+                        <button class="dropdown-toggle">Honda City</button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Rusi 200</a></li>
+                            <li><a href="#">Toyota Lite Ace</a></li>
+                            <li><a href="#">Honda City</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="right-item">
+                <h1>€40</h1>
+                <p>Remove</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="checkout-button">
+        <button id="proceed-to-booking">Proceed to Booking</button>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var dropdownToggle = document.querySelectorAll('.dropdown-toggle');
+            var dropdowns = document.querySelectorAll('.dropdown');
+
+            dropdownToggle.forEach(function (toggle, index) {
+                toggle.addEventListener('click', function () {
+                    dropdowns[index].classList.toggle('active');
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var checkboxes = document.querySelectorAll('.checkmark-container input[type="checkbox"]');
+            var proceedButton = document.getElementById('proceed-to-booking');
+
+            // Initial setup
+            updateProceedButton();
+
+            // Add event listener to each checkbox
+            checkboxes.forEach(function (checkbox) {
+                checkbox.addEventListener('change', function () {
+                    updateProceedButton();
+                });
+            });
+
+            function updateProceedButton() {
+                // Count the number of checked checkboxes
+                var checkedCount = document.querySelectorAll('.checkmark-container input[type="checkbox"]:checked').length;
+
+                // Update the button text to include the count
+                proceedButton.textContent = 'Proceed to Booking (' + checkedCount + ')';
+
+                // Enable or disable the button based on the count
+                proceedButton.disabled = checkedCount === 0;
+            }
+        });
+
+    </script>
+
+</body>
+
+</html>

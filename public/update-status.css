@@ -3,27 +3,31 @@
     display: none;
     position: fixed;
     top: 50%;
-    /* Center vertically */
     left: 50%;
-    /* Center horizontally */
     transform: translate(-50%, -50%);
-    /* Center the form precisely */
     background: linear-gradient(to right, #1C1B1E, #3A3A3C);
     padding: 20px;
     border-radius: 10px;
-    color: whitesmoke;
+    color: red;
     z-index: 9999;
     width: 75%;
-    max-width: 400px;
-    /* Limit maximum width */
+    height: 68%;
     font-size: 18px;
+    overflow-y: auto;
+    text-align: center;
 }
 
+#status-form form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 
 #status-form label {
     display: block;
     margin-bottom: 5px;
-    color: whitesmoke;
+    color: #ED1C24;
 }
 
 #status-form select {
@@ -35,67 +39,28 @@
 }
 
 #status-form button[type="button"] {
-    width: 95%;
+    font-family: Montserrat;
+    font-size: 1.2rem;
     padding: 10px;
-    background-color: #4CAF50;
+    margin-right: 10px;
+    background-color: #ED1C24;
     color: white;
-    border: none;
-    border-radius: 5px;
+    background-color: transparent;
+    border: 2px solid white;
     cursor: pointer;
+    border-radius: 2px;
+    z-index: 1;
     transition: background-color 0.3s ease;
+    position: absolute; /* Position the button absolutely within the container */
+    bottom: 20px; /* Adjust as needed */
+    left: 50%; /* Center the button horizontally */
+    transform: translateX(-50%);
 }
 
 #status-form button[type="button"]:hover {
-    background-color: #45a049;
-}
-/*SUBSCFRIPTION*/
-/* Popup Form */
-#status-form-subscription {
-    display: none;
-    position: fixed;
-    top: 50%;
-    /* Center vertically */
-    left: 50%;
-    /* Center horizontally */
-    transform: translate(-50%, -50%);
-    /* Center the form precisely */
-    background: linear-gradient(to right, #1C1B1E, #3A3A3C);
-    padding: 20px;
-    border-radius: 10px;
-    color: whitesmoke;
-    z-index: 9999;
-    width: 75%;
-    max-width: 400px;
-    /* Limit maximum width */
-    font-size: 18px;
+    background-color: #FF5555;
 }
 
-
-#status-form-subscription label {
-    display: block;
-    margin-bottom: 5px;
-    color: whitesmoke;
-}
-
-#status-form-subscription select {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-#status-form-subscription button[type="button"] {
-    width: 95%;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#status-form-subscription button[type="button"]:hover {
-    background-color: #45a049;
+.closePopup {
+    color: #ED1C24;
 }

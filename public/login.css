@@ -15,7 +15,7 @@ body {
     flex-direction: row;
     position: relative;
     margin-top: -1.27rem;
-    z-index: -1;
+    z-index: 1;
 }
 
 .pictures {

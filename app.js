@@ -1,5 +1,6 @@
-const path = require('path');
 const express = require('express');
+const exphbs  = require('express-handlebars');
+const path = require('path');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
@@ -27,8 +28,14 @@ const subscriptionAvailedRouter = require('./routes/subscriptionAvailedroutes');
 const bookingSubscriptionRouter = require('./routes/bookingSubscriptionRoutes');
 
 const app = express();
-app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'views'));
+app.engine('hbs', exphbs.engine({
+    extname: '.hbs', // Set the file extension for handlebars templates
+    defaultLayout: false, // Disable default layout (if you don't have layouts)
+    layoutsDir: path.join(__dirname, 'views/layouts'), // Specify the layouts directory (if you have layouts)
+    partialsDir: path.join(__dirname, 'views/partials') // Specify the partials directory
+}));
+app.set('view engine', 'hbs'); // Set Handlebars as the template engine
+app.set('views', path.join(__dirname, 'views')); // Specify the views directory
 
 // serving static files
 app.use(express.static(path.join(__dirname, 'public')));

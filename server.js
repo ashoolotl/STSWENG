@@ -1,41 +1,34 @@
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-// configure the dotenv path
-dotenv.config({ path: './config.env' });
-
-//connect to database
-// const database = process.env.DATABASE.replace(
-//     '<PASSWORD>',
-//     process.env.DATABASE_PASSWORD
-// );
-// mongoose
-//     .connect(database, {
-//         //useNewUrlParser: true,
-//     })
-//     .then((con) => {
-//         //console.log(con.connection)
-//         console.log('DB CONNECTION SUCCESS');
-//     });
-
-const app = require('./app');
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+dotenv.config({ path: "./config.env" });
+const app = require("./app");
 
 // start the server on port 3000
 const PORT = process.env.port || 3000;
 
 const connectDB = async () => {
-    try {
-        const conn = await mongoose.connect(process.env.MONG_URI);
-        console.log(`Mongo Db Connected ${conn.connection.host}`);
-    } catch (error) {
-        console.log(error);
-    }
+  try {
+    const conn = await mongoose.connect(process.env.MONG_URI);
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
+    process.exit(1);
+  }
 };
-// app.listen(PORT, () => {
-//     console.log(`listening for requests ${PORT}`);
-// });
 
 connectDB().then(() => {
-    app.listen(PORT, () => {
-        console.log(`listening for requests ${PORT}`);
+  const server = app.listen(PORT, () => {
+    console.log(`Listening for requests on port ${PORT}`);
+  });
+
+  process.on("SIGINT", () => {
+    console.log("SIGINT signal received: closing HTTP server");
+    server.close(() => {
+      console.log("HTTP server closed");
+      mongoose.connection.close(false, () => {
+        console.log("MongoDB connection closed");
+        process.exit(0);
+      });
     });
+  });
 });
