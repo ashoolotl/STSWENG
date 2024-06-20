@@ -1,263 +1,313 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>Services</title>
-    <link rel="stylesheet" href="book-appointment.css">
-    <link rel="stylesheet" href="featured.css">
-    <link rel="stylesheet" href="cart.css">
-    <link rel="stylesheet" href = "partials/navbar.css">
+  <title>User Profile</title>
+  <link rel="stylesheet" href="book-appointment.css">
+  <link rel="stylesheet" href="featured.css">
+  <link rel="stylesheet" href="cart.css">
+  <link rel="stylesheet" href = "partials/navbar.css">
 
 </head>
 
 <body>
-    <script src="book-appointment.js"></script>
 
-    {{> _header }}
+  {{> _header }}
 
-    <div id="overlay"></div>
+  <div id="overlay"></div>
 
-    <header>
-        Featured Services
-    </header>
+  <header>
+    Featured Services
+  </header>
 
-    <!-- Top Container -->
-    <div class="top-container">
-        <div class="top-item">
-        <a href="#Service1"><img src="./images/featured/1.jpg" alt="Image 1"></a>
-        <p>01 Express Wash</p>
-        </div>
-        <div class="top-item">
-        <a href="#Service2"><img src="./images/featured/2.jpg" alt="Image 2"></a>
-        <p>02 Master Wash</p>
-        </div>
-        <div class="top-item">
-        <a href="#Service3"><img src="./images/featured/3.jpg" alt="Image 3"></a>
-        <p>03 Hyper Wash</p>
-        </div>
-        <div class="top-item">
-        <a href="#Service4"><img src="./images/featured/4.jpg" alt="Image 4"></a>
-        <p>04 Ultimate Wash</p>
-        </div>
+  <!-- Top Container -->
+  <div class="top-container">
+    <div class="top-item">
+      <a href="#Service1"><img src="./images/featured/1.jpg" alt="Image 1"></a>
+      <p>01 Express Wash</p>
     </div>
+    <div class="top-item">
+      <a href="#Service2"><img src="./images/featured/2.jpg" alt="Image 2"></a>
+      <p>02 Master Wash</p>
+    </div>
+    <div class="top-item">
+      <a href="#Service3"><img src="./images/featured/3.jpg" alt="Image 3"></a>
+      <p>03 Hyper Wash</p>
+    </div>
+    <div class="top-item">
+      <a href="#Service4"><img src="./images/featured/4.jpg" alt="Image 4"></a>
+      <p>04 Ultimate Wash</p>
+    </div>
+  </div>
 
-    <!-- Bottom Container -->
-    <div class="bottom-container">
-        <div class="bottom-item" id="Service1">
-        <img src="./images/featured/1.jpg" alt="Image 1">
-        <div class="bottom-item-content">
-            <h2 onclick="additionalInfoPopup()">Service 01</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-            magna aliqua.
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            Duis
-            aute irure dolor
-            in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-            cupidatat non proident, sunt in culpa qui
-            officia deserunt mollit anim id est laborum.</p>
-            <div class="buttons-container">
-            <button class="add-to-cart-btn" onclick="showAddPopup()">Add to Cart</button>
-            <button class="book-appointment-btn" onclick="showBookingPopup()">Book an Appointment</button>
-            </div>
+  <!-- Bottom Container -->
+  <div class="bottom-container">
+
+    <div class="bottom-item" id="Service1">
+      <img src="./images/featured/1.jpg" alt="Image 1">
+      <div class="bottom-item-content">
+        <h2 onclick="additionalInfoPopup()">Service 01</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          Duis
+          aute irure dolor
+          in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+          cupidatat non proident, sunt in culpa qui
+          officia deserunt mollit anim id est laborum.</p>
+        <div class="buttons-container">
+          <button class="add-to-cart-btn" onclick="showAddPopup()">Add to Cart</button>
+          <button class="book-appointment-btn" onclick="showBookingPopup()">Book an Appointment</button>
         </div>
+      </div>
     </div>
 
     <!-- booking -->
+
+
     <div id="bookingPopup" class="popupContainer" style="display: none;">
-        <span class="closePopup" onclick="closeBookingPopup()">&times;</span>
-        <h2>Registered Vehicles</h2>
-        <hr>
-        <div class="popupContent">
-            <div class="contentWrapper">
-            <input type="radio" name="vehicle" value="XXXX4578">
-            <img class="bookingPopupImage" src="./images/sedan.png" alt="Car Image">
-            <div class="info-item">
-                <span class="bookingPopupPlateNumber"><strong>Plate Number: </strong>XXXX4578</span>
-                <span class="bookingPopupPrice"><strong>Price: </strong>€25</span>
-            </div>
-            </div>
+      <span class="closePopup" onclick="closeBookingPopup()">&times;</span>
+      <h2>Registered Vehicles</h2>
+      <hr>
+      <div class="popupContent">
+        <div class="contentWrapper">
+          <input type="radio" name="vehicle" value="XXXX4578">
+          <img class="bookingPopupImage" src="./images/sedan.png" alt="Car Image">
+          <div class="info-item">
+            <span class="bookingPopupPlateNumber"><strong>Plate Number: </strong>XXXX4578</span>
+            <span class="bookingPopupPrice"><strong>Price: </strong>€25</span>
+          </div>
         </div>
-        <hr>
-        <div class="popupContent">
-            <div class="contentWrapper">
-            <input type="radio" name="vehicle" value="XXXX1234">
-            <img class="bookingPopupImage" src="./images/sedan.png" alt="Car Image">
-            <div class="info-item">
-                <span class="bookingPopupPlateNumber"><strong>Plate Number: </strong>XXXX1234</span>
-                <span class="bookingPopupPrice"><strong>Price: </strong>€25</span>
-            </div>
-            </div>
+      </div>
+      <hr>
+      <div class="popupContent">
+        <div class="contentWrapper">
+          <input type="radio" name="vehicle" value="XXXX1234">
+          <img class="bookingPopupImage" src="./images/sedan.png" alt="Car Image">
+          <div class="info-item">
+            <span class="bookingPopupPlateNumber"><strong>Plate Number: </strong>XXXX1234</span>
+            <span class="bookingPopupPrice"><strong>Price: </strong>€25</span>
+          </div>
         </div>
-        <hr>
-        <div class="popupContent">
-            <div class="contentWrapper">
-            <input type="radio" name="vehicle" value="XXXX9878">
-            <img class="bookingPopupImage" src="./images/sedan.png" alt="Car Image">
-            <div class="info-item">
-                <span class="bookingPopupPlateNumber"><strong>Plate Number: </strong>XXXX9878</span>
-                <span class="bookingPopupPrice"><strong>Price: </strong>€25</span>
-            </div>
-            </div>
+      </div>
+      <hr>
+      <div class="popupContent">
+        <div class="contentWrapper">
+          <input type="radio" name="vehicle" value="XXXX9878">
+          <img class="bookingPopupImage" src="./images/sedan.png" alt="Car Image">
+          <div class="info-item">
+            <span class="bookingPopupPlateNumber"><strong>Plate Number: </strong>XXXX9878</span>
+            <span class="bookingPopupPrice"><strong>Price: </strong>€25</span>
+          </div>
         </div>
-        <hr>
-        <button onclick="showDateTimePopup()">Proceed to Booking</button>
+      </div>
+      <hr>
+      <button onclick="showDateTimePopup()">Proceed to Booking</button>
     </div>
 
     <!-- Date and Time Popup -->
     <div id="dateTimePopup" class="popupContainer">
-        <span class="closePopup" onclick="closeDateTimePopup()">&times;</span>
-        <div class="popupContent">
-        <h2>Select Date and Time</h2>
-        <!-- Content -->
-        <div class="content">
-            <input type="date" id="bookingDate">
-            <input type="time" id="bookingTime">
-        </div>
-        <button class="dateTimeSubmit" onclick="submitDateTime()">Submit</button>
-        </div>
+      <span class="closePopup" onclick="closeDateTimePopup()">&times;</span>
+      <div class="popupContent">
+      <h2>Select Date and Time</h2>
+      <!-- Content -->
+      <div class="content">
+        <input type="date" id="bookingDate">
+        <input type="time" id="bookingTime">
+      </div>
+      <button class="dateTimeSubmit" onclick="submitDateTime()">Submit</button>
     </div>
+    </div>
+
+
 
     <!--add to cart-->
     <div id="addPopup" class="popupContainer" style="display: none;">
-        <span class="closePopup" onclick="closeAddPopup()">&times;</span>
-        <h2>Registered Vehicles</h2>
-        <hr>
-        <div class="popupContent">
-            <div class="contentWrapper">
-            <input type="radio" name="vehicle" value="XXXX4578">
-            <img class="bookingPopupImage" src="./images/sedan.png" alt="Car Image">
-            <div class="info-item">
-                <span class="bookingPopupPlateNumber"><strong>Plate Number: </strong>XXXX4578</span>
-                <span class="bookingPopupPrice"><strong>Price: </strong>€25</span>
-            </div>
-            </div>
+      <span class="closePopup" onclick="closeAddPopup()">&times;</span>
+      <h2>Registered Vehicles</h2>
+      <hr>
+      <div class="popupContent">
+        <div class="contentWrapper">
+          <input type="radio" name="vehicle" value="XXXX4578">
+          <img class="bookingPopupImage" src="./images/sedan.png" alt="Car Image">
+          <div class="info-item">
+            <span class="bookingPopupPlateNumber"><strong>Plate Number: </strong>XXXX4578</span>
+            <span class="bookingPopupPrice"><strong>Price: </strong>€25</span>
+          </div>
         </div>
-        <hr>
-        <div class="popupContent">
-            <div class="contentWrapper">
-            <input type="radio" name="vehicle" value="XXXX1234">
-            <img class="bookingPopupImage" src="./images/sedan.png" alt="Car Image">
-            <div class="info-item">
-                <span class="bookingPopupPlateNumber"><strong>Plate Number: </strong>XXXX1234</span>
-                <span class="bookingPopupPrice"><strong>Price: </strong>€25</span>
-            </div>
-            </div>
+      </div>
+      <hr>
+      <div class="popupContent">
+        <div class="contentWrapper">
+          <input type="radio" name="vehicle" value="XXXX1234">
+          <img class="bookingPopupImage" src="./images/sedan.png" alt="Car Image">
+          <div class="info-item">
+            <span class="bookingPopupPlateNumber"><strong>Plate Number: </strong>XXXX1234</span>
+            <span class="bookingPopupPrice"><strong>Price: </strong>€25</span>
+          </div>
         </div>
-        <hr>
-        <div class="popupContent">
-            <div class="contentWrapper">
-            <input type="radio" name="vehicle" value="XXXX9878">
-            <img class="bookingPopupImage" src="./images/sedan.png" alt="Car Image">
-            <div class="info-item">
-                <span class="bookingPopupPlateNumber"><strong>Plate Number: </strong>XXXX9878</span>
-                <span class="bookingPopupPrice"><strong>Price: </strong>€25</span>
-            </div>
-            </div>
+      </div>
+      <hr>
+      <div class="popupContent">
+        <div class="contentWrapper">
+          <input type="radio" name="vehicle" value="XXXX9878">
+          <img class="bookingPopupImage" src="./images/sedan.png" alt="Car Image">
+          <div class="info-item">
+            <span class="bookingPopupPlateNumber"><strong>Plate Number: </strong>XXXX9878</span>
+            <span class="bookingPopupPrice"><strong>Price: </strong>€25</span>
+          </div>
         </div>
-        <hr>
-        <button onclick="showAddDateTimePopup()">Proceed to Booking</button>
+      </div>
+      <hr>
+      <button onclick="showAddDateTimePopup()">Proceed to Booking</button>
     </div>
+
 
     <!-- Date and Time Popup -->
     <div id="addDateTimePopup" class="popupContainer">
-        <span class="closePopup" onclick="closeAddDateTimePopup()">&times;</span>
-        <div class="popupContent">
-        <h2>Select Date and Time</h2>
-        <!-- Content -->
-        <div class="content">
-            <input type="date" id="bookingDate">
-            <input type="time" id="bookingTime">
-        </div>
-        <button class="dateTimeSubmit" onclick="addToCart()">Add to cart</button>
-        </div>
+      <span class="closePopup" onclick="closeAddDateTimePopup()">&times;</span>
+      <div class="popupContent">
+      <h2>Select Date and Time</h2>
+      <!-- Content -->
+      <div class="content">
+        <input type="date" id="bookingDate">
+        <input type="time" id="bookingTime">
+      </div>
+      <button class="dateTimeSubmit" onclick="addToCart()">Add to cart</button>
     </div>
+    </div>
+
+
 
     <div id="cart" style="display: none;">
-        <span class="closePopup" onclick="closeCartPopup()">&times;</span>
-        <h2>Cart</h2>
-        <hr>
-        <!-- Content -->
-        <div class="item">
+      <span class="closePopup" onclick="closeCartPopup()">&times;</span>
+      <h2>Cart</h2>
+      <hr>
+      <!-- Content -->
+      <div class="item">
 
-            <div class="left-item">
-            <label class="checkmark-container">
-                <input type="checkbox" checked="checked">
-                <span class="checkmark"></span>
-            </label>
+        <div class="left-item">
+          <label class="checkmark-container">
+            <input type="checkbox" checked="checked">
+            <span class="checkmark"></span>
+          </label>
 
 
-            <div class="image-container">
-                <img src="./images/sedan.png" alt="Car 1">
-                <div class="overlay"></div>
-            </div>
+          <div class="image-container">
+            <img src="./images/sedan.png" alt="Car 1">
+            <div class="overlay"></div>
+          </div>
 
-            <div class="item-details">
-                <h1>Express Wash</h1>
-                <p>Carwash, Blow Dry, Gloss Finish, Tyre Dressing</p>
-            </div>
-            </div>
-
-            <div class="right-item">
-            <h1>€20</h1>
-            </div>
-
+          <div class="item-details">
+            <h1>Express Wash</h1>
+            <p>Carwash, Blow Dry, Gloss Finish, Tyre Dressing</p>
+          </div>
         </div>
 
-        <div class="item">
-
-            <div class="left-item">
-            <label class="checkmark-container">
-                <input type="checkbox" checked="checked">
-                <span class="checkmark"></span>
-            </label>
-
-
-            <div class="image-container">
-                <img src="./images/sedan.png" alt="Car 1">
-                <div class="overlay"></div>
-            </div>
-
-            <div class="item-details">
-                <h1>Ultimate Wash</h1>
-                <p>Carwash, Blow Dry, Gloss Finish, Tyre Dressing</p>
-            </div>
-            </div>
-
-            <div class="right-item">
-            <h1>€145</h1>
-            </div>
-
+        <div class="right-item">
+          <h1>€20</h1>
         </div>
-        <div class="buttons">
-            <button class="addMore" onclick="addMore()">Add More</button>
-            <button class="cartSubmit" onclick="submitCart()">Confirm</button>
+
+      </div>
+
+      <div class="item">
+
+        <div class="left-item">
+          <label class="checkmark-container">
+            <input type="checkbox" checked="checked">
+            <span class="checkmark"></span>
+          </label>
+
+
+          <div class="image-container">
+            <img src="./images/sedan.png" alt="Car 1">
+            <div class="overlay"></div>
+          </div>
+
+          <div class="item-details">
+            <h1>Ultimate Wash</h1>
+            <p>Carwash, Blow Dry, Gloss Finish, Tyre Dressing</p>
+          </div>
         </div>
+
+        <div class="right-item">
+          <h1>€145</h1>
+        </div>
+
+      </div>
+      <div class="buttons">
+        <button class="addMore" onclick="addMore()">Add More</button>
+        <button class="cartSubmit" onclick="submitCart()">Confirm</button>
+      </div>
     </div>
+
+
+
 
     <div id="additionalInfo" class="popupContainer">
-        <span class="closePopup" onclick="closeAddtionalInfoPopup()">&times;</span>
-        <h2>Addtional Information (name of service/subscription)</h2>
-        <!-- Content -->
-        <hr>
-        <div class="content">
-            <p style="color:white;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua.
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            Duis aute irure dolor
-            in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-            cupidatat non proident, sunt in culpa qui
-            officia deserunt mollit anim id est laborum.</p>
-        </div>
-        <hr>
-    </div>
+      <span class="closePopup" onclick="closeAddtionalInfoPopup()">&times;</span>
+      <h2>Addtional Information (name of service/subscription)</h2>
+      <!-- Content -->
+      <hr>
+      <div class="content">
+        <p style="color:white;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+          incididunt ut labore et dolore magna aliqua.
+          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          Duis aute irure dolor
+          in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+          cupidatat non proident, sunt in culpa qui
+          officia deserunt mollit anim id est laborum.</p>
+      </div>
+      <hr>
     </div>
 
-    {{> _footer }}
 
+  </div>
+
+  <div class="footer">
+    <div class="footer_content">
+      <div class="socials">
+        <h3>Stay Connected</h3>
+        <p>Address: Dublin, Ireland</p>
+        <p>Phone: (+355) 123 45 67</p>
+        <h5>Follow us on social media</h5>
+        <img src="./images/holder.png" alt="Soc meds">
+      </div>
+
+      <div class="autoworx">
+        <h3>Autoworx Pro.</h3>
+        <p>About Us</p>
+        <p>Careers</p>
+        <p>Collaboration</p>
+        <p>Dashboard</p>
+        <p>Policies</p>
+      </div>
+
+      <div class="services">
+        <h3>Customer Services</h3>
+        <p>Rules and Regulations</p>
+        <p>Terms of Use</p>
+        <p>Return Procedure</p>
+        <p>Privacy Policy</p>
+        <p>Forums</p>
+      </div>
+
+      <div class="quick">
+        <h3>Quick Access</h3>
+        <p>Contact Us</p>
+        <p>Blog</p>
+        <p>Returns and Refunds</p>
+        <p>Track Order</p>
+        <p>FAQ</p>
+      </div>
+    </div>
+</div>
+
+  <script src="book-appointment.js"></script>
 </body>
 
 </html>

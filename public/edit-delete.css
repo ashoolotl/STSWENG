@@ -14,6 +14,8 @@
     color: whitesmoke;
 }
 
+.edit-btn,
+.delete-btn,
 .confirm-edit-btn,
 .cancel-edit-btn,
 .confirm-delete-btn,
@@ -31,7 +33,8 @@
     border-radius: 2px;
     z-index: 1;
 }
-
+.edit-btn:hover,
+.delete-btn:hover,
 .confirm-edit-btn:hover,
 .cancel-edit-btn:hover,
 .confirm-delete-btn:hover,
@@ -90,4 +93,16 @@
 
 .confirm-edit-btn:disabled:hover {
     background-color: transparent;
+}
+
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    /* Adjust the alpha (fourth value) for darkness */
+    z-index: 1;
 }

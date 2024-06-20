@@ -1,58 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="login.css">
-    <link rel="stylesheet" href = "partials/navbar.css">
-    <title>Login Page</title>
-
-    <script>
-        function loginAndRedirect() {
-            var username = document.querySelector('input[name="email"]').value;
-            var password = document.querySelector('input[name="password"]').value;
-            var name = document.querySelector('input[name="name"]').value;
-
-            if (username && password && name) {
-                window.location.href = 'login-page.html';
-            } else {
-                alert("Please fill in all fields");
-            }
-        }
-    </script>
-
+    <title>Register</title>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/login.css">
+    <link rel="stylesheet" href="/partials/navbar.css">
 </head>
-
 <body>
 
-    <div class ="login">
+<!-- Content -->
+<div class="login-container">
+    <h2>Register your Account</h2>
+    <p>New here? Fill in the following details</p>
 
-    <div class="login-container">
-        <h2>Register your Account</h2>
-        <p3>New here? Fill in the following details</p3>
-        <form action="login.php" method="post">
-            <input type="text" name="fname" placeholder="First Name" required>
-            <input type="text" name="lname" placeholder="Last Name" required>
-            <input type="text" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <select name="cars" required>
-                <option value="" disabled selected>How many cars do you own?</option>
-                <option value="1to3">1-3</option>
-                <option value="4to6">4-6</option>
-                <option value="7plus">7+</option>
-            </select>
-            <button type="button" onclick="loginAndRedirect()">REGISTER</button>
-        </form>
-        <p>Have an account? <a href="login.html">Login Here</a></p>
-    </div>
-    <div class="pictures">
-        <div id="title">
-            <img src="./images/logo-red.png">
-        </div>
-    </div>
+    <form>
+        <input type="text" name="fname" placeholder="First Name" required>
+        <input type="text" name="lname" placeholder="Last Name" required>
+        <input type="text" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <input type="password" name="passwordConfirm" placeholder="Confirm Password" required>
 
-    </div>
+        <select name="cars" required>
+            <option value="" disabled selected>How many cars do you own?</option>
+            <option value="1to3">1-3</option>
+            <option value="4to6">4-6</option>
+            <option value="7plus">7+</option>
+        </select>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <p>Have an Account? <a href="/login">Log In Here</a></p>
+</div>
+
+<!-- Scripts -->
+<script src="/js/register.js"></script>
+
 </body>
-
 </html>

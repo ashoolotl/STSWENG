@@ -19,11 +19,12 @@
 
     {{> _header }}
 
-    <div id="overlay"></div>
+     <div id="overlay"></div>
 
     <header>
         <h1>Registered Vehicles</h1>
     </header>
+
 
     <div class="registered-cars">
 
@@ -32,22 +33,9 @@
         <div class="car">
             <img src="/images/vehicleClassification/sedan.png">
             <div class="car-status">
-              <div class="car-info">
-                <p class="car-text">Status:</p>
-                <p class="status">Not Available</p>
-              </div>
-              <div class="car-info">
-                <p class="car-text">Plate Number:</p>
-                <p class="status">XXX 4567</p>
-              </div>
-              <div class="car-info">
-                <p class="car-text">Contact Person:</p>
-                <p class="status">Not Available</p>
-              </div>
-              <div class="buttons-container">
-                <button class="edit-btn" onclick="showEditPopup()">Edit</button>
-                <button class="delete-btn" onclick="showDeletePopup()">Delete</button>
-              </div>
+                <div class="car-info">
+                    <p class="car-text">Sedan</p>
+                </div>
             </div>
         </div>
         <hr>
@@ -86,72 +74,6 @@
 
 
     </div>
-
-    <!--edit-delete-->
-
-    <!-- EDIT POPUP -->
-    <div id="editPopup" class="popupContainer" style="display: none;">
-        <span class="closePopup" onclick="closeEditPopup()">&times;</span>
-        <h2>Edit <span class="subscription-name-label">Vehicle</span>'s Details</h2>
-
-        <!-- REPLACE PLACEHOLDERS WITH VALUES FETCHED FROM DATABASE -->
-        <form class="edit-form">
-            <label for="plateNumber">Plate Number</label>
-            <input type="text" id="plateNumber" name="plateNumber" placeholder="Plate Number" required>
-
-            <label for="contactNumber">Contact Number</label>
-            <input type="text" id="contactNumber" name="contactNumber" placeholder="Contact Number" required>
-
-            <label for="details">Details</label>
-            <textarea id="details" name="details" placeholder="Additional Information" required></textarea>
-        </form>
-
-        <div class="edit-buttons">
-            <button class="confirm-edit-btn" onclick="showEditConfirmPopup()" disabled>Confirm</button>
-            <button class="cancel-edit-btn" onclick="closeEditPopup()">Cancel</button>
-        </div>
-    </div>
-
-    <!-- SUCCESSFUL EDIT POPUP -->
-    <div id="successEditPopup" class="popupContainer" style="display: none;">
-        <span class="closePopup" onclick="closeEditConfirmPopup()">&times;</span>
-        <h2>Edit Successful</h2>
-        <p>
-            <!-- Lagay mo nalang sa loob nung span yung Vehicle name, for now nilagay ko muna si Vehicle  -->
-            <span class="subscription-name-label">Vehicle</span> has been successfully edited.
-        </p>
-        <div class="delete-buttons">
-            <button class="close-delete-btn" onclick="closeEditConfirmPopup()">Close</button>
-        </div>
-    </div>
-
-    <!-- DELETE POPUP -->
-    <div id="deletePopup" class="popupContainer" style="display: none;">
-        <span class="closePopup" onclick="closeDeletePopup()">&times;</span>
-        <h2>Delete Confirmation</h2>
-        <p>
-            Are you sure you want to delete this vehicle? This action cannot be undone.
-        </p>
-        <div class="delete-buttons">
-            <button class="confirm-delete-btn" onclick="showDeleteConfirmPopup()">Confirm</button>
-            <button class="cancel-delete-btn" onclick="closeDeletePopup()">Cancel</button>
-        </div>
-    </div>
-
-    <!-- SUCCESSFUL DELETE POPUP -->
-    <div id="successDeletePopup" class="popupContainer" style="display: none;">
-        <span class="closePopup" onclick="closeDeleteConfirmPopup()">&times;</span>
-        <h2>Delete Successful</h2>
-        <p>
-            <!-- Lagay mo nalang sa loob nung span yung Vehicle name, for now nilagay ko muna si Vehicle -->
-            <span class="subscription-name-label">Vehicle</span> has been successfully deleted.
-        </p>
-        <div class="delete-buttons">
-            <button class="close-delete-btn" onclick="closeDeleteConfirmPopup()">Close</button>
-        </div>
-    </div>
-
-    {{> _footer }}
 
 </body>
 
