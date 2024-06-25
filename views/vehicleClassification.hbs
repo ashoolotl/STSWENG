@@ -1,62 +1,67 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
     <title>Registered Vehicles</title>
-    <link rel="stylesheet" href="user-profile-copy-modified.css">
-    <link rel="stylesheet" href="edit-delete-modified.css">
-    <link rel="stylesheet" href = "partials/navbar.css">
-
+    <link rel="stylesheet" href="/partials/navbar.css">
+    <link rel="stylesheet" href="/user-profile.css">
+    <link rel="stylesheet" href="/featured.css">
 </head>
-
 <body>
-    <script src="add-vehicle.js"></script>
-    <script src="edit-delete-modified.js"></script>
-
     {{> _header }}
 
-     <div id="overlay"></div>
+    <div id="overlay"></div>
 
-    <header>
-        <h1>Registered Vehicles</h1>
-    </header>
-
+    <header>Registered Vehicles</header>
 
     <div class="registered-cars">
-
-        <!--car details currently static convert to changeable + change names of classes too-->
-        <hr>
-        <div class="car">
-            <img src="/images/vehicleClassification/sedan.png">
-            <div class="car-status">
-                <div class="car-info">
-                    <p class="car-text">Sedan</p>
+        {{#each vehicleClassification}}
+            <hr>
+            <div class="car">
+                <img src="/images/vehicleClassification/{{vehicleClass.photo}}">
+                <div class="car-status">
+                    <div class="car-info">
+                        <p class="car-text">{{vehicleClass.name}}</p>
+                    </div>
+                    <button id="vehicleClassificationEditBtn" class="edit-btn" type="button" data-id="{{vehicleClass._id}}">Edit</button>
+                    <button id="vehicleClassificationDeleteBtn" class="delete-btn" type="button" data-id="{{vehicleClass._id}}">Delete</button>
                 </div>
             </div>
-        </div>
+        {{/each}}
+
         <hr>
-
         <button id="add">
-            <img id="addPhoto" src="./images/add.png">
-        </button> <!--pop up should appear here in order to register new cars-->
+            <img id="id" src="/images/add.png">
+        </button>
 
-        <!-- popup here -->
         <div id="addCarPopup" class="popupContainer">
             <div class="popupContent">
                 <span id="closePopup" class="closePopup">&times;</span>
-                <h1>Add a Car</h1>
+                <h1 id="title">Add a Vehicle Classification</h1>
+
                 <form id="addCarForm">
-
-                    <label for="vehicleName">Name</label>
-                    <input type="text" id="vehicleName" name="vehicleName" required><br>
-                    <label for="uploadImage">Upload Image</label>
-                    <input type="file" id="uploadImage" name="uploadImage" accept="image/*">
-
+                    <label for="vehicleClassification">Vehicle Classification</label>
+                    <input type="text" id="vehicleClassification" name="vehicleClassification">
+                    <label for="photo">Upload Image</label>
+                    <input type="file" id="photo" name="photo" accept="image/*">
                     <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="editCarPopup" class="popupContainer">
+            <div class="popupContent">
+                <span id="closePopupEdit" class="closePopup">&times;</span>
+                <h1>Edit A Vehicle Classification</h1>
+
+                <form id="editCarForm">
+                    <label for="vehicleClassificationEdit">Vehicle Classification</label>
+                    <input type="text" id="vehicleClassificationEdit" name="vehicleClassificationEdit">
+                    <label for="photoEdit">Upload Image</label>
+                    <input type="file" id="photoEdit" name="photoEdit" accept="image/*">
+                    <button type="submit">Submit</button>
+                    <input type="hidden" id="vehicleClassId" name="vehicleClassId">
                 </form>
             </div>
         </div>
@@ -65,16 +70,22 @@
             <div class="popupContent">
                 <span id="closeSuccessPopup" class="closePopup">&times;</span>
                 <h1>Completed</h1>
-                <p>The vehicle classification has been added successfully.</p>
-                <button type="submit" id="closeBtn">Done</button>
+                <p>The Vehicle Classification has been added successfully.</p>
+                <button id="closeBtn" type="submit">Done</button>
             </div>
         </div>
 
-        <hr>
-
+        <div id="successPopupEdit" class="popupContainer">
+            <div class="popupContent">
+                <span id="closeSuccessPopupEdit" class="closePopup">&times;</span>
+                <h1>Completed</h1>
+                <p>The Vehicle Classification has been updated successfully.</p>
+                <button id="closeBtnEdit" type="submit">Done</button>
+            </div>
+        </div>
 
     </div>
 
+    <script src="/js/addVehicleClassification.js"></script>
 </body>
-
 </html>

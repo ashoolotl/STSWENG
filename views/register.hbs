@@ -16,11 +16,12 @@
     <p>New here? Fill in the following details</p>
 
     <form>
-        <input type="text" name="fname" placeholder="First Name" required>
-        <input type="text" name="lname" placeholder="Last Name" required>
+        <input type="text" name="fname" placeholder="First Name" onkeypress='return onlyAlphabets(event)' required>
+        <input type="text" name="lname" placeholder="Last Name" onkeypress='return onlyAlphabets(event)' required>
         <input type="text" name="email" placeholder="Email" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <input type="password" name="passwordConfirm" placeholder="Confirm Password" required>
+        <input type="password" name="password" placeholder="Password" id="password" required>
+        <input type="password" name="passwordConfirm" placeholder="Confirm Password" oninput='checkPasswordMatch()' id='passwordConfirm' required>
+        <p id="passwordMismatch" style="display: none; color:white">Passwords do not match</p>
 
         <select name="cars" required>
             <option value="" disabled selected>How many cars do you own?</option>
