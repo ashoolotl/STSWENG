@@ -1,22 +1,58 @@
 <div class="navbar-container">
-  <div class="navbar">
-      <div class="navbar-left">
+<div class="navbar">
+    <div class="navbar-left">
         <div class="logo">
-          <a href="#"><img src="../images/logo-red.png"></a>
+            <a href="#">
+                <img src="./images/logo-red.png" />
+            </a>
         </div>
         <a href="/">Home</a>
         <a href="/subscriptions">Subscriptions</a>
         <a href="/services">Services</a>
-      </div>
-      <div class="navbar-right">
-        <div class="username">
-          <a href="/login" class="user-link">
-            <img src="../images/usernamebg.png" alt="User Profile Image">
-            <span>Login/Register</span>
-          </a>
-        </div>
-        <a href="#" class="cart-icon"><img src="../images/cart.png"></a>
-        <a href="#" class="search-icon"><img src="../images/search.png"></a>
-      </div>
     </div>
-  </div>
+    <div class="navbar-right">
+        {{#if user}}
+            {{#if (eq user.role 'user')}}
+                <div class="dropdown">
+                    <button class="dropbtn user-link">
+                        <img src="./images/usernamebg.png" alt="User Profile Image" />
+                        <span>Hello, {{user.firstName}}</span>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href='/dashboard'>User Profile</a>
+                        <a onclick='logout()'>Log Out</a>
+                    </div>
+                </div>
+                <a href="/carts" class="cart-icon">
+                    <img src="./images/cart.png" />
+                </a>
+                <a href="#" class="search-icon">
+                    <img src="./images/search.png" />
+                </a>
+            {{/if}}
+            {{#if (eq user.role 'admin')}}
+                <div class="dropdown">
+                    <button class="dropbtn user-link">
+                        <img src="./images/usernamebg.png" alt="User Profile Image" />
+                        <span>Hello, {{user.firstName}}</span>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href='/adminDashboard'>Manage Bookings</a>
+                        <a href='/vehicle-classifications'>Manage Vehicle Classifications</a>
+                        <a href='/services'>Manage Services</a>
+                        <a href='/subscriptions'>Manage Subscriptions</a>
+                        <a onclick='logout()'>Log Out</a>
+                    </div>
+                </div>
+            {{/if}}
+        {{else}}
+            <div class="username">
+                <a href="/login" class="user-link">
+                    <img src="./images/usernamebg.png" alt="User Profile Image" />
+                    <span>Register/Log In</span>
+                </a>
+            </div>
+        {{/if}}
+    </div>
+</div>
+</div>
