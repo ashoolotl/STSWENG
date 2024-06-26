@@ -1,4 +1,3 @@
-// this function is used to get all services
 const getAllService = async () => {
     try {
         const res = await axios({
@@ -40,6 +39,7 @@ const addItemToCart = async (data) => {
         alert(err.response.data.message);
     }
 };
+
 function generateAvailableServices(
     classNameToGenerate,
     vehiclesOwner,
@@ -48,7 +48,7 @@ function generateAvailableServices(
     serviceName,
     serviceDescription
 ) {
-    // create a matching vehicles array that contains the platenumber,classification, price
+
     const matchingVehicles = [];
     vehiclesOwner.forEach((vehicleOwner) => {
         const matchingServiceDetail = serviceDetails.find(
@@ -66,42 +66,35 @@ function generateAvailableServices(
             });
         }
     });
-    // Remove duplicate elements when generating the available services
+
     var hrTestElement = document.getElementById('generatePopup');
     var hrElement = document.getElementById('generatePopup');
     var nextElement = hrElement.nextElementSibling;
 
-    // Loop through all siblings after the hr element and remove them
     while (nextElement) {
         if (nextElement.tagName.toLowerCase() !== 'button') {
             var toRemove = nextElement;
             nextElement = nextElement.nextElementSibling;
             toRemove.parentNode.removeChild(toRemove);
         } else {
-            // If the next element is the button, stop removing elements
             break;
         }
     }
-    // generate the vehicle
+
     var counter = 0;
     for (vehicle of matchingVehicles) {
-        // Get the hr#test element
 
-        // Create the div element for popup content
         var popupContentDiv = document.createElement('div');
         popupContentDiv.classList.add('popupContent');
 
-        // Create the div element for content wrapper
         var contentWrapperDiv = document.createElement('div');
         contentWrapperDiv.classList.add('contentWrapper');
 
-        // Create the input element for radio button
         var radioButtonInput = document.createElement('input');
         radioButtonInput.setAttribute('type', 'radio');
         radioButtonInput.setAttribute('name', 'vehicle');
         radioButtonInput.setAttribute('value', `${counter}`);
 
-        // Create the image element for car image
         var carImage = document.createElement('img');
         carImage.classList.add('bookingPopupImage');
         carImage.setAttribute(
@@ -113,7 +106,6 @@ function generateAvailableServices(
         carImage.setAttribute('id', `vehicleClassification${counter}`);
         carImage.setAttribute('data-value', `${vehicle.classification}`);
 
-        // Create the div element for info item
         var infoItemDiv = document.createElement('div');
         infoItemDiv.classList.add('info-item');
         infoItemDiv.setAttribute(`plateNumber${counter}`, vehicle.plateNumber);
@@ -129,45 +121,35 @@ function generateAvailableServices(
             serviceDescription
         );
 
-        // Create the span element for plate number
         var plateNumberSpan = document.createElement('span');
         plateNumberSpan.classList.add('bookingPopupPlateNumber');
         plateNumberSpan.innerHTML = `<strong>Plate Number: </strong>${vehicle.plateNumber}`;
 
-        // Create the span element for price
         var priceSpan = document.createElement('span');
         priceSpan.classList.add('bookingPopupPrice');
         priceSpan.innerHTML = `<strong>Price: </strong> €${vehicle.price}`;
 
-        // Append plate number and price spans to info item div
         infoItemDiv.appendChild(plateNumberSpan);
         infoItemDiv.appendChild(priceSpan);
 
-        //make a hidden input which has a service name
         var hiddenServiceName = document.createElement('input');
 
-        // Set attributes for the hidden input
         hiddenServiceName.setAttribute('type', 'hidden');
-        hiddenServiceName.setAttribute('name', 'serviceNameHidden'); // Adjust the name as needed
+        hiddenServiceName.setAttribute('name', 'serviceNameHidden'); 
         hiddenServiceName.setAttribute('value', serviceName);
         hiddenServiceName.setAttribute('id', `serviceName${counter}`);
-        //make a hidden input which has a service name
         var hiddenOwnerId = document.createElement('input');
 
-        // Set attributes for the hidden input
         hiddenOwnerId.setAttribute('type', 'hidden');
         hiddenOwnerId.setAttribute('value', owner);
         hiddenOwnerId.setAttribute('id', `owner${counter}`);
 
-        // Append input, image, and info item to content wrapper
         contentWrapperDiv.appendChild(radioButtonInput);
         contentWrapperDiv.appendChild(carImage);
         contentWrapperDiv.appendChild(infoItemDiv);
 
-        // Append content wrapper to popup content
         popupContentDiv.appendChild(contentWrapperDiv);
 
-        // Append popup content to hr#test element
         hrTestElement.parentNode.insertBefore(
             popupContentDiv,
             hrTestElement.nextSibling
@@ -181,17 +163,15 @@ function generateAvailableServices(
         counter++;
     }
 
-    // make sure that atleast one vehicle is selected
     var radioButtons = document.querySelectorAll(
         'input[type="radio"][name="vehicle"]'
     );
 
-    // Check if there are any radio buttons
     if (radioButtons.length > 0) {
-        // Mark the first radio button as checked
         radioButtons[0].checked = true;
     }
 }
+
 document.addEventListener('DOMContentLoaded', async () => {
     const addToCartButtons = document.querySelectorAll('#serviceAddToCart');
     const services = await getAllService();
@@ -208,7 +188,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             const ownedVehiclesClassificationsName = [];
             const ownedVehiclesData = [];
-            // we only want to display the vehicles with a price
             const vehiclesOwned = await getAllVehicleByOwner(
                 this.dataset.owner
             );
@@ -235,7 +214,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             } else if (matchingVehicles.length == 0) {
                 alert('This service is not applicable to your vehicle');
             } else {
-                // create the poup and only show the ownedVehiclesClassifications
                 generateAvailableServices(
                     matchingVehicles,
                     ownedVehiclesData,
@@ -246,23 +224,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                 );
                 document.getElementById('bookingPopup').style.display = 'block';
             }
-
-            // show the popup
         });
     });
 });
+
 document
     .getElementById('addToCart')
     .addEventListener('submit', function (event) {
-        // Prevent the default form submission
         event.preventDefault();
 
-        // to get the plate number
         var selectedVehicle = document.querySelector(
             'input[type="radio"][name="vehicle"]:checked'
         );
 
-        // to get the plate number
         var infoItemDiv = document.querySelector(
             `[plateNumber${selectedVehicle.value}]`
         );
@@ -299,6 +273,7 @@ document
             console.log('');
         }
     });
+
 document
     .getElementById('closePopupBooking')
     .addEventListener('click', function () {

@@ -1,11 +1,3 @@
-document.querySelector("form").addEventListener("submit", (e) => {
-  e.preventDefault();
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-
-  login(email, password);
-});
-
 const login = async (email, password) => {
   try {
     const response = await fetch("/api/v1/users/login", {
@@ -29,3 +21,11 @@ const login = async (email, password) => {
     console.error("Error:", errorMessage);
   }
 };
+
+document.querySelector("form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  login(email, password);
+});
