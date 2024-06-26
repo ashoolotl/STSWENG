@@ -29,6 +29,7 @@ const register = async (firstName, lastName, email, password, passwordConfirm, n
     alert(errorMessage);
   }
 };
+
 document.querySelector("form").addEventListener("submit", (e) => {
   e.preventDefault();
   const firstName = document.querySelector('input[name="fname"]').value;
@@ -50,6 +51,7 @@ document.querySelector("form").addEventListener("submit", (e) => {
 
   register(firstName, lastName, email, password, passwordConfirm, numberOfCarsOwned);
 });
+
 function onlyAlphabets(evt) {
   var charCode = evt.which ? evt.which : event.keyCode;
   if ((charCode < 65 || charCode > 90) && (charCode < 97 || charCode > 122) && charCode != 32) {
@@ -58,6 +60,7 @@ function onlyAlphabets(evt) {
   }
   return true;
 }
+
 function checkPasswordMatch(evt) {
   var password = document.getElementById("password").value;
   console.log(password);
