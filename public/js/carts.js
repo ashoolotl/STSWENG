@@ -37,8 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // bookings
-  var proceedButton = document.getElementById("proceed-to-payment");
-
+  var proceedButton = document.getElementById("proceed-to-booking");
   proceedButton.addEventListener("click", function () {
     var checkedCount = document.querySelectorAll('.checkmark-container input[type="checkbox"]:checked').length;
 
