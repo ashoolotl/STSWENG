@@ -7,6 +7,8 @@ const cookieParser = require("cookie-parser");
 const mongoSanitize = require("express-mongo-sanitize");
 const AppError = require("./utils/appError");
 const GlobalErrorHandler = require("./controllers/errorController");
+const helpers = require('handlebars-helpers')();
+
 
 // Routes
 const userRouter = require("./routes/userRoutes");
@@ -46,6 +48,10 @@ app.engine(
     defaultLayout: false,
     layoutsDir: path.join(__dirname, "views/layouts"),
     partialsDir: path.join(__dirname, "views/partials"),
+    helpers: helpers,
+    runtimeOptions: {
+      allowProtoPropertiesByDefault: true,
+    }
   })
 );
 app.set("view engine", "hbs");
