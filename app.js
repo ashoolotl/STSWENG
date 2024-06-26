@@ -7,8 +7,7 @@ const cookieParser = require("cookie-parser");
 const mongoSanitize = require("express-mongo-sanitize");
 const AppError = require("./utils/appError");
 const GlobalErrorHandler = require("./controllers/errorController");
-const helpers = require('handlebars-helpers')();
-
+const helpers = require("handlebars-helpers")();
 
 // Routes
 const userRouter = require("./routes/userRoutes");
@@ -23,6 +22,7 @@ const bookingController = require("./controllers/bookingController");
 const serviceAvailedRouter = require("./routes/serviceAvailedRoutes");
 const subscriptionAvailedRouter = require("./routes/subscriptionAvailedroutes");
 const bookingSubscriptionRouter = require("./routes/bookingSubscriptionRoutes");
+const { deleteCarByPlateNumber, deleteUserByEmail } = require("./public/js/deleteCarAndUser");
 
 // Express App
 const app = express();
@@ -51,7 +51,7 @@ app.engine(
     helpers: helpers,
     runtimeOptions: {
       allowProtoPropertiesByDefault: true,
-    }
+    },
   })
 );
 app.set("view engine", "hbs");
@@ -78,6 +78,28 @@ app.all("*", (req, res, next) => {
 
 // Error Handling
 app.use(GlobalErrorHandler);
+
+/* ----------FOR CYPRESS--------- */
+// delete car
+app.delete("/api/v1/vehicles/:plateNumber", async (req, res) => {
+  try {
+    await deleteCarByPlateNumber(req.params.plateNumber);
+    res.status(200).send("Vehicle deleted successfully");
+  } catch (error) {
+    res.status(500).send("Error deleting vehicle");
+  }
+});
+
+// delete user
+app.delete("/api/v1/users/:email", async (req, res) => {
+  try {
+    await deleteUserByEmail(req.params.email);
+    res.status(200).send("User deleted successfully");
+  } catch (error) {
+    res.status(500).send("Error deleting user");
+  }
+});
+/* ----------------------- */
 
 // Export App
 module.exports = app;
