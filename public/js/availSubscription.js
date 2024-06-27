@@ -39,6 +39,7 @@ const getAllVehicleByOwner = async (id) => {
 };
 
 async function showSubscriptionPopup(subscriptionId, userId, subscriptionName, subscriptionDescription) {
+  document.getElementById("bookingPopup").style.display = "flex";
   const vehiclesOwned = await getAllVehicleByOwner(userId);
   if (vehiclesOwned.data.vehicle.length == 0) {
     alert("Please add a vehicle first before availing this subscription");

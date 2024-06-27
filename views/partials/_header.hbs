@@ -45,11 +45,12 @@
                     </div>
                 </div>
             {{/if}}
-        {{else}}
+        {{/if}}
+        {{#if (not user)}}
             <div class="username">
                 <a href="/login" class="user-link">
                     <img src="./images/usernamebg.png" alt="User Profile Image" />
-                    <span>Register/Log In</span>
+                    <span>Log In</span>
                 </a>
             </div>
         {{/if}}
