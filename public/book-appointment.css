@@ -124,7 +124,7 @@
 #addDateTimePopup,
 #bookingPopup,
 #addPopup {
-    display: flex;
+    display: none;
     flex-direction: column;
     text-align: center;
     align-items: center;

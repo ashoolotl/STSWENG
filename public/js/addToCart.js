@@ -44,6 +44,7 @@ const addItemToCart = async (data) => {
 };
 
 function generateAvailableServices(classNameToGenerate, vehiclesOwner, serviceDetails, owner, serviceName, serviceDescription) {
+  document.getElementById("bookingPopup").style.display = "flex";
   const matchingVehicles = [];
   vehiclesOwner.forEach((vehicleOwner) => {
     const matchingServiceDetail = serviceDetails.find((serviceDetail) => serviceDetail.vehicleClassification === vehicleOwner.classification);

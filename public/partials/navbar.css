@@ -46,6 +46,7 @@ body {
 .username {
     position: relative;
     display: inline-block;
+    width: fit-content;
     margin-right: 18px;
     margin-top: -3px;
 }
