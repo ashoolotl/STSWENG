@@ -81,7 +81,7 @@ app.use(GlobalErrorHandler);
 
 /* ----------FOR CYPRESS--------- */
 // delete car
-app.delete("/api/v1/vehicles/:plateNumber", async (req, res) => {
+app.delete("/api/v1/deleteVehicle/:plateNumber", async (req, res) => {
   try {
     await deleteCarByPlateNumber(req.params.plateNumber);
     res.status(200).send("Vehicle deleted successfully");
@@ -91,7 +91,7 @@ app.delete("/api/v1/vehicles/:plateNumber", async (req, res) => {
 });
 
 // delete user
-app.delete("/api/v1/users/:email", async (req, res) => {
+app.delete("/api/v1/deleteUser/:email", async (req, res) => {
   try {
     await deleteUserByEmail(req.params.email);
     res.status(200).send("User deleted successfully");
