@@ -15,4 +15,16 @@ export function registerUser(user) {
    cy.get('select[name=cars]').select('1to3'); //Auto select first dropdown option
    cy.get('button[type="submit"]').contains('Register').click();
  }
- 
+export function registerVehicle(vehicle) {
+   cy.get('#addPhoto').click();
+   cy.get('select[name="classType"]').select(vehicle.classType);
+   cy.get('#carBrand').type(vehicle.carBrand);
+   cy.get('#plateNumber').type(vehicle.plateNumber);
+   cy.get('button[type="submit"]').contains("Submit").click();
+   //TODO: Update when alerts/confirm messages are replaced
+   cy.on('window:confirm', (text) => {
+      if (text.includes('Do you still want to proceed to add this to your vehicle?')) {
+         return true; //confirm
+      }
+   });
+}

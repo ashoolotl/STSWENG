@@ -1,7 +1,11 @@
 import {siteURL} from './function.cy.js';
 import * as func from './function.cy.js';
 import * as user from './user-function.cy.js';
-import {userEmail} from './user-function.cy.js';
+import {userEmail, userPassword} from './user-function.cy.js';
+//non-cypress imports
+import {deleteCarByPlateNumber, deleteUserByEmail} from '../../public/js/deleteCarAndUser.js';
+
+
 
 //TODO: Add checking for error messages when implemented
 describe("Login Validation", () => {
@@ -39,9 +43,19 @@ describe("Login Validation", () => {
    });
 
    it("Valid Login", () => {
-      func.login("test@gmail.com", "test1234");
+      func.login(userEmail, userPassword);
       cy.url().should('include', '/dashboard');
    });
+
+   it.skip("Logout", () => {
+      func.login(userEmail, userPassword);
+      func.logout();
+      cy.on('window:alert', (message) => {
+         expect(message).to.contain('logged out.');
+      });
+      cy.url().should('eq', siteURL);
+   });
+
 });
 
 
@@ -52,7 +66,7 @@ const registerData = [
    {
       firstName: "John",
       lastName: "Doe",
-      email: "johndoe1@gmail.com",
+      email: "johndoe@gmail.com",
       password: "password123",
       confirmPassword: "password123",
       // carsOwned: 
@@ -94,7 +108,7 @@ describe("User Registration", () => {
       cy.visit(siteURL + "/register");
    });
 
-   it.skip("Valid Registration", () => {
+   it("Valid Registration", () => {
       user.registerUser(registerData[0]);
       //TODO: Check if user receives confirmation alert
       cy.url().should('include', '/dashboard');
@@ -114,11 +128,67 @@ describe("User Registration", () => {
       cy.url().should('include', '/register');
    });
 
-   it.skip("Empty Field(s)", () => {
+   it("Empty Field(s)", () => {
       user.registerUser(registerData[3]);
       //TODO: Check if user receives error alert (immediately after input)
       cy.url().should('include', '/register');
    });
+
+   //TODO: after ALL tests are done -> delete created test user
+   after(() => {
+      // cy.request('DELETE', "api/v1/User/johndoe@gmail.com")
+   });
 });
 
+const vehicleData = [
+   //Valid Registration [0]
+   {
+      classType: "SEDAN",
+      carBrand: "Toyota",
+      plateNumber: "123ABC1234"
+   },
+   //Invalid Plate Number [1]
+   {
+      classType: "SEDAN",
+      carBrand: "Toyota",
+      plateNumber: "11ABC1203187"
+   },
+   //Duplicate Plate Number [2]
+   {
+      classType: "COUPE",
+      carBrand: "Toyota",
+      plateNumber: "123ABC1234"
+   }
 
+]; 
+describe("Vehicle Registration", () => {
+   beforeEach(() => {
+      cy.visit(siteURL + "/login");
+      func.login(userEmail, userPassword);
+      cy.url().should('include', '/dashboard');
+   });
+
+   it.skip("Valid Vehicle Registration", () => {
+      user.registerVehicle();
+   });
+
+   it.skip("Invalid Plate Number", () => {
+      user.registerVehicle(vehicleData[1]);
+      //TODO: Assertion when error messages are implemented
+      // cy.contains("Please match the requested format").should("be.visible");
+   });
+
+   it("Duplicate Plate Number", () => {
+      user.registerVehicle(vehicleData[2]);
+      //TODO: Assertion when error messages are implemented
+      cy.on('window:alert', (message) => {
+         expect(message).to.include('duplicate key error');
+      });
+   });
+
+   //TODO: after ALL tests are done -> delete created test vehicle
+   after (() => {
+      // cy.request('DELETE', "api/v1/Vehicle/123ABC1234")
+   });
+
+});
