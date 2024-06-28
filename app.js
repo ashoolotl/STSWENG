@@ -71,14 +71,6 @@ app.use("/api/v1/servicesAvailed", serviceAvailedRouter);
 app.use("/api/v1/bookings-subscription", bookingSubscriptionRouter);
 app.use("/api/v1/subscriptionsAvailed", subscriptionAvailedRouter);
 
-// Catch-all for unhandled routes
-app.all("*", (req, res, next) => {
-  next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
-});
-
-// Error Handling
-app.use(GlobalErrorHandler);
-
 /* ----------FOR CYPRESS--------- */
 // delete car
 app.delete("/api/v1/deleteVehicle/:plateNumber", async (req, res) => {
@@ -100,6 +92,15 @@ app.delete("/api/v1/deleteUser/:email", async (req, res) => {
   }
 });
 /* ----------------------- */
+
+// Catch-all for unhandled routes
+app.all("*", (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
+});
+
+// Error Handling
+app.use(GlobalErrorHandler);
+
 
 // Export App
 module.exports = app;
