@@ -47,7 +47,7 @@
             <input type="text" id="description" name="description" required>
 
             <label for="duration">Service Duration in Minutes</label>
-            <input type="number" id="duration" name="duration" required>
+            <input type="number" id="duration" name="duration" required min="1">
 
             <label for="photo">Upload Image</label>
             <input type="file" id="photo" name="photo" accept="image/*">
@@ -56,8 +56,8 @@
               <legend>Select Vehicle Classification and Input Price</legend>
               {{#each vehicleClassification}}
                 <label>
-                  <input type="checkbox" name="selectedItems" value="{{vehicleClass.name}}">
-                  {{vehicleClass.name}}
+                  <input type="checkbox" name="selectedItems" value="{{this.name}}">
+                  {{this.name}}
                   <input type="number" name="price" min="1" value="1" step="0.01">
                 </label>
               {{/each}}
@@ -91,9 +91,9 @@
               <legend>Select Vehicle Classification and Input Price</legend>
               {{#each vehicleClassification}}
                 <label>
-                  <input type="checkbox" name="selectedItemsEdit" value="{{vehicleClass.name}}" id="{{vehicleClass.name}}">
-                  {{vehicleClass.name}}
-                  <input type="number" name="priceEdit" min="1" value="1" step="0.01" id="{{vehicleClass.name}}">
+                  <input type="checkbox" name="selectedItemsEdit" value="{{this.name}}" id="{{this.name}}">
+                  {{this.name}}
+                  <input type="number" name="priceEdit" min="1" value="1" step="0.01" id="{{this.name}}">
                 </label>
               {{/each}}
             </fieldset>

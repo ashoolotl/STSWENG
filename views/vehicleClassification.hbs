@@ -19,13 +19,13 @@
         {{#each vehicleClassification}}
             <hr>
             <div class="car">
-                <img src="/images/vehicleClassification/{{vehicleClass.photo}}">
+                <img src="/images/vehicleClassification/{{this.photo}}">
                 <div class="car-status">
                     <div class="car-info">
-                        <p class="car-text">{{vehicleClass.name}}</p>
+                        <p class="car-text">{{this.name}}</p>
                     </div>
-                    <button id="vehicleClassificationEditBtn" class="edit-btn" type="button" data-id="{{vehicleClass._id}}">Edit</button>
-                    <button id="vehicleClassificationDeleteBtn" class="delete-btn" type="button" data-id="{{vehicleClass._id}}">Delete</button>
+                    <button id="vehicleClassificationEditBtn" class="edit-btn" type="button" data-id="{{this._id}}">Edit</button>
+                    <button id="vehicleClassificationDeleteBtn" class="delete-btn" type="button" data-id="{{this._id}}">Delete</button>
                 </div>
             </div>
         {{/each}}

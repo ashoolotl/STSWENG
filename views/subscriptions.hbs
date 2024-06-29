@@ -60,8 +60,8 @@
                         <legend>Select the Vehicle Classification and the Price</legend>
                         {{#each vehicleClassifications}}
                             <label>
-                                <input type="checkbox" name="selectedItemsVehicleClass" value="{{vehicleClassification.name}}">
-                                {{vehicleClassification.name}}
+                                <input type="checkbox" name="selectedItemsVehicleClass" value="{{this.name}}">
+                                {{this.name}}
                                 <input type="number" name="price" min="1" value="1" step="0.01" id="price">
                             </label>
                         {{/each}}
@@ -100,9 +100,9 @@
                         <legend>Select the Vehicle Classification and the Price</legend>
                         {{#each vehicleClassifications}}
                             <label>
-                                <input type="checkbox" name="selectedItemsEditVehicleClass" value="{{vehicleClassification.name}}" id="{{vehicleClassification.name}}">
-                                {{vehicleClassification.name}}
-                                <input type="number" name="priceEdit" min="1" value="1" step="0.01" id="{{vehicleClassification.name}}">
+                                <input type="checkbox" name="selectedItemsEditVehicleClass" value="{{this.name}}" id="{{this.name}}">
+                                {{this.name}}
+                                <input type="number" name="priceEdit" min="1" value="1" step="0.01" id="{{this.name}}">
                             </label>
                         {{/each}}
                     </fieldset>

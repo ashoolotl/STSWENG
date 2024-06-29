@@ -41,7 +41,7 @@ const addSubscription = async (data) => {
   try {
     const response = await fetch("/api/v1/subscriptions", {
       method: "POST",
-      body: data, 
+      body: JSON.stringify(data),
     });
     if (!response.ok) {
       throw new Error("Failed to add subscription");
