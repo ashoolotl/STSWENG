@@ -121,6 +121,8 @@
     text-align: center;
 }
 
+#successPopup,
+#errorPopup,
 #addDateTimePopup,
 #bookingPopup,
 #addPopup {

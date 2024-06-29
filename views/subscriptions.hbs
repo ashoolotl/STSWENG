@@ -19,7 +19,7 @@
     <div class="top-container">
         {{#each subscriptions}}
             <div class="top-item">
-                <img src="/images/subscriptions/{{subscription.photo}}" alt="Image of {{subscription.name}}">
+                <img src="/images/subscriptions/{{this.photo}}" alt="Image of {{this.name}}">
                 <p>{{subscription.name}}</p>
             </div>
         {{/each}}
@@ -49,8 +49,8 @@
                         <legend>Select Services and Input the Tokens</legend>
                         {{#each services}}
                             <label>
-                                <input type="checkbox" name="selectedItems" value="{{service.name}}">
-                                {{service.name}}
+                                <input type="checkbox" name="selectedItems" value="{{this.name}}">
+                                {{this.name}}
                                 <input type="number" name="token" min="1" value="1" id="token">
                             </label>
                         {{/each}}
@@ -89,9 +89,9 @@
                         <legend>Select Services, Input the Price and the Tokens</legend>
                         {{#each services}}
                             <label>
-                                <input type="checkbox" name="selectedItemsEdit" value="{{service.name}}" id="{{service.name}}">
-                                {{service.name}}
-                                <input type="number" name="tokenEdit" min="1" value="1" id="{{service.name}}">
+                                <input type="checkbox" name="selectedItemsEdit" value="{{this.name}}" id="{{this.name}}">
+                                {{this.name}}
+                                <input type="number" name="tokenEdit" min="1" value="1" id="{{this.name}}">
                             </label>
                         {{/each}}
                     </fieldset>
@@ -117,10 +117,10 @@
     <div class="bottom-container">
         {{#each subscriptions}}
             <div class="bottom-item">
-                <img src="/images/subscriptions/{{subscription.photo}}" alt="Image for {{subscription.name}}">
+                <img src="/images/subscriptions/{{this.photo}}" alt="Image for {{this.name}}">
                 <div class="bottom-item-content">
-                    <h2>{{subscription.name}}</h2>
-                    <h3>{{subscription.description}}</h3>
+                    <h2>{{this.name}}</h2>
+                    <h3>{{this.description}}</h3>
 
                     {{#if user}}
                       {{#if (eq user.role 'admin')}}
@@ -143,6 +143,24 @@
         {{/each}}
     </div>
 
+    <!-- Error Popup -->
+    <div id="errorPopup" class="miniPopupContainer" style="display: none;">
+      <div class="popupContent">
+        <span id="closePopupError" class="closePopup">&times;</span>
+        <h3 style="color: azure;">There seems to be a problem</h3>
+        <p id="errorText" style="color: azure;"></p>
+      </div>
+    </div>
+
+    <!-- Success Popup -->
+    <div id="successPopup" class="miniPopupContainer" style="display: none;">
+      <div class="popupContent">
+        <span id="closePopupSuccess" class="closePopup">&times;</span>
+        <h3 style="color: azure;">Success</h3>
+        <p id="successText" style="color: azure;"></p>
+      </div>
+    </div>
+    
     <!-- Booking Popup -->
     {{#if (eq user.role 'user')}}
     <div id="bookingPopup" class="popupContainer">

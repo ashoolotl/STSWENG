@@ -6,11 +6,16 @@ const removeItemInCart = async (id) => {
     const res = await response.json();
 
     if (res.status === undefined) {
-      alert("Item successfully removed from cart");
-      window.location.reload();
+      document.getElementById("successPopup").style.display = "block";
+      document.getElementById("successText").innerText = "Item successfully removed from cart. Refreshing page...";
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     }
   } catch (err) {
-    alert("Failed to remove item from cart");
+    console.error(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "Failed to remove item from cart. Please try again later.";
   }
 };
 
@@ -20,7 +25,9 @@ const getCheckoutSession = async (id) => {
     const res = await response.json();
     window.location.href = res.session.url;
   } catch (err) {
-    alert("Failed to initiate checkout session");
+    console.error(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "Failed to initiate check out session. Please try again later.";
   }
 };
 
@@ -42,7 +49,8 @@ document.addEventListener("DOMContentLoaded", function () {
     var checkedCount = document.querySelectorAll('.checkmark-container input[type="checkbox"]:checked').length;
 
     if (checkedCount === 0) {
-      alert("please select item to proceed to checkout");
+      document.getElementById("errorPopup").style.display = "block";
+      document.getElementById("errorText").innerText = "Please select item to proceed to checkout.";
     } else {
       var owner = document.getElementById("ownerCartId").value;
       getCheckoutSession(owner);

@@ -7,7 +7,9 @@ const getAllService = async () => {
         const responseData = await res.json();
         return responseData;
     } catch (err) {
-        alert(err.response.data.message);
+        console.log(err.message);
+        document.getElementById("errorPopup").style.display = "block";
+        document.getElementById("errorText").innerText = "An error occurred while fetching services. Please try again later.";
     }
 };
 
@@ -26,12 +28,15 @@ const addService = async (data) => {
         const responseData = await res.json();
         
         if (responseData.status === 'success') {
-            alert('Success');
+            document.getElementById("successPopup").style.display = "block";
+            document.getElementById("successText").innerText = "The service has been successfully added.";
             window.location.reload();
         }
 
     } catch (err) {
-        alert(err.response.data.message);
+        console.log(err.message);
+        document.getElementById("errorPopup").style.display = "block";
+        document.getElementById("errorText").innerText = "An error occurred while adding services. Please try again later.";
     }
 };
 
@@ -48,11 +53,14 @@ const updateService = async (data, id) => {
         const responseData = await res.json();
         console.log(responseData);
         if (responseData.status === 'success') {
-                alert('update successful');
-                window.location.reload();
+            document.getElementById("successPopup").style.display = "block";
+            document.getElementById("successText").innerText = "The service has been successfully updated.";
+            window.location.reload();
         }
     } catch (err) {
-            alert(err.response.data.message);
+        console.log(err.message);
+        document.getElementById("errorPopup").style.display = "block";
+        document.getElementById("errorText").innerText = "An error occurred while updating services. Please try again later.";
     }
 };
 
@@ -125,12 +133,14 @@ const deleteService = async (id) => {
         const responseData = await res.json();
         console.log(responseData.status);
         if (responseData.status === undefined) {
-                //document.getElementById('successPopup').style.display = 'block';
-                alert('Service Successfully deleted');
-                window.location.reload();
+            document.getElementById("successPopup").style.display = "block";
+            document.getElementById("successText").innerText = "The service has been successfully deleted.";
+            window.location.reload();
         }
     } catch (err) {
-            alert(err.response.data.message);
+        console.log(err.message);
+        document.getElementById("errorPopup").style.display = "block";
+        document.getElementById("errorText").innerText = "An error occurred while deleting services. Please try again later.";
     }
 };
 
@@ -270,3 +280,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
   });
 });
+
+document.getElementById("closePopupError").addEventListener("click", function () {
+    document.getElementById("errorPopup").style.display = "none";
+});
+
+document.getElementById("closePopupSuccess").addEventListener("click", function () {
+    document.getElementById("successPopup").style.display = "none";
+});
+

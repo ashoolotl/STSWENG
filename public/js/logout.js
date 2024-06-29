@@ -5,10 +5,13 @@ const logout = async () => {
     });
     const res = await response.json();
     if (res.status == "success") {
-      alert("You will now be logged out");
+      document.getElementById("errorPopup").style.display = "block";
+      document.getElementById("errorText").innerText = "You will now be logged out.";
       location.replace("/");
     }
   } catch (err) {
-    alert("Error logging out");
+    console.error(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while logging out. Please try again later.";
   }
 };

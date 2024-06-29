@@ -22,7 +22,9 @@ const getUserInformation = async (id) => {
     if (!response.ok) throw new Error("Network response was not ok.");
     return await response.json();
   } catch (err) {
-    alert(err.message);
+    console.error(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while fetching user informations. Please try again later.";
   }
 };
 
@@ -47,7 +49,9 @@ const updateBooking = async (data, id) => {
     });
     if (!response.ok) throw new Error("Network response was not ok.");
   } catch (err) {
-    alert(err.message);
+    console.error(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while updating booking. Please try again later.";
   }
 };
 
@@ -109,7 +113,9 @@ const removeBookingFromVehiclesAvailed = async (id) => {
     if (!response.ok) throw new Error("Network response was not ok.");
     window.location.reload();
   } catch (err) {
-    alert(err.message);
+    console.error(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while removing booking. Please try again later.";
   }
 };
 
@@ -124,7 +130,9 @@ const updateVehicleStatusByPlateNumber = async (data, id) => {
     });
     if (!response.ok) throw new Error("Network response was not ok.");
   } catch (err) {
-    alert(err.message);
+    console.error(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while udpating vehicle status. Please try again later.";
   }
 };
 
@@ -274,7 +282,9 @@ const updateSubscriptionBookingStatus = async (data, id) => {
     });
     const responseData = await res.json();
   } catch (err) {
-    alert("An error occurred");
+    console.error(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while updating subscription booking status. Please try again later.";
     console.log("here error patch bookings-subscription");
   }
 };
@@ -290,7 +300,9 @@ const updateVehicleStatusByPlateNumberSubscription = async (data, id) => {
     });
     const responseData = await res.json();
   } catch (err) {
-    alert("An error occurred");
+    console.error(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while updating vehicle status. Please try again later.";
     console.log("here error patch /api/v1/vehicles/unit/");
   }
 };
@@ -302,7 +314,9 @@ const getBookingSubscriptionById = async (id) => {
     const responseData = await res.json();
     return responseData;
   } catch (err) {
-    alert("An error occurred");
+    console.error(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while getting booking subscription. Please try again later.";
   }
 };
 const updateSubscriptionBookingTokens = async (data, id) => {
@@ -317,7 +331,9 @@ const updateSubscriptionBookingTokens = async (data, id) => {
     const responseData = await res.json();
   } catch (err) {
     console.log("/api/v1/bookings-subscription/token");
-    alert("An error occurred");
+    console.error(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while updating subscription booking tokens. Please try again later.";
   }
 };
 
@@ -333,6 +349,12 @@ const updateUserSubscriptionDetails = async (data, id) => {
     const responseData = await res.json();
   } catch (err) {
     console.log("/api/v1/subscriptionsAvailed/token/");
-    alert("An error occurred");
+    console.error(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while updating user subscription details. Please try again later.";
   }
 };
+
+document.getElementById("closePopupError").addEventListener("click", function () {
+  document.getElementById("errorPopup").style.display = "none";
+});

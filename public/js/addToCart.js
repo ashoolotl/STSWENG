@@ -7,7 +7,9 @@ const getAllService = async () => {
     const data = await response.json();
     return data;
   } catch (err) {
-    alert(err.message);
+    console.log(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while fetching services. Please try again later.";
   }
 };
 
@@ -20,7 +22,9 @@ const getAllVehicleByOwner = async (id) => {
     const data = await response.json();
     return data;
   } catch (err) {
-    alert(err.message);
+    console.log(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while fetching vehicles. Please try again later.";
   }
 };
 
@@ -35,11 +39,14 @@ const addItemToCart = async (data) => {
     });
     const resData = await response.json();
     if (resData.status == "success") {
-      alert("Item added to cart");
+      document.getElementById("successPopup").style.display = "block";
+      document.getElementById("successText").innerText = "Item added to cart.";
       document.getElementById("bookingPopup").style.display = "none";
     }
   } catch (err) {
-    alert(err.message);
+    console.log(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while adding to cart. Please try again later.";
   }
 };
 
@@ -173,9 +180,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
       console.log(matchingVehicles);
       if (vehiclesOwned.data.vehicle.length == 0) {
-        alert("Please add a vehicle first before availing this service");
+        document.getElementById("errorPopup").style.display = "block";
+        document.getElementById("errorText").innerText = "Please add a vehicle before availing this service.";
       } else if (matchingVehicles.length == 0) {
-        alert("This service is not applicable to your vehicle");
+        document.getElementById("errorPopup").style.display = "block";
+        document.getElementById("errorText").innerText = "This service is not applicable to your vehicle.";
       } else {
         generateAvailableServices(matchingVehicles, ownedVehiclesData, service.prices, this.dataset.owner, serviceName, serviceDescription);
         document.getElementById("bookingPopup").style.display = "block";
@@ -218,4 +227,10 @@ document.getElementById("addToCart").addEventListener("submit", function (event)
 
 document.getElementById("closePopupBooking").addEventListener("click", function () {
   document.getElementById("bookingPopup").style.display = "none";
+});
+document.getElementById("closePopupError").addEventListener("click", function () {
+  document.getElementById("errorPopup").style.display = "none";
+});
+document.getElementById("closePopupSuccess").addEventListener("click", function () {
+  document.getElementById("successPopup").style.display = "none";
 });

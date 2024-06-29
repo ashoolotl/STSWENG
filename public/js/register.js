@@ -19,14 +19,16 @@ const register = async (firstName, lastName, email, password, passwordConfirm, n
       throw new Error(data.message || "An error occurred during registration.");
     }
     console.log("Response:", data);
-    alert("Registered Successfully");
+    document.getElementById("successPopup").style.display = "block";
+    document.getElementById("successText").innerText = "Registered Successfully. Redirecting to dashboard..";
     window.setTimeout(() => {
       location.assign("/dashboard");
-    }, 1500);
+    }, 1000);
   } catch (error) {
     const errorMessage = error.message || "An unexpected error occurred.";
     console.error("Error:", errorMessage);
-    alert(errorMessage);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while registering. Please try again later.";
   }
 };
 

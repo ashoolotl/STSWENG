@@ -4,7 +4,9 @@ const getAvailedService = async (id) => {
     const data = await response.json();
     return data;
   } catch (err) {
-    alert("Error fetching availed service: " + err.message);
+    console.log(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while fetching services. Please try again later.";
   }
 };
 
@@ -14,7 +16,9 @@ const getVehicleById = async (id) => {
     const data = await response.json();
     return data;
   } catch (err) {
-    alert("Error fetching vehicle by ID: " + err.message);
+    console.log(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while fetching services. Please try again later.";
   }
 };
 
@@ -31,7 +35,9 @@ const updateBooking = async (data, id) => {
     console.log(response.status);
     console.log(resData);
   } catch (err) {
-    alert("Error updating booking: " + err.message);
+    console.log(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while fetching services. Please try again later.";
   }
 };
 
@@ -49,7 +55,9 @@ const updateVehicleStatus = async (data, id) => {
       window.location.reload();
     }
   } catch (err) {
-    alert("Error updating vehicle status: " + err.message);
+    console.log(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while fetching services. Please try again later.";
   }
 };
 
@@ -64,7 +72,8 @@ async function showPopupService(serviceId) {
   image.src = `/images/services/${service.data.serviceAvailed.product}.jpeg`;
 
   if (vehicle.data.vehicle[0].status != "Not Available") {
-    alert("The vehicle is already in an appointment");
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "The vehicle is already in an appointment";
   } else {
     document.getElementById("servicePopup").style.display = "block";
   }
@@ -132,3 +141,11 @@ async function submitDateTimeServiceBooking() {
 
   updateVehicleStatus(vehicleData, vehicle.data.vehicle[0]._id);
 }
+
+document.getElementById("closePopupError").addEventListener("click", function () {
+  document.getElementById("errorPopup").style.display = "none";
+});
+
+document.getElementById("closePopupSuccess").addEventListener("click", function () {
+  document.getElementById("successPopup").style.display = "none";
+});

@@ -20,8 +20,8 @@
     <div class="top-container">
       {{#each services}}
         <div class="top-item">
-          <img src="/images/services/{{service.photo}}" alt="Image of {{service.name}}">
-          <p>0{{@index 1}} {{service.name}}</p>
+          <img src="/images/services/{{service.photo}}" alt="Image of {{this.name}}">
+          <p>0{{@index 1}} {{this.name}}</p>
         </div>
       {{/each}}
 
@@ -108,7 +108,7 @@
     <div class="bottom-container">
       {{#each services}}
         <div class="bottom-item">
-          <img src="/images/services/{{service.photo}}" alt="Image of {{service.name}}">
+          <img src="/images/services/{{this.photo}}" alt="Image of {{this.name}}">
           <div class="bottom-item-content">
             <h2>{{service.name}}</h2>
             <p>{{service.description}}</p>
@@ -132,6 +132,24 @@
           </div>
         </div>
       {{/each}}
+    </div>
+
+    <!-- Error Popup -->
+    <div id="errorPopup" class="miniPopupContainer" style="display: none;">
+      <div class="popupContent">
+        <span id="closePopupError" class="closePopup">&times;</span>
+        <h3 style="color: azure;">There seems to be a problem</h3>
+        <p id="errorText" style="color: azure;"></p>
+      </div>
+    </div>
+
+    <!-- Success Popup -->
+    <div id="successPopup" class="miniPopupContainer" style="display: none;">
+      <div class="popupContent">
+        <span id="closePopupSuccess" class="closePopup">&times;</span>
+        <h3 style="color: azure;">Success</h3>
+        <p id="successText" style="color: azure;"></p>
+      </div>
     </div>
 
     <!-- Booking Popup -->

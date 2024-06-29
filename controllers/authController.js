@@ -53,11 +53,11 @@ exports.login = catchAsync(async (req, res, next) => {
   console.log("Request body:", req.body);
   const { email, password } = req.body;
   if (!email || !password) {
-    return next(new AppError(`Please provide email and password`, 400));
+    return res.status(400).json({ message: "Please provide email and password" });
   }
   const user = await User.findOne({ email }).select("+password");
   if (!user || !(await user.correctPassword(password, user.password))) {
-    return next(new AppError("Incorrect email or password", 401));
+    return res.status(401).json({ message: "Incorrect email or password" });
   }
   createSendToken(user, 200, res);
 });
