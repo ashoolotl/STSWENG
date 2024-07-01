@@ -44,14 +44,15 @@ app.post("/webhook-subscription", express.raw({ type: "application/json" }), boo
 app.engine(
   "hbs",
   exphbs.engine({
+    runtimeOptions: {
+      allowProtoPropertiesByDefault: true,
+    },
     extname: ".hbs",
     defaultLayout: false,
     layoutsDir: path.join(__dirname, "views/layouts"),
     partialsDir: path.join(__dirname, "views/partials"),
     helpers: helpers,
-    runtimeOptions: {
-      allowProtoPropertiesByDefault: true,
-    },
+    
   })
 );
 app.set("view engine", "hbs");

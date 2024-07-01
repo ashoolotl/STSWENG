@@ -19,6 +19,7 @@ const login = async (email, password) => {
   } catch (error) {
     const errorMessage = error.message || "An unexpected error occurred.";
     console.error("Error:", errorMessage);
+    document.getElementById("error-message").innerText = errorMessage;
   }
 };
 

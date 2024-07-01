@@ -20,8 +20,8 @@
     <div class="top-container">
       {{#each services}}
         <div class="top-item">
-          <img src="/images/services/{{service.photo}}" alt="Image of {{service.name}}">
-          <p>0{{@index 1}} {{service.name}}</p>
+          <img src="/images/services" alt="Image of {{this.name}}">
+          <p>{{@index}} {{this.name}}</p>
         </div>
       {{/each}}
 
@@ -47,7 +47,7 @@
             <input type="text" id="description" name="description" required>
 
             <label for="duration">Service Duration in Minutes</label>
-            <input type="number" id="duration" name="duration" required>
+            <input type="number" id="duration" name="duration" required min="1">
 
             <label for="photo">Upload Image</label>
             <input type="file" id="photo" name="photo" accept="image/*">
@@ -56,8 +56,8 @@
               <legend>Select Vehicle Classification and Input Price</legend>
               {{#each vehicleClassification}}
                 <label>
-                  <input type="checkbox" name="selectedItems" value="{{vehicleClass.name}}">
-                  {{vehicleClass.name}}
+                  <input type="checkbox" name="selectedItems" value="{{this.name}}">
+                  {{this.name}}
                   <input type="number" name="price" min="1" value="1" step="0.01">
                 </label>
               {{/each}}
@@ -91,9 +91,9 @@
               <legend>Select Vehicle Classification and Input Price</legend>
               {{#each vehicleClassification}}
                 <label>
-                  <input type="checkbox" name="selectedItemsEdit" value="{{vehicleClass.name}}" id="{{vehicleClass.name}}">
-                  {{vehicleClass.name}}
-                  <input type="number" name="priceEdit" min="1" value="1" step="0.01" id="{{vehicleClass.name}}">
+                  <input type="checkbox" name="selectedItemsEdit" value="{{this.name}}" id="{{this.name}}">
+                  {{this.name}}
+                  <input type="number" name="priceEdit" min="1" value="1" step="0.01" id="{{this.name}}">
                 </label>
               {{/each}}
             </fieldset>
@@ -108,7 +108,7 @@
     <div class="bottom-container">
       {{#each services}}
         <div class="bottom-item">
-          <img src="/images/services/{{service.photo}}" alt="Image of {{service.name}}">
+          <img src="/images/services/{{this.photo}}" alt="Image of {{this.name}}">
           <div class="bottom-item-content">
             <h2>{{service.name}}</h2>
             <p>{{service.description}}</p>
@@ -134,6 +134,24 @@
       {{/each}}
     </div>
 
+    <!-- Error Popup -->
+    <div id="errorPopup" class="miniPopupContainer" style="display: none;">
+      <div class="popupContent">
+        <span id="closePopupError" class="closePopup">&times;</span>
+        <h3 style="color: azure;">There seems to be a problem</h3>
+        <p id="errorText" style="color: azure;"></p>
+      </div>
+    </div>
+
+    <!-- Success Popup -->
+    <div id="successPopup" class="miniPopupContainer" style="display: none;">
+      <div class="popupContent">
+        <span id="closePopupSuccess" class="closePopup">&times;</span>
+        <h3 style="color: azure;">Success</h3>
+        <p id="successText" style="color: azure;"></p>
+      </div>
+    </div>
+
     <!-- Booking Popup -->
     {{#if (eq user.role 'user')}}
       <div id="bookingPopup" class="popupContainer">
@@ -156,7 +174,7 @@
     {{else}}
         <script src="/js/errorNotLoggedIn.js"></script>
     {{/if}}
-    <script src="/js/registerVehicle.js"></script>
+    {{!-- <script src="/js/registerVehicle.js"></script> --}} <!-- Commented out by bend -->
     <script src="/js/availService.js"></script>
     <script src="/js/useSubscription.js"></script>
     <script src="/js/logout.js"></script>

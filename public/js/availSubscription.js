@@ -10,7 +10,9 @@ const createPayment = async (data, id) => {
     const res = await response.json();
     window.location.href = res.session.url;
   } catch (err) {
-    alert("Error: " + err.message);
+    console.error(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while creating payment. Please try again later.";
   }
 };
 
@@ -22,7 +24,9 @@ const getAllSubscriptions = async () => {
     const res = await response.json();
     return res;
   } catch (err) {
-    alert("Error: " + err.message);
+    console.error(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while fetching subscriptions. Please try again later.";
   }
 };
 
@@ -34,7 +38,9 @@ const getAllVehicleByOwner = async (id) => {
     const res = await response.json();
     return res;
   } catch (err) {
-    alert("Error: " + err.message);
+    console.error(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while vehicles. Please try again later.";
   }
 };
 
@@ -42,7 +48,8 @@ async function showSubscriptionPopup(subscriptionId, userId, subscriptionName, s
   document.getElementById("bookingPopup").style.display = "flex";
   const vehiclesOwned = await getAllVehicleByOwner(userId);
   if (vehiclesOwned.data.vehicle.length == 0) {
-    alert("Please add a vehicle first before availing this subscription");
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "Please add a vehicle first before availing this subscription.";
   } else {
     const subscriptions = await getAllSubscriptions();
     console.log(vehiclesOwned);

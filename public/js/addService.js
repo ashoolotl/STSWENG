@@ -1,64 +1,148 @@
 // this function is used to get all services
 const getAllService = async () => {
   try {
-    const response = await fetch("/api/v1/services");
-    const data = await response.json();
-    return data;
+    const res = await fetch("/api/v1/services", {
+      method: "GET",
+    });
+    const responseData = await res.json();
+    return responseData;
   } catch (err) {
-    alert("An error occurred");
+    console.log(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while fetching services. Please try again later.";
   }
 };
 
 // add a service to the database
 const addService = async (data) => {
   try {
-    const response = await fetch("/api/v1/services", {
+    let object = {};
+    data.forEach((value, key) => (object[key] = value));
+    console.log(JSON.stringify(object));
+
+    console.log("DATA BEFORE PASSING INTO ADD");
+
+    const res = await fetch("/api/v1/services", {
       method: "POST",
-      body: data,
+      body: JSON.stringify(object),
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
-    const resData = await response.json();
-    console.log(resData.status);
-    if (resData.status == "success") {
-      alert("success");
+
+    if (res.status === 403) {
+      document.getElementById("errorPopup").style.display = "block";
+      document.getElementById("errorText").innerText = "You do not have permission to perform this action.";
+      return;
+    }
+
+    const responseData = await res.json();
+
+    if (responseData.status === "success") {
+      document.getElementById("successPopup").style.display = "block";
+      document.getElementById("successText").innerText = "The service has been successfully added.";
       window.location.reload();
     }
   } catch (err) {
-    alert("An error occurred");
+    console.log(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while adding services. Please try again later.";
   }
 };
 
 // update the service with the id to the database
 const updateService = async (data, id) => {
   try {
-    const response = await fetch(`/api/v1/services/${id}`, {
+    const res = await fetch(`/api/v1/services/${id}`, {
       method: "PATCH",
-      body: data,
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
-    const resData = await response.json();
-    console.log(resData);
-    if (resData.status == "success") {
-      alert("update successful");
+    const responseData = await res.json();
+    console.log(responseData);
+    if (responseData.status === "success") {
+      document.getElementById("successPopup").style.display = "block";
+      document.getElementById("successText").innerText = "The service has been successfully updated.";
       window.location.reload();
     }
   } catch (err) {
-    alert("An error occurred");
+    console.log(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while updating services. Please try again later.";
   }
 };
+
+// this would show the creation of add service
+document.getElementById("add").addEventListener("click", function () {
+  showOverlay();
+  document.getElementById("addServicePopup").style.display = "block";
+});
+// this would close the popup form to add a service
+document.getElementById("closePopup").addEventListener("click", function () {
+  hideOverlay();
+  document.getElementById("addServicePopup").style.display = "none";
+});
+
+// Function to show  the overlay
+function showOverlay() {
+  document.getElementById("overlay").style.display = "block";
+}
+// function to hide the overlay
+function hideOverlay() {
+  document.getElementById("overlay").style.display = "none";
+}
+// on create of a new service when submit button is clicked
+document.getElementById("form").addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const formData = new FormData();
+
+  // Append form fields to FormData
+  formData.append("name", document.getElementById("name").value);
+  formData.append("description", document.getElementById("description").value);
+  formData.append("duration", document.getElementById("duration").value);
+  formData.append("photo", document.getElementById("photo").files[0]);
+
+  // Get selected checkboxes and prepare prices data
+  const prices = [];
+  const checkboxes = document.querySelectorAll('input[name="selectedItems"]:checked');
+  checkboxes.forEach(function (checkbox) {
+    const priceInput = checkbox.nextElementSibling;
+    const price = Number(priceInput.value);
+    prices.push({ vehicleClassification: checkbox.value, price: price });
+  });
+
+  // Append prices data to FormData as individual fields
+  prices.forEach((price, index) => {
+    formData.append(`prices[${index}][vehicleClassification]`, price.vehicleClassification);
+    formData.append(`prices[${index}][price]`, price.price);
+  });
+
+  // Call addService with the FormData object
+  addService(formData);
+  hideOverlay();
+  document.getElementById("addServicePopup").style.display = "none";
+});
 
 // delete the service when button is clicked
 const deleteService = async (id) => {
   try {
-    const response = await fetch(`/api/v1/services/${id}`, {
+    const res = await fetch(`/api/v1/services/${id}`, {
       method: "DELETE",
     });
-    const resData = await response.json();
-    console.log(resData.status);
-    if (resData.status === undefined) {
-      alert("Service Successfully deleted");
+    const responseData = await res.json();
+    console.log(responseData.status);
+    if (responseData.status === undefined) {
+      document.getElementById("successPopup").style.display = "block";
+      document.getElementById("successText").innerText = "The service has been successfully deleted.";
       window.location.reload();
     }
   } catch (err) {
-    alert("An error occurred");
+    console.log(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while deleting services. Please try again later.";
   }
 };
 
@@ -168,4 +252,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       deleteService(service._id);
     });
   });
+});
+
+document.getElementById("closePopupError").addEventListener("click", function () {
+  document.getElementById("errorPopup").style.display = "none";
+});
+
+document.getElementById("closePopupSuccess").addEventListener("click", function () {
+  document.getElementById("successPopup").style.display = "none";
 });

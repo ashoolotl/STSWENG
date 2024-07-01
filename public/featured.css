@@ -2,7 +2,7 @@
 
 @font-face {
     font-family: 'Crillee';
-    src: url('./fonts/Crillee Italic BT.ttf') format('truetype');
+    src: url('./fonts/Crillee.ttf') format('truetype');
 }
 
 body {
@@ -131,7 +131,24 @@ header {
     color: red;
     z-index: 9999;
     width: 75%;
-    height: 68%;
+    height: 80%;
+    font-size: 18px;
+    overflow-y: auto;
+    text-align: center;
+}
+
+.miniPopupContainer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(to right, #1C1B1E, #3A3A3C);
+    padding: 20px;
+    border-radius: 10px;
+    color: red;
+    z-index: 9999;
+    width: 20%;
+    height: 20%;
     font-size: 18px;
     overflow-y: auto;
     text-align: center;

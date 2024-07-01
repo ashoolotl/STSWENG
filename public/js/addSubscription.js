@@ -8,7 +8,8 @@ const getAllSubscriptions = async () => {
     return data;
   } catch (err) {
     console.error("Error fetching subscriptions:", err.message);
-    alert("An error occurred while fetching subscriptions.");
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while fetching subscriptions. Please try again later.";
   }
 };
 
@@ -26,14 +27,16 @@ const updateSubscription = async (data, id) => {
     }
     const resData = await response.json();
     if (resData.status == "success") {
-      alert("Update successful");
+      document.getElementById("successPopup").style.display = "block";
+      document.getElementById("successText").innerText = "The subscription has been successfully updated.";
       window.location.reload();
     } else {
       throw new Error("Update unsuccessful");
     }
   } catch (err) {
-    console.error("Error updating subscription:", err.message);
-    alert("An error occurred while updating the subscription.");
+    console.error(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while updating subscriptions. Please try again later.";
   }
 };
 
@@ -41,21 +44,23 @@ const addSubscription = async (data) => {
   try {
     const response = await fetch("/api/v1/subscriptions", {
       method: "POST",
-      body: data, 
+      body: JSON.stringify(data),
     });
     if (!response.ok) {
       throw new Error("Failed to add subscription");
     }
     const resData = await response.json();
     if (resData.status == "success") {
-      alert("Subscription added successfully");
+      document.getElementById("successPopup").style.display = "block";
+      document.getElementById("successText").innerText = "The subscription has been successfully added.";
       window.location.reload();
     } else {
       throw new Error("Addition unsuccessful");
     }
   } catch (err) {
-    console.error("Error adding subscription:", err.message);
-    alert("An error occurred while adding the subscription.");
+    console.error(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while adding subscriptions. Please try again later.";
   }
 };
 
@@ -69,14 +74,16 @@ const deleteSubscription = async (id) => {
     }
     const resData = await response.json();
     if (resData.status === undefined) {
-      alert("Subscription successfully deleted");
+      document.getElementById("successPopup").style.display = "block";
+      document.getElementById("successText").innerText = "The subscription has been successfully deleted.";
       window.location.reload();
     } else {
       throw new Error("Deletion unsuccessful");
     }
   } catch (err) {
-    console.error("Error deleting subscription:", err.message);
-    alert("An error occurred while deleting the subscription.");
+    console.error(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while deleting subscriptions. Please try again later.";
   }
 };
 
@@ -296,4 +303,12 @@ document.getElementById("formEdit").addEventListener("submit", function (event) 
 
   // console.log(prices);
   updateSubscription(formData, id);
+});
+
+document.getElementById("closePopupError").addEventListener("click", function () {
+  document.getElementById("errorPopup").style.display = "none";
+});
+
+document.getElementById("closePopupSuccess").addEventListener("click", function () {
+  document.getElementById("successPopup").style.display = "none";
 });

@@ -11,7 +11,8 @@ const addVehicle = async (data) => {
     const resData = await response.json();
 
     if (resData.status == "success") {
-      alert("Vehicle added");
+      document.getElementById("successPopup").style.display = "block";
+      document.getElementById("successText").innerText = "Vehicle added.";
       window.setTimeout(() => {
         location.assign("/dashboard");
       }, 1500);
@@ -19,8 +20,9 @@ const addVehicle = async (data) => {
       alert(resData.message);
     }
   } catch (err) {
-    alert("An error occurred");
-    console.error(err);
+    console.error(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while adding vehicle. Please try again later.";
   }
 };
 

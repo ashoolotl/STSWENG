@@ -44,15 +44,21 @@
                         <a onclick='logout()'>Log Out</a>
                     </div>
                 </div>
+            {{else if (eq user 'nouser')}}
+                <div class="username">
+                    <a href="/login" class="user-link">
+                        <img src="./images/loginbg.png" alt="User Profile Image" />
+                        <span>Log In</span>
+                    </a>
+                </div>
             {{/if}}
-        {{/if}}
-        {{#if (not user)}}
-            <div class="username">
-                <a href="/login" class="user-link">
-                    <img src="./images/loginbg.png" alt="User Profile Image" />
-                    <span>Log In</span>
-                </a>
-            </div>
+        {{else}}
+                <div class="username">
+                    <a href="/login" class="user-link">
+                        <img src="./images/loginbg.png" alt="User Profile Image" />
+                        <span>Log In</span>
+                    </a>
+                </div>
         {{/if}}
     </div>
 </div>
