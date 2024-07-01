@@ -20,8 +20,8 @@
     <div class="top-container">
       {{#each services}}
         <div class="top-item">
-          <img src="/images/services/{{service.photo}}" alt="Image of {{this.name}}">
-          <p>0{{@index 1}} {{this.name}}</p>
+          <img src="/images/services" alt="Image of {{this.name}}">
+          <p>{{@index}} {{this.name}}</p>
         </div>
       {{/each}}
 
@@ -174,7 +174,7 @@
     {{else}}
         <script src="/js/errorNotLoggedIn.js"></script>
     {{/if}}
-    <script src="/js/registerVehicle.js"></script>
+    {{!-- <script src="/js/registerVehicle.js"></script> --}} <!-- Commented out by bend -->
     <script src="/js/availService.js"></script>
     <script src="/js/useSubscription.js"></script>
     <script src="/js/logout.js"></script>
