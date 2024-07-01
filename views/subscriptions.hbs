@@ -20,7 +20,7 @@
         {{#each subscriptions}}
             <div class="top-item">
                 <img src="/images/subscriptions/{{this.photo}}" alt="Image of {{this.name}}">
-                <p>{{subscription.name}}</p>
+                <p>{{this.name}}</p>
             </div>
         {{/each}}
 
@@ -40,7 +40,7 @@
 
                 <form id="form">
                     <label for="name">Subscription Name</label>
-                    <input type="text" id="name" name="name" required>
+                    <input type="text" id="name" name="name">
 
                     <label for="photo">Upload Image</label>
                     <input type="file" id="photo" name="photo" accept="image/*">
@@ -66,7 +66,8 @@
                             </label>
                         {{/each}}
                     </fieldset>
-
+                    
+                    <p id="error-message" style="color: rgb(255, 72, 72) !important;"></p>
                     <button type="submit">Submit</button>
                 </form>
             </div>
@@ -107,6 +108,8 @@
                         {{/each}}
                     </fieldset>
 
+                    <p id="error-message" style="color: rgb(255, 72, 72) !important;"></p>
+
                     <button type="submit">Submit</button>
                     <input type="hidden" id="subscriptionId" name="subscriptionId">
                 </form>
@@ -122,15 +125,15 @@
                     <h2>{{this.name}}</h2>
                     <h3>{{this.description}}</h3>
 
-                    {{#if user}}
-                      {{#if (eq user.role 'admin')}}
+                    {{#if ../user}}
+                      {{#if (eq ../user.role 'admin')}}
                           <div class="buttons-container">
-                              <button id="subscriptionEditBtn" class="edit-btn" type="button" data-id="{{subscription._id}}">Edit</button>
-                              <button id="subscriptionDeleteBtn" class="delete-btn" type="button" data-id="{{subscription._id}}">Delete</button>
+                              <button id="subscriptionEditBtn" class="edit-btn" type="button" data-id="{{this._id}}">Edit</button>
+                              <button id="subscriptionDeleteBtn" class="delete-btn" type="button" data-id="{{this._id}}">Delete</button>
                           </div>
                       {{else}}
                           <div class="buttons-container">
-                              <button id="subscriptionGoToPayment" class="edit-btn" type="button" onclick="showSubscriptionPopup('{{subscription._id}}', '{{user._id}}', '{{subscription.name}}', '{{subscription.description}}')">Purchase</button>
+                              <button id="subscriptionGoToPayment" class="edit-btn" type="button" onclick="showSubscriptionPopup('{{this._id}}', '{{user._id}}', '{{this.name}}', '{{this.description}}')">Purchase</button>
                           </div>
                       {{/if}}
                     {{else}}
@@ -155,24 +158,19 @@
     <!-- Success Popup -->
     <div id="successPopup" class="miniPopupContainer" style="display: none;">
       <div class="popupContent">
-        <span id="closePopupSuccess" class="closePopup">&times;</span>
         <h3 style="color: azure;">Success</h3>
         <p id="successText" style="color: azure;"></p>
       </div>
     </div>
     
     <!-- Booking Popup -->
-    {{#if (eq user.role 'user')}}
     <div id="bookingPopup" class="popupContainer">
         <form id="availSubscriptionForm">
             <span class="closePopup" onclick="closePopupSubscriptionSelectVehicle()">&times;</span>
             <h2>Registered Vehicles</h2>
             <hr id="generateVehicleSubscriptions">
-            <!-- Add your content here -->
         </form>
     </div>
-    {{/if}}
-
     
   {{#if user}}
     {{#if (eq user.role 'admin')}}

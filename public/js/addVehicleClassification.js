@@ -49,12 +49,22 @@ const addVehicle = async (data) => {
     console.log(resData.status);
 
     if (resData.status === "success") {
-      document.getElementById("addCarSuccessPopup").style.display = "block";
+      document.getElementById("addCarPopup").style.display = "none";
+      document.getElementById("closePopupSuccess").innerText = "";
+      document.getElementById("successPopup").style.display = "block";
+      document.getElementById("successText").innerText = "The Vehicle Classification has been added successfully.\n\nReloading...";
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     }
   } catch (err) {
-    console.error(err.message);
-    document.getElementById("errorPopup").style.display = "block";
-    document.getElementById("errorText").innerText = "An error occurred while fetching services. Please try again later.";
+    console.error(err);
+    if (err.message.includes('E11000 duplicate key error')) {
+      document.getElementById("error-message").innerText = "Vehicle classification already exists.";
+    } else {
+      document.getElementById("errorPopup").style.display = "block";
+      document.getElementById("errorText").innerText = "An error occurred while adding vehicle classifications. Please try again later.";
+    }  
   }
 };
 // opening of add car popup
@@ -65,30 +75,24 @@ document.getElementById("add").addEventListener("click", function () {
 document.getElementById("closePopup").addEventListener("click", function () {
   document.getElementById("addCarPopup").style.display = "none";
 });
-// closing of success popup through x button
-document.getElementById("closeSuccessPopup").addEventListener("click", function () {
-  document.getElementById("addCarSuccessPopup").style.display = "none";
-  window.location.reload();
-});
-// closing of success popup after clicking done button
-document.getElementById("closeBtn").addEventListener("click", function () {
-  document.getElementById("addCarSuccessPopup").style.display = "none";
-  window.location.reload();
-});
 
 // add a new vehicle classification on submit
 document.getElementById("addCarForm").addEventListener("submit", function (event) {
   event.preventDefault();
-  document.getElementById("addCarPopup").style.display = "none";
-
-  // create a form data since we are uploading photo
-  const formData = new FormData();
   const name = document.getElementById("vehicleClassification").value;
-  const photo = document.getElementById("photo").files[0];
 
-  formData.append("name", name);
-  formData.append("photo", photo);
-  addVehicle(formData);
+  if (name.trim() === "") {
+    console.log("Name is empty");
+    document.getElementById("error-message").innerText = "Vehicle classification name is required. Please enter a name.";
+  } else {
+    // create a form data since we are uploading photo
+    const formData = new FormData();
+    const photo = document.getElementById("photo").files[0];
+
+    formData.append("name", name);
+    formData.append("photo", photo);
+    addVehicle(formData);
+  }
 });
 
 // this function is used to update vehicle classification
@@ -111,7 +115,13 @@ const updateVehicleClassification = async (data, id) => {
     const resData = await res.json();
     console.log(resData.status);
     if (resData.status === "success") {
-      document.getElementById("successPopupEdit").style.display = "block";
+      document.getElementById("editCarPopup").style.display = "none";
+      document.getElementById("closePopupSuccess").innerText = "";
+      document.getElementById("successPopup").style.display = "block";
+      document.getElementById("successText").innerText = "The Vehicle Classification has been updated successfully.\n\nReloading...";
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     }
   } catch (err) {
     console.error(err.message);
@@ -123,7 +133,6 @@ const updateVehicleClassification = async (data, id) => {
 // edit a vehicle classification on submit
 document.getElementById("editCarForm").addEventListener("submit", function (event) {
   event.preventDefault();
-  document.getElementById("editCarPopup").style.display = "none";
   const form = new FormData();
   form.append("name", document.getElementById("vehicleClassificationEdit").value);
   var id = document.getElementById("vehicleClassId").value;
@@ -141,16 +150,6 @@ document.getElementById("editCarForm").addEventListener("submit", function (even
 document.getElementById("closePopupEdit").addEventListener("click", function () {
   document.getElementById("editCarPopup").style.display = "none";
 });
-// closing of success popup through x button
-document.getElementById("closeSuccessPopupEdit").addEventListener("click", function () {
-  document.getElementById("successPopupEdit").style.display = "none";
-  window.location.reload();
-});
-// closing of success popup after clicking done button
-document.getElementById("closeBtnEdit").addEventListener("click", function () {
-  document.getElementById("successPopupEdit").style.display = "none";
-  window.location.reload();
-});
 
 const deleteVehicleClassification = async (id) => {
   try {
@@ -167,11 +166,19 @@ const deleteVehicleClassification = async (id) => {
       throw new Error(errorData.message);
     }
 
-    const resData = await res.json();
+    let resData = {};
+    if (res.status !== 204) {
+      resData = await res.json();
+    }
+
     console.log(resData.status);
-    if (resData.status === undefined) {
-      document.getElementById("successPopupDelete").style.display = "block";
-      window.location.reload();
+    if (resData.status === "success" || res.status === 204) {
+      document.getElementById("closePopupSuccess").innerText = "";
+      document.getElementById("successPopup").style.display = "block";
+      document.getElementById("successText").innerText = "The Vehicle Classification has been deleted successfully.\n\nReloading...";
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     }
   } catch (err) {
     console.error(err.message);
@@ -179,18 +186,6 @@ const deleteVehicleClassification = async (id) => {
     document.getElementById("errorText").innerText = "An error occurred while deleting vehicle classification. Please try again later.";
   }
 };
-// closing of success popup through x button
-document.getElementById("closeSuccessPopupDelete").addEventListener("click", function () {
-  setTimeout(function () {}, 2000);
-  document.getElementById("successPopupDelete").style.display = "none";
-  window.location.reload();
-});
-// closing of success popup after clicking done button
-document.getElementById("closeBtnEdit").addEventListener("click", function () {
-  setTimeout(function () {}, 2000);
-  document.getElementById("successPopupEdit").style.display = "none";
-  window.location.reload();
-});
 
 document.addEventListener("DOMContentLoaded", async () => {
   const editButtons = document.querySelectorAll("#vehicleClassificationEditBtn");
@@ -220,3 +215,22 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 });
+
+// closing of error popup through x button
+document.getElementById("closePopupError").addEventListener("click", function () {
+  document.getElementById("errorPopup").style.display = "none";
+});
+
+// closing of success popup through x button
+// document.getElementById("closeSuccessPopupDelete").addEventListener("click", function () {
+//   setTimeout(function () {}, 2000);
+//   document.getElementById("successPopupDelete").style.display = "none";
+//   window.location.reload();
+// });
+// // closing of success popup after clicking done button
+// document.getElementById("closeBtnEdit").addEventListener("click", function () {
+//   document.getElementById("successPopupEdit").style.display = "none";
+//   setTimeout(() => {
+//     window.location.reload();
+//   }, 1000);
+// });

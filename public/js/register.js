@@ -39,19 +39,43 @@ document.querySelector("form").addEventListener("submit", (e) => {
   const email = document.querySelector('input[name="email"]').value;
   const password = document.querySelector('input[name="password"]').value;
   const passwordConfirm = document.querySelector('input[name="passwordConfirm"]').value;
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   const numberOfCarsOwned = document.querySelector('select[name="cars"]').value;
 
-  // You can now use these values as needed
-  console.log("First Name:", firstName);
-  console.log("Last Name:", lastName);
-  console.log("Email:", email);
-  console.log("Password:", password);
-  console.log("Password Confirm:", passwordConfirm);
+  if (firstName.trim() === "" || 
+      lastName.trim() === "" || 
+      email.trim() === "" || 
+      password.trim() === "" || 
+      passwordConfirm.trim() === "" || 
+      numberOfCarsOwned.trim() === "") {
+    console.error("One or more fields are empty.");
+    document.getElementById("error-message").innerText = "One or more fields is empty. Please fill in all fields.";
+    document.getElementById("error-message").style.backgroundColor = "red";
+  } else if (!emailRegex.test(email)) {
+    console.error("Email is invalid.");
+    document.getElementById("error-message").innerText = "Email is invalid. Please enter a valid email address.";
+    document.getElementById("error-message").style.backgroundColor = "red";
+  } else if (password.length < 8) {
+    console.error("Password is too short.");
+    document.getElementById("error-message").innerText = "Password is too short. Please enter a password with at least 8 characters.";
+    document.getElementById("error-message").style.backgroundColor = "red";
+  } else if (password !== passwordConfirm){
+    console.error("Password and Confirm Password do not match.");
+    document.getElementById("error-message").innerText = "Password and Confirm Password do not match. Please enter the same password in both fields.";
+    document.getElementById("error-message").style.backgroundColor = "red";
+  } else {
+    // You can now use these values as needed
+    console.log("First Name:", firstName);
+    console.log("Last Name:", lastName);
+    console.log("Email:", email);
+    console.log("Password:", password);
+    console.log("Password Confirm:", passwordConfirm);
 
-  console.log("Number of cars owned:", numberOfCarsOwned);
+    console.log("Number of cars owned:", numberOfCarsOwned);
 
-  register(firstName, lastName, email, password, passwordConfirm, numberOfCarsOwned);
+    register(firstName, lastName, email, password, passwordConfirm, numberOfCarsOwned);
+  }
 });
 
 function onlyAlphabets(evt) {
@@ -61,17 +85,4 @@ function onlyAlphabets(evt) {
     return false;
   }
   return true;
-}
-
-function checkPasswordMatch(evt) {
-  var password = document.getElementById("password").value;
-  console.log(password);
-  var confirmPassword = document.getElementById("passwordConfirm").value;
-  console.log(confirmPassword);
-  var mismatchDiv = document.getElementById("passwordMismatch");
-  if (password != confirmPassword) {
-    mismatchDiv.style.display = "block";
-  } else {
-    mismatchDiv.style.display = "none";
-  }
 }

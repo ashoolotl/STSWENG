@@ -51,16 +51,23 @@ const addSubscription = async (data) => {
     }
     const resData = await response.json();
     if (resData.status == "success") {
+      document.getElementById("addSubPopup").style.display = "none";
       document.getElementById("successPopup").style.display = "block";
-      document.getElementById("successText").innerText = "The subscription has been successfully added.";
-      window.location.reload();
+      document.getElementById("successText").innerText = "The service has been successfully added.\n\nReloading...";
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     } else {
       throw new Error("Addition unsuccessful");
     }
   } catch (err) {
-    console.error(err.message);
-    document.getElementById("errorPopup").style.display = "block";
-    document.getElementById("errorText").innerText = "An error occurred while adding subscriptions. Please try again later.";
+    console.error(err);
+    if (err.message.includes('E11000 duplicate key error')) {
+      document.getElementById("error-message").innerText = "Subscription already exists.";
+    } else {
+      document.getElementById("errorPopup").style.display = "block";
+      document.getElementById("errorText").innerText = "An error occurred while adding subscription. Please try again later.";
+    }   
   }
 };
 
@@ -68,22 +75,33 @@ const deleteSubscription = async (id) => {
   try {
     const response = await fetch(`/api/v1/subscriptions/${id}`, {
       method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
-    if (!response.ok) {
-      throw new Error("Failed to delete subscription");
+    // Check if the response is successful (status code 2xx)
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.message);
     }
-    const resData = await response.json();
-    if (resData.status === undefined) {
+
+    let resData = {};
+    if (res.status !== 204) {
+      resData = await res.json();
+    }
+
+    console.log(resData.status);
+    if (resData.status === "success" || res.status === 204) {
       document.getElementById("successPopup").style.display = "block";
-      document.getElementById("successText").innerText = "The subscription has been successfully deleted.";
-      window.location.reload();
-    } else {
-      throw new Error("Deletion unsuccessful");
+      document.getElementById("successText").innerText = "The subscription has been deleted successfully.\n\nReloading...";
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     }
   } catch (err) {
     console.error(err.message);
     document.getElementById("errorPopup").style.display = "block";
-    document.getElementById("errorText").innerText = "An error occurred while deleting subscriptions. Please try again later.";
+    document.getElementById("errorText").innerText = "An error occurred while deleting subscription. Please try again later.";
   }
 };
 
@@ -99,56 +117,69 @@ document.getElementById("closePopup").addEventListener("click", function () {
   document.getElementById("addSubPopup").style.display = "none";
 });
 
+//add subscription
 document.getElementById("form").addEventListener("submit", function (event) {
   event.preventDefault();
-  const formData = new FormData();
-  formData.append("name", document.getElementById("name").value);
-  formData.append("photo", document.getElementById("photo").files[0]);
+  const name = document.getElementById("name").value;
+  const selectedServices = document.querySelectorAll('input[type="checkbox"][name="selectedItems"]:checked');
+  const selectedVehicleClass = document.querySelectorAll('input[type="checkbox"][name="selectedItemsVehicleClass"]:checked');
 
-  const prices = [];
-  const services = [];
-  const vehicleClassifications = [];
+  if (name.trim() === "") {
+    document.getElementById("error-message").innerText = "Please provide a name for the subscription.";
+  } else if (selectedServices.length === 0) {
+    document.getElementById("error-message").innerText = "Please select at least one service.";
+  } else if (selectedVehicleClass.length === 0) {
+    document.getElementById("error-message").innerText = "Please select at least one vehicle classification.";
+  } else {
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("photo", document.getElementById("photo").files[0]);
 
-  const checkboxesServices = document.querySelectorAll('input[type="checkbox"][name="selectedItems"]:checked');
-  checkboxesServices.forEach((checkbox) => {
-    const serviceName = checkbox.value;
-    const tokenInput = checkbox.parentElement.querySelector('input[name="token"]');
-    const tokensAmount = parseInt(tokenInput.value);
+    const prices = [];
+    const services = [];
+    const vehicleClassifications = [];
 
-    services.push({
-      service: serviceName,
-      tokensAmount: tokensAmount,
-    });
-  });
+    const checkboxesServices = document.querySelectorAll('input[type="checkbox"][name="selectedItems"]:checked');
+    checkboxesServices.forEach((checkbox) => {
+      const serviceName = checkbox.value;
+      const tokenInput = checkbox.parentElement.querySelector('input[name="token"]');
+      const tokensAmount = parseInt(tokenInput.value);
 
-  const checkBoxesVehicleClass = document.querySelectorAll('input[type="checkbox"][name="selectedItemsVehicleClass"]:checked');
-  checkBoxesVehicleClass.forEach((checkbox) => {
-    const vehicleClassName = checkbox.value;
-    const priceInput = checkbox.parentElement.querySelector('input[name="price"]');
-    const priceAmount = Number(priceInput.value);
-
-    vehicleClassifications.push({
-      vehicleClassification: vehicleClassName,
-      price: priceAmount,
-    });
-  });
-
-  prices.push({ services, vehicleClassifications });
-
-  prices.forEach((price, index) => {
-    price.services.forEach((service, serviceIndex) => {
-      formData.append(`prices[${index}][services][${serviceIndex}][service]`, service.service);
-      formData.append(`prices[${index}][services][${serviceIndex}][tokensAmount]`, service.tokensAmount);
+      services.push({
+        service: serviceName,
+        tokensAmount: tokensAmount,
+      });
     });
 
-    price.vehicleClassifications.forEach((vehicle, vehicleIndex) => {
-      formData.append(`prices[${index}][vehicleClassifications][${vehicleIndex}][vehicleClassification]`, vehicle.vehicleClassification);
-      formData.append(`prices[${index}][vehicleClassifications][${vehicleIndex}][price]`, vehicle.price);
-    });
-  });
+    const checkBoxesVehicleClass = document.querySelectorAll('input[type="checkbox"][name="selectedItemsVehicleClass"]:checked');
+    checkBoxesVehicleClass.forEach((checkbox) => {
+      const vehicleClassName = checkbox.value;
+      const priceInput = checkbox.parentElement.querySelector('input[name="price"]');
+      const priceAmount = Number(priceInput.value);
 
-  console.log(prices);
-  addSubscription(formData);
+      vehicleClassifications.push({
+        vehicleClassification: vehicleClassName,
+        price: priceAmount,
+      });
+    });
+
+    prices.push({ services, vehicleClassifications });
+
+    prices.forEach((price, index) => {
+      price.services.forEach((service, serviceIndex) => {
+        formData.append(`prices[${index}][services][${serviceIndex}][service]`, service.service);
+        formData.append(`prices[${index}][services][${serviceIndex}][tokensAmount]`, service.tokensAmount);
+      });
+
+      price.vehicleClassifications.forEach((vehicle, vehicleIndex) => {
+        formData.append(`prices[${index}][vehicleClassifications][${vehicleIndex}][vehicleClassification]`, vehicle.vehicleClassification);
+        formData.append(`prices[${index}][vehicleClassifications][${vehicleIndex}][price]`, vehicle.price);
+      });
+    });
+
+    console.log(prices);
+    addSubscription(formData);
+  }
 });
 
 // Functions to show and hide the overlay
@@ -250,65 +281,69 @@ document.getElementById("closePopupEdit").addEventListener("click", function () 
 document.getElementById("formEdit").addEventListener("submit", function (event) {
   event.preventDefault();
 
-  const formData = new FormData();
-  formData.append("name", document.getElementById("nameEdit").value);
-  var fileInput = document.getElementById("photoEdit");
-  // Check if any file is selected
-  if (fileInput.files && fileInput.files[0]) {
-    // An image is uploaded
-    formData.append("photo", document.getElementById("photoEdit").files[0]);
+  if (document.getElementById("nameEdit").value.trim() === "") {
+    document.getElementById("error-message").innerText = "Please provide a name for the subscription.";
+  } else if (document.querySelectorAll('input[type="checkbox"][name="selectedItemsEdit"]:checked').length === 0) {
+    document.getElementById("error-message").innerText = "Please select at least one service.";
+  } else if (document.querySelectorAll('input[type="checkbox"][name="selectedItemsEditVehicleClass"]:checked').length === 0) {
+    document.getElementById("error-message").innerText = "Please select at least one vehicle classification.";
+  } else {
+    const formData = new FormData();
+    formData.append("name", document.getElementById("nameEdit").value);
+    var fileInput = document.getElementById("photoEdit");
+    // Check if any file is selected
+    if (fileInput.files && fileInput.files[0]) {
+      // An image is uploaded
+      formData.append("photo", document.getElementById("photoEdit").files[0]);
+    }
+    const prices = [];
+    const services = [];
+    const vehicleClassifications = [];
+
+    const checkboxesServices = document.querySelectorAll('input[type="checkbox"][name="selectedItemsEdit"]:checked');
+    checkboxesServices.forEach((checkbox) => {
+      const serviceName = checkbox.value;
+      const tokenInput = checkbox.parentElement.querySelector('input[name="tokenEdit"]');
+      const tokensAmount = parseInt(tokenInput.value);
+
+      services.push({
+        service: serviceName,
+        tokensAmount: tokensAmount,
+      });
+    });
+
+    const checkBoxesVehicleClass = document.querySelectorAll('input[type="checkbox"][name="selectedItemsEditVehicleClass"]:checked');
+    checkBoxesVehicleClass.forEach((checkbox) => {
+      const vehicleClassName = checkbox.value;
+      const priceInput = checkbox.parentElement.querySelector('input[name="priceEdit"]');
+      const priceAmount = Number(priceInput.value);
+
+      vehicleClassifications.push({
+        vehicleClassification: vehicleClassName,
+        price: priceAmount,
+      });
+    });
+
+    prices.push({ services, vehicleClassifications });
+
+    prices.forEach((price, index) => {
+      price.services.forEach((service, serviceIndex) => {
+        formData.append(`prices[${index}][services][${serviceIndex}][service]`, service.service);
+        formData.append(`prices[${index}][services][${serviceIndex}][tokensAmount]`, service.tokensAmount);
+      });
+
+      price.vehicleClassifications.forEach((vehicle, vehicleIndex) => {
+        formData.append(`prices[${index}][vehicleClassifications][${vehicleIndex}][vehicleClassification]`, vehicle.vehicleClassification);
+        formData.append(`prices[${index}][vehicleClassifications][${vehicleIndex}][price]`, vehicle.price);
+      });
+    });
+    var id = document.getElementById("subscriptionId").value;
+
+    // console.log(prices);
+    updateSubscription(formData, id);
   }
-  const prices = [];
-  const services = [];
-  const vehicleClassifications = [];
-
-  const checkboxesServices = document.querySelectorAll('input[type="checkbox"][name="selectedItemsEdit"]:checked');
-  checkboxesServices.forEach((checkbox) => {
-    const serviceName = checkbox.value;
-    const tokenInput = checkbox.parentElement.querySelector('input[name="tokenEdit"]');
-    const tokensAmount = parseInt(tokenInput.value);
-
-    services.push({
-      service: serviceName,
-      tokensAmount: tokensAmount,
-    });
-  });
-
-  const checkBoxesVehicleClass = document.querySelectorAll('input[type="checkbox"][name="selectedItemsEditVehicleClass"]:checked');
-  checkBoxesVehicleClass.forEach((checkbox) => {
-    const vehicleClassName = checkbox.value;
-    const priceInput = checkbox.parentElement.querySelector('input[name="priceEdit"]');
-    const priceAmount = Number(priceInput.value);
-
-    vehicleClassifications.push({
-      vehicleClassification: vehicleClassName,
-      price: priceAmount,
-    });
-  });
-
-  prices.push({ services, vehicleClassifications });
-
-  prices.forEach((price, index) => {
-    price.services.forEach((service, serviceIndex) => {
-      formData.append(`prices[${index}][services][${serviceIndex}][service]`, service.service);
-      formData.append(`prices[${index}][services][${serviceIndex}][tokensAmount]`, service.tokensAmount);
-    });
-
-    price.vehicleClassifications.forEach((vehicle, vehicleIndex) => {
-      formData.append(`prices[${index}][vehicleClassifications][${vehicleIndex}][vehicleClassification]`, vehicle.vehicleClassification);
-      formData.append(`prices[${index}][vehicleClassifications][${vehicleIndex}][price]`, vehicle.price);
-    });
-  });
-  var id = document.getElementById("subscriptionId").value;
-
-  // console.log(prices);
-  updateSubscription(formData, id);
 });
 
 document.getElementById("closePopupError").addEventListener("click", function () {
   document.getElementById("errorPopup").style.display = "none";
-});
-
-document.getElementById("closePopupSuccess").addEventListener("click", function () {
-  document.getElementById("successPopup").style.display = "none";
 });

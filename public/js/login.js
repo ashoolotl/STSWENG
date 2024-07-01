@@ -19,7 +19,8 @@ const login = async (email, password) => {
   } catch (error) {
     const errorMessage = error.message || "An unexpected error occurred.";
     console.error("Error:", errorMessage);
-    document.getElementById("error-message").innerText = errorMessage;
+    document.getElementById("error-message").innerText = "Email or password does not match any records. Please try again.";
+    document.getElementById("error-message").style.backgroundColor = "red";
   }
 };
 
@@ -31,7 +32,7 @@ document.querySelector("form").addEventListener("submit", (e) => {
   if (email.trim() === "" || password.trim() === "") {
     console.error("Email or password is empty.");
     document.getElementById("error-message").innerText = "Email or password is empty. Please fill in both fields.";
-    document.getElementById("error-message").style.backgroundColor = "#212121";
+    document.getElementById("error-message").style.backgroundColor = "red";
   } else {
     login(email, password);
   }

@@ -145,7 +145,3 @@ async function submitDateTimeServiceBooking() {
 document.getElementById("closePopupError").addEventListener("click", function () {
   document.getElementById("errorPopup").style.display = "none";
 });
-
-document.getElementById("closePopupSuccess").addEventListener("click", function () {
-  document.getElementById("successPopup").style.display = "none";
-});

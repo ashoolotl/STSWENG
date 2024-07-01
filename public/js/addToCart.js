@@ -162,7 +162,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       var serviceName = service.name;
       var serviceDescription = service.description;
 
-      console.log("VEhicle class list for this service:");
+      console.log("Vehicle class list for this service:");
       console.log(service.prices);
 
       const ownedVehiclesClassificationsName = [];
@@ -230,7 +230,4 @@ document.getElementById("closePopupBooking").addEventListener("click", function 
 });
 document.getElementById("closePopupError").addEventListener("click", function () {
   document.getElementById("errorPopup").style.display = "none";
-});
-document.getElementById("closePopupSuccess").addEventListener("click", function () {
-  document.getElementById("successPopup").style.display = "none";
 });

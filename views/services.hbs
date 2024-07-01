@@ -20,7 +20,7 @@
     <div class="top-container">
       {{#each services}}
         <div class="top-item">
-          <img src="/images/services" alt="Image of {{this.name}}">
+          <img src="/images/services/{{this.photo}}" alt="Image of {{this.name}}">
           <p>{{@index}} {{this.name}}</p>
         </div>
       {{/each}}
@@ -32,8 +32,55 @@
           </button>
         </div>
       {{/if}}
+    </div>
 
-      <!-- Add Service Popup -->
+    <div class="bottom-container">
+      {{#each services}}
+        <div class="bottom-item">
+          <img src="/images/services/{{this.photo}}" alt="Image of {{this.name}}">
+          <div class="bottom-item-content">
+            <h2>{{this.name}}</h2>
+            <p>{{this.description}}</p>
+
+            {{#if ../user}}
+              {{#if (eq ../user.role 'admin')}}
+                <div class="buttons-container">
+                  <button id="serviceEditBtn" class="edit-btn" type="button" data-id="{{this._id}}">Edit</button>
+                  <button id="serviceDeleteBtn" class="delete-btn" type="button" data-id="{{this._id}}">Delete</button>
+                </div>
+              {{else}}
+                <div class="buttons-container">
+                  <button id="serviceAddToCart" class="edit-btn" type="button" data-id="{{this._id}}" data-owner="{{user._id}}">Add To Cart</button>
+                </div>
+              {{/if}}
+            {{else}}
+            <div class="buttons-container">
+              <button id="serviceAddToCartNoUser" class="edit-btn" type="button" onclick="showErrorNotLoggedIn()">Add to Cart</button>
+            </div>
+            {{/if}}
+          </div>
+        </div>
+      {{/each}}
+    </div>
+
+    <!-- Error Popup -->
+    <div id="errorPopup" class="miniPopupContainer" style="display: none;">
+      <div class="popupContent">
+        <span id="closePopupError" class="closePopup">&times;</span>
+        <h3 style="color: azure;">There seems to be a problem</h3>
+        <p id="errorText" style="color: azure;"></p>
+      </div>
+    </div>
+
+    <!-- Success Popup -->
+    <div id="successPopup" class="miniPopupContainer" style="display: none;">
+      <div class="popupContent">
+        <h3 style="color: azure;">Success</h3>
+        <p id="successText" style="color: azure;"></p>
+      </div>
+    </div>
+
+    <!-- Add Service Popup -->
       <div id="addServicePopup" class="popupContainer">
         <div class="popupContent">
           <span id="closePopup" class="closePopup">&times;</span>
@@ -63,6 +110,7 @@
               {{/each}}
             </fieldset>
 
+            <p id="error-message" style="color: rgb(255, 72, 72) !important;"></p>
             <button type="submit">Submit</button>
           </form>
         </div>
@@ -76,13 +124,13 @@
 
           <form id="formEdit">
             <label for="nameEdit">Service Name</label>
-            <input type="text" id="nameEdit" name="nameEdit" required>
+            <input type="text" id="nameEdit" name="nameEdit">
 
             <label for="descriptionEdit">Service Description</label>
-            <input type="text" id="descriptionEdit" name="descriptionEdit" required>
+            <input type="text" id="descriptionEdit" name="descriptionEdit">
 
             <label for="durationEdit">Service Duration in Minutes</label>
-            <input type="number" id="durationEdit" name="durationEdit" required>
+            <input type="number" id="durationEdit" name="durationEdit" >
 
             <label for="photoEdit">Upload Image</label>
             <input type="file" id="photoEdit" name="photoEdit" accept="image/*">
@@ -97,60 +145,14 @@
                 </label>
               {{/each}}
             </fieldset>
+            
+            <p id="error-message" style="color: rgb(255, 72, 72) !important;"></p>
 
             <button type="submit">Submit</button>
             <input type="hidden" id="serviceId" name="serviceId">
           </form>
         </div>
       </div>
-    </div>
-
-    <div class="bottom-container">
-      {{#each services}}
-        <div class="bottom-item">
-          <img src="/images/services/{{this.photo}}" alt="Image of {{this.name}}">
-          <div class="bottom-item-content">
-            <h2>{{service.name}}</h2>
-            <p>{{service.description}}</p>
-
-            {{#if user}}
-              {{#if (eq user.role 'admin')}}
-                <div class="buttons-container">
-                  <button id="serviceEditBtn" class="edit-btn" type="button" data-id="{{service._id}}">Edit</button>
-                  <button id="serviceDeleteBtn" class="delete-btn" type="button" data-id="{{service._id}}">Delete</button>
-                </div>
-              {{else}}
-                <div class="buttons-container">
-                  <button id="serviceAddToCart" class="edit-btn" type="button" data-id="{{service._id}}" data-owner="{{user._id}}">Add To Cart</button>
-                </div>
-              {{/if}}
-            {{else}}
-            <div class="buttons-container">
-              <button id="serviceAddToCartNoUser" class="edit-btn" type="button" onclick="showErrorNotLoggedIn()">Add to Cart</button>
-            </div>
-            {{/if}}
-          </div>
-        </div>
-      {{/each}}
-    </div>
-
-    <!-- Error Popup -->
-    <div id="errorPopup" class="miniPopupContainer" style="display: none;">
-      <div class="popupContent">
-        <span id="closePopupError" class="closePopup">&times;</span>
-        <h3 style="color: azure;">There seems to be a problem</h3>
-        <p id="errorText" style="color: azure;"></p>
-      </div>
-    </div>
-
-    <!-- Success Popup -->
-    <div id="successPopup" class="miniPopupContainer" style="display: none;">
-      <div class="popupContent">
-        <span id="closePopupSuccess" class="closePopup">&times;</span>
-        <h3 style="color: azure;">Success</h3>
-        <p id="successText" style="color: azure;"></p>
-      </div>
-    </div>
 
     <!-- Booking Popup -->
     {{#if (eq user.role 'user')}}

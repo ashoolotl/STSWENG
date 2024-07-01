@@ -45,6 +45,7 @@
                     <input type="text" id="vehicleClassification" name="vehicleClassification">
                     <label for="photo">Upload Image</label>
                     <input type="file" id="photo" name="photo" accept="image/*">
+                    <p id="error-message" style="color: rgb(255, 72, 72) !important;"></p>
                     <button type="submit">Submit</button>
                 </form>
             </div>
@@ -66,7 +67,7 @@
             </div>
         </div>
 
-        <div id="addCarSuccessPopup" class="popupContainer">
+        {{!-- <div id="addCarSuccessPopup" class="popupContainer">
             <div class="popupContent">
                 <span id="closeSuccessPopup" class="closePopup">&times;</span>
                 <h1>Completed</h1>
@@ -91,7 +92,7 @@
                 <p>The Vehicle Classification has been deleted successfully.</p>
                 <button id="closeBtnEdit" type="submit">Done</button>
             </div>
-        </div>
+        </div> --}}
 
     </div>
 

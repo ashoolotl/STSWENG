@@ -5,9 +5,12 @@ const logout = async () => {
     });
     const res = await response.json();
     if (res.status == "success") {
-      document.getElementById("errorPopup").style.display = "block";
-      document.getElementById("errorText").innerText = "You will now be logged out.";
-      location.replace("/");
+      document.getElementById("closePopupSuccess").innerText = "";
+      document.getElementById("successPopup").style.display = "block";
+      document.getElementById("successText").innerText = "You will now be logged out.";
+      window.setTimeout(() => {
+        location.replace("/");
+      }, 1000);
     }
   } catch (err) {
     console.error(err.message);
