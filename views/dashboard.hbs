@@ -9,7 +9,6 @@
   <title>User Profile</title>
   <link rel="stylesheet" href="user-profile.css">
   <link rel="stylesheet" href = "partials/navbar.css">
-
 </head>
 
 <body>
@@ -58,27 +57,19 @@
         <h1>Add a Car</h1>
           <form id="addCarForm">
             <label for="classType">Classification</label><br>
-            <select id="classType" name="classType" required>
+            <select id="classType" name="classType">
             <option value="" disabled selected>Select Class Type</option>
             {{#each vehicleClassifications}}
               <option value="{{this.name}}">{{this.name}}</option>
             {{/each}}
             </select><br>
             <label for="carBrand">Brand</label>
-            <input type="text" id="carBrand" name="carBrand" required>
+            <input type="text" id="carBrand" name="carBrand">
             <label for="plateNumber">Plate Number (3 Digits, 3 Letters, 4 Digits)</label>
-            <input type="text" id="plateNumber" name="plateNumber" pattern="[0-9]{3}[A-Z]{3}[0-9]{4}" title="Plate number must be in the format 3Digits3Letters4Digits" required>
+            <input type="text" id="plateNumber" name="plateNumber">
             <input type="hidden" name="userId" value="{{user._id}}" id="userId">
             <button type="submit">Submit</button>
           </form>
-        </div>
-      </div>
-      <div id="successPopup" class="popupContainer">
-        <div class="popupContent">
-          <span id="closeSuccessPopup" class="closePopup">&times;</span>
-          <h1>Completed</h1>
-          <p>Your car has been added successfully</p>
-          <button type="submit" id="closeBtn">Done</button>
         </div>
       </div>
   </div>
@@ -169,6 +160,16 @@
       <span id="closePopupSuccess" class="closePopup">&times;</span>
       <h3 style="color: azure;">Success</h3>
       <p id="successText" style="color: azure;"></p>
+    </div>
+  </div>
+
+  <div id="confirmPopup" class="miniPopupContainer" style="display: none;">
+    <div class="popupContent">
+      <span id="closePopupConfirm" class="closePopup">&times;</span>
+      <h3 style="color: azure;">Action Required</h3>
+      <p id="confirmText" style="color: azure;">Do you agree that the vehicle details are correct and owned by you. Do you still want to proceed to add this to your vehicle?</p>
+      <button id="confirmButton">Yes</button>
+      <button id="cancelButton">No</button>
     </div>
   </div>
 

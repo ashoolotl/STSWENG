@@ -12,12 +12,10 @@ const addVehicle = async (data) => {
 
     if (resData.status == "success") {
       document.getElementById("successPopup").style.display = "block";
-      document.getElementById("successText").innerText = "Vehicle added.";
+      document.getElementById("successText").innerText = "Your car has been added successfully.";
       window.setTimeout(() => {
         location.assign("/dashboard");
       }, 1500);
-    } else {
-      alert(resData.message);
     }
   } catch (err) {
     console.error(err.message);
@@ -36,28 +34,45 @@ document.getElementById("closePopup").addEventListener("click", function () {
 
 document.getElementById("addCarForm").addEventListener("submit", function (event) {
   event.preventDefault();
-  const vehicleData = {
-    classification: document.getElementById("classType").value,
-    brand: document.getElementById("carBrand").value,
-    plateNumber: document.getElementById("plateNumber").value,
-    owner: document.getElementById("userId").value,
-  };
-  var confirmResult = confirm(
-    "Do you agree that the vehicle details are correct and owned by you. Do you still  want to proceed to add this to your vehicle?"
-  );
-  if (confirmResult) {
-    addVehicle(vehicleData);
-  } else {
-    console.log("");
+  
+  const classType = document.querySelector('#classType').value;
+  const carBrand = document.getElementById("carBrand").value;
+  const plateNumber = document.getElementById("plateNumber").value;
+  const plateNumberRegex = /^\d{3}[A-Z]{3}\d{4}$/; 
+  
+  if (plateNumber.trim() === "" || carBrand.trim() === "" || classType.trim() === "") {
+    console.error("Car brand or plate number is empty.");
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "One or more fields are empty. Please fill in all fields.";
   }
-  //
-  // document.getElementById('successPopup').style.display = 'block';
-}); // when submitted, hide form popup then show success popup
+  else if (!plateNumberRegex.test(plateNumber)) {
+    console.error("Invalid plate number.");
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "Plate number must be in the format 3Digits3Letters4Digits. \n\nExample: 123ABC4567. Please try again.";
+  } else {
+    const vehicleData = {
+      classification: document.getElementById("classType").value,
+      brand: document.getElementById("carBrand").value,
+      plateNumber: document.getElementById("plateNumber").value,
+      owner: document.getElementById("userId").value,
+    };
+    // document.getElementById("confirmPopup").style.display = "block";
+    // add popup to confirm the details of the vehicle
+    var confirmResult = confirm(
+      "Do you agree that the vehicle details are correct and owned by you. Do you still want to proceed to add this to your vehicle?"
+    );
+    if (confirmResult) {
+      addVehicle(vehicleData);
+    } else {
+      console.log("");
+    }
+  }
+}); 
 
-document.getElementById("closeSuccessPopup").addEventListener("click", function () {
+document.getElementById("closePopupSuccess").addEventListener("click", function () {
   document.getElementById("successPopup").style.display = "none";
 }); // closing of success popup through x button
 
-document.getElementById("closeBtn").addEventListener("click", function () {
-  document.getElementById("successPopup").style.display = "none";
-}); // closing of success popup after clicking done button
+document.getElementById("closePopupConfirm").addEventListener("click", function () {
+  document.getElementById("confirmPopup").style.display = "none";
+}); // closing of confirm popup through x button

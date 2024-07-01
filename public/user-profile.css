@@ -151,6 +151,44 @@ header {
     text-align: center;
 }
 
+.miniPopupContainer {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(to right, #1C1B1E, #3A3A3C);
+    padding: 20px;
+    border-radius: 10px;
+    color: red;
+    z-index: 99999; /* Increased z-index value */
+    width: 20%;
+    height: 20%;
+    font-size: 18px;
+    overflow-y: auto;
+    text-align: center;
+}
+
+#confirmButton, #cancelButton {
+    font-family: Montserrat;
+    font-size: 1.2rem;
+    padding: 10px;
+    margin-right: 10px;
+    background-color: #ED1C24;
+    color: white;
+    background-color: transparent;
+    border: 2px solid white;
+    cursor: pointer;
+    border-radius: 2px;
+    z-index: 1;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+}
+
+#confirmButton, #cancelButton :hover {
+    background-color: #FF5555;
+}
+
 .popupContent {
     text-align: center;
     display: flex;
