@@ -129,7 +129,7 @@ header {
     padding: 20px;
     border-radius: 10px;
     color: red;
-    z-index: 9999;
+    z-index: 999;
     width: 75%;
     height: 80%;
     font-size: 18px;
@@ -138,6 +138,7 @@ header {
 }
 
 .miniPopupContainer {
+    display: none;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -146,7 +147,7 @@ header {
     padding: 20px;
     border-radius: 10px;
     color: red;
-    z-index: 9999;
+    z-index: 99999; /* Increased z-index value */
     width: 20%;
     height: 20%;
     font-size: 18px;

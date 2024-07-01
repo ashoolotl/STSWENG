@@ -28,5 +28,11 @@ document.querySelector("form").addEventListener("submit", (e) => {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-  login(email, password);
+  if (email.trim() === "" || password.trim() === "") {
+    console.error("Email or password is empty.");
+    document.getElementById("error-message").innerText = "Email or password is empty. Please fill in both fields.";
+    document.getElementById("error-message").style.backgroundColor = "#212121";
+  } else {
+    login(email, password);
+  }
 });
