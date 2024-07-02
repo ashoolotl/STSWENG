@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{Service.name}} Reviews</title>
+    <link rel="stylesheet" href="/partials/navbar.css">
+    <link rel="stylesheet" href="/featured.css">
+    <link rel="stylesheet" href="/reviews.css">
+</head>
+<body>
+    {{> header}}
+
+    <div id="overlay"></div>
+    <header>{{Service.name}} Reviews</header>
+
+    <div class="review-container">
+        {{#each reviews}}
+        <div class="review">
+            <div class="review-top">
+                <img src="./images/filler-icon.jpg" class="review-pfp">
+                <div class="review-details">
+                    <h1 class="review-name">{{this.user.firstName}} {{this.user.lastName}}</h1>
+                    {{!-- TO BE IMPLEMENTED DYNAMICALLY --}}
+                    <div class="star-rating" id="starRating">
+                        <button class="star" data-rating="1">&#9733;</button>
+                        <button class="star" data-rating="2">&#9733;</button>
+                        <button class="star" data-rating="3">&#9733;</button>
+                        <button class="star" data-rating="4">&#9733;</button>
+                        <button class="star" data-rating="5">&#9733;</button>
+                    </div>
+                    <div class="review-text">
+                        {{this.text}}
+                    </div>
+                    <div class="review-date">
+                        Created {{this.date}}
+                    </div>
+
+                    <div class="review-replies">
+
+                        {{#each replies}}
+                        <div class="reply">
+                            <img src="yuju.jpg" class="reply-pfp">
+                            <div class="reply-details">
+                                <h3 class="reply-name">Nam Yuju (Admin)</h3>
+                                <div class="reply-text">
+                                    Thank you for this review!
+                                </div>
+                            </div>
+                        </div>
+                        {{/each}}
+
+                        {{#if (eq user.role 'admin')}}
+                        <button class="reply-button" type="submit">Reply</button>
+                        <form id="admin-input" style="display: none;">
+                            <input type="text" id="reply-text" name="reply-text" placeholder="Reply here..." required>
+                            <button type="submit">Reply</button>
+                        </form>
+                        {{/if}}
+                    </div>
+
+                </div>
+                <!-- DROPDOWN ONLY APPEARS IF CURRENT USER IS THE USER WHO MADE REVIEW -->
+                {{#if (eq user.email this.user.email)}}
+                <div class="dropdown">
+                    <button class="dropbtn">⋮</button>
+                    <div class="dropdown-content">
+                        <a href="#" class="edit-review-link">Edit</a>
+                        <a href="#">Delete</a>
+                    </div>
+                </div>
+                {{/if}}
+                
+            </div>
+        </div>
+        <hr>
+        {{/each}}
+    </div>
+    <script src="/js/reviews.js"></script>
+</body>
+</html>

@@ -47,15 +47,18 @@
                 <div class="buttons-container">
                   <button id="serviceEditBtn" class="edit-btn" type="button" data-id="{{this._id}}">Edit</button>
                   <button id="serviceDeleteBtn" class="delete-btn" type="button" data-id="{{this._id}}">Delete</button>
+                  <button id="adminReviewBtn" class="review-btn" type="button" data-id="{{this._id}}" data-owner="{{user._id}}">Reviews</button>
                 </div>
               {{else}}
                 <div class="buttons-container">
                   <button id="serviceAddToCart" class="edit-btn" type="button" data-id="{{this._id}}" data-owner="{{user._id}}">Add To Cart</button>
+                  <button id="userReviewBtn" class="review-btn" type="button" data-id="{{this._id}}" data-owner="{{user._id}}">Reviews</button>
                 </div>
               {{/if}}
             {{else}}
             <div class="buttons-container">
               <button id="serviceAddToCartNoUser" class="edit-btn" type="button" onclick="showErrorNotLoggedIn()">Add to Cart</button>
+              <button id="noUserReviewBtn" class="review-btn" type="button" data-id="{{this._id}}">Reviews</button>
             </div>
             {{/if}}
           </div>
