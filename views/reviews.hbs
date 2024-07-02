@@ -40,11 +40,11 @@
 
                         {{#each replies}}
                         <div class="reply">
-                            <img src="yuju.jpg" class="reply-pfp">
+                            <img src="./images/filler-icon.jpg" class="reply-pfp">
                             <div class="reply-details">
-                                <h3 class="reply-name">Nam Yuju (Admin)</h3>
+                                <h3 class="reply-name">{{this.user.firstName}} {{this.user.lastName}} (Admin)</h3>
                                 <div class="reply-text">
-                                    Thank you for this review!
+                                    {{this.text}}
                                 </div>
                             </div>
                         </div>
