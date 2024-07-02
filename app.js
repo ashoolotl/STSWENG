@@ -1,105 +1,106 @@
-const express = require('express');
-const exphbs  = require('express-handlebars');
-const path = require('path');
-const morgan = require('morgan');
-const rateLimit = require('express-rate-limit');
-const helmet = require('helmet');
-const mongoSanitize = require('express-mongo-sanitize');
-const hpp = require('hpp');
-const cookieParser = require('cookie-parser');
-/*--------------DECLARE THE ROUTERS HERE--------------*/
-const AppError = require('./utils/appError');
-const GlobalErrorHandler = require('./controllers/errorController');
+// Dependencies
+const express = require("express");
+const exphbs = require("express-handlebars");
+const path = require("path");
+const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
+const mongoSanitize = require("express-mongo-sanitize");
+const AppError = require("./utils/appError");
+const GlobalErrorHandler = require("./controllers/errorController");
+const helpers = require("handlebars-helpers")();
 
-const userRouter = require('./routes/userRoutes');
-const vehicleClassificationRouter = require('./routes/vehicleClassificationRoutes');
-const serviceRouter = require('./routes/serviceRoutes');
-const subscriptionRouter = require('./routes/subscriptionRoutes');
-const viewRouter = require('./routes/viewRoutes');
-const vehicleRouter = require('./routes/vehicleRoutes');
-const cartRouter = require('./routes/cartRoutes');
-const bookingRouter = require('./routes/bookingRoutes');
-const bookingController = require('./controllers/bookingController');
+// Routes
+const userRouter = require("./routes/userRoutes");
+const vehicleClassificationRouter = require("./routes/vehicleClassificationRoutes");
+const serviceRouter = require("./routes/serviceRoutes");
+const subscriptionRouter = require("./routes/subscriptionRoutes");
+const viewRouter = require("./routes/viewRoutes");
+const vehicleRouter = require("./routes/vehicleRoutes");
+const cartRouter = require("./routes/cartRoutes");
+const bookingRouter = require("./routes/bookingRoutes");
+const bookingController = require("./controllers/bookingController");
+const serviceAvailedRouter = require("./routes/serviceAvailedRoutes");
+const subscriptionAvailedRouter = require("./routes/subscriptionAvailedroutes");
+const bookingSubscriptionRouter = require("./routes/bookingSubscriptionRoutes");
+const { deleteCarByPlateNumber, deleteUserByEmail } = require("./public/js/deleteCarAndUser");
 
-const serviceAvailedRouter = require('./routes/serviceAvailedRoutes');
-
-const subscriptionAvailedRouter = require('./routes/subscriptionAvailedroutes');
-
-const bookingSubscriptionRouter = require('./routes/bookingSubscriptionRoutes');
-
+// Express App
 const app = express();
-app.engine('hbs', exphbs.engine({
-    extname: '.hbs', // Set the file extension for handlebars templates
-    defaultLayout: false, // Disable default layout (if you don't have layouts)
-    layoutsDir: path.join(__dirname, 'views/layouts'), // Specify the layouts directory (if you have layouts)
-    partialsDir: path.join(__dirname, 'views/partials') // Specify the partials directory
-}));
-app.set('view engine', 'hbs'); // Set Handlebars as the template engine
-app.set('views', path.join(__dirname, 'views')); // Specify the views directory
 
-// serving static files
-app.use(express.static(path.join(__dirname, 'public')));
+// Global Middleware
+app.use(express.json());
+app.use(cookieParser());
+app.use(mongoSanitize());
 
-// global middle ware
-// set security HTTP headers
-// app.use(helmet({ contentSecurityPolicy: false }));
-
-//development logging
-if (process.env.NODE_ENV === 'development') {
-    app.use(morgan('dev'));
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
 }
 
-// LIMIT REQUEST FROM API
-// const limiter = rateLimit({
-//     max: 200,
-//     windowMs: 60 * 60 * 1000,
-//     message: 'Too many request from this IP, please try again in an hour',
-// });
-// app.use('/api', limiter);
-app.post(
-    '/webhook-checkout',
-    express.raw({ type: 'application/json' }),
-    bookingController.webhookCheckout
-);
-app.post(
-    '/webhook-subscription',
-    express.raw({ type: 'application/json' }),
-    bookingController.webhookIsStillSubscribed
-);
-// Body Parser, reading data from body into req.body
-app.use(express.json({ limit: '10kb' }));
-app.use(cookieParser());
-// data sanitization here against nosql query injection
-app.use(mongoSanitize());
-// data sanitization against XSS
+// Special case for raw JSON for webhooks
+app.post("/webhook-checkout", express.raw({ type: "application/json" }), bookingController.webhookCheckout);
+app.post("/webhook-subscription", express.raw({ type: "application/json" }), bookingController.webhookIsStillSubscribed);
 
-// prevent parameter pollution
-//app.use(hpp());
+// View Engine Configuration
+app.engine(
+  "hbs",
+  exphbs.engine({
+    runtimeOptions: {
+      allowProtoPropertiesByDefault: true,
+    },
+    extname: ".hbs",
+    defaultLayout: false,
+    layoutsDir: path.join(__dirname, "views/layouts"),
+    partialsDir: path.join(__dirname, "views/partials"),
+    helpers: helpers,
+    
+  })
+);
+app.set("view engine", "hbs");
+app.set("views", path.join(__dirname, "views"));
+app.use(express.static(path.join(__dirname, "public")));
 
-app.use((req, res, next) => {
-    //console.log(req.cookies);
-    next();
+// API Routes
+app.use("/", viewRouter);
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/vehicle-classifications", vehicleClassificationRouter);
+app.use("/api/v1/services", serviceRouter);
+app.use("/api/v1/subscriptions", subscriptionRouter);
+app.use("/api/v1/vehicles", vehicleRouter);
+app.use("/api/v1/carts", cartRouter);
+app.use("/api/v1/bookings", bookingRouter);
+app.use("/api/v1/servicesAvailed", serviceAvailedRouter);
+app.use("/api/v1/bookings-subscription", bookingSubscriptionRouter);
+app.use("/api/v1/subscriptionsAvailed", subscriptionAvailedRouter);
+
+// Catch-all for unhandled routes
+app.all("*", (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
 });
 
-/*--------------DECLARE THE ROUTES HERE--------------*/
-app.use('/', viewRouter);
-app.use('/api/v1/users', userRouter);
-app.use('/api/v1/vehicle-classifications', vehicleClassificationRouter);
-app.use('/api/v1/services', serviceRouter);
-app.use('/api/v1/subscriptions', subscriptionRouter);
-app.use('/api/v1/vehicles', vehicleRouter);
-app.use('/api/v1/carts', cartRouter);
-app.use('/api/v1/bookings', bookingRouter);
-app.use('/api/v1/servicesAvailed', serviceAvailedRouter);
-app.use('/api/v1/bookings-subscription', bookingSubscriptionRouter);
-app.use('/api/v1/subscriptionsAvailed', subscriptionAvailedRouter);
-
-// Handle error if tried to access invalid path
-app.all('*', (req, res, next) => {
-    next(new AppError(`Can't find ${req.originalUrl} on this server`), 404);
-});
-
+// Error Handling
 app.use(GlobalErrorHandler);
-// global error handler
 
+/* ----------FOR CYPRESS--------- */
+// delete car
+app.delete("/api/v1/deleteVehicle/:plateNumber", async (req, res) => {
+  try {
+    await deleteCarByPlateNumber(req.params.plateNumber);
+    res.status(200).send("Vehicle deleted successfully");
+  } catch (error) {
+    res.status(500).send("Error deleting vehicle");
+  }
+});
+
+// delete user
+app.delete("/api/v1/deleteUser/:email", async (req, res) => {
+  try {
+    await deleteUserByEmail(req.params.email);
+    res.status(200).send("User deleted successfully");
+  } catch (error) {
+    res.status(500).send("Error deleting user");
+  }
+});
+/* ----------------------- */
+
+// Export App
 module.exports = app;

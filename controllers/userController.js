@@ -18,6 +18,7 @@ exports.getMe = (req, res, next) => {
 };
 exports.getUser = catchAsync(async (req, res, next) => {
     const user = await User.findById(req.params.id);
+    console.log('Handler getUser executed. req.params.id:', req.params.id);
     if (!user) {
         return next(new AppError('No user found with that ID', 404));
     }

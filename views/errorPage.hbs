@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/homepage.css">
     <link rel="stylesheet" href = "partials/navbar.css">
+    <link rel="stylesheet" href="error.css">
     <title>Error</title>
 
 </head>
@@ -14,8 +15,14 @@
 
   {{> _header }}
 
-  <h1>Error {{err.statusCode}}</h1>
-  <p>{{err.message}}</p>
+  <div class="container">
+    <h1>404</h1>
+    <p>Oops! Page not found.</p>
+    <p>Go back to <a href="/">home</a>.</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="/js/logout.js"></script>
 
 </body>
 

@@ -3,12 +3,12 @@ const dotenv = require("dotenv");
 dotenv.config({ path: "./config.env" });
 const app = require("./app");
 
-// start the server on port 3000
-const PORT = process.env.port || 3000;
+const PORT = process.env.PORT || 3000;
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONG_URI);
+    console.log("MONGO_URI:", process.env.MONGO_URI);
+    const conn = await mongoose.connect(process.env.MONGO_URI);
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
     console.error(`Error: ${error.message}`);

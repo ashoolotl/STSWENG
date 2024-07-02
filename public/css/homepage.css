@@ -2,7 +2,7 @@
 
 @font-face {
     font-family: 'Crillee';
-    src: url('./fonts/Crillee\ Italic\ BT.ttf') format('truetype');
+    src: url('../fonts/Crillee.ttf') format('truetype');
 }
 
 body {

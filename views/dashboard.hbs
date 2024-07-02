@@ -7,9 +7,8 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
   <title>User Profile</title>
-  <link rel="stylesheet" href="user-profile-copy.css">
+  <link rel="stylesheet" href="user-profile.css">
   <link rel="stylesheet" href = "partials/navbar.css">
-
 </head>
 
 <body>
@@ -26,174 +25,161 @@
     <div id="profile-picture">
       <img src="./images/filler-icon.jpg" alt="Profile Picture">
     </div>
-
-    <h1>Hi, <span>Pedro</span></h1>
+    <h1>Hi, <span>{{user.firstName}}</span></h1>
     <p>What would you like to get started on today?</p>
   </div>
 
   <div class="registered-cars">
     <h2>Registered Cars</h2>
-
-    <!--car details currently static convert to changeable + change names of classes too-->
     <hr>
-    <div class="car">
-      <img src="./images/sedan.png">
-      <div class="car-status">
-        <div class="car-info">
-          <p class="car-text">Status:</p>
-          <p class="status">On-going</p>
-        </div>
-        <div class="car-info">
-          <p class="car-text">Plate Number:</p>
-          <p class="status">XXX 1234</p>
-        </div>
-        <div class="car-info">
-          <p class="car-text">Contact Person:</p>
-          <p class="status">Grogu - XX</p>
+    {{#each vehicles}}
+      <div class="car">
+        <img src="/images/vehicleClassification/{{this.classification}}.jpeg" alt="Vehicle Classification Image">
+        <div class="car-status">
+            <div class="car-info">
+              <p class="car-text">Status:</p>
+              <p class="status">{{this.status}}</p>
+            </div>
+            <div class="car-info">
+              <p class="car-text">Plate Number:</p>
+              <p class="status">{{this.plateNumber}}</p>
+            </div>
         </div>
       </div>
-    </div>
-
-    <hr>
-    <div class="car">
-      <img src="./images/sedan.png">
-      <div class="car-status">
-        <div class="car-info">
-          <p class="car-text">Status:</p>
-          <p class="status">Not Available</p>
-        </div>
-        <div class="car-info">
-          <p class="car-text">Plate Number:</p>
-          <p class="status">XXX 4567</p>
-        </div>
-        <div class="car-info">
-          <p class="car-text">Contact Person:</p>
-          <p class="status">Not Available</p>
-        </div>
-      </div>
-    </div>
-
-    <hr>
+      <hr>
+    {{/each}}
     <button id="add">
-      <img id="addPhoto" src="./images/add.png">
-    </button> <!--pop up should appear here in order to register new cars-->
-
-    <!-- popup here -->
+      <img id="addPhoto" src="/images/add.png">
+    </button>
     <div id="addCarPopup" class="popupContainer">
       <div class="popupContent">
         <span id="closePopup" class="closePopup">&times;</span>
         <h1>Add a Car</h1>
-        <form id="addCarForm">
-
-          <label for="classType">Classification</label><br>
-          <select id="classType" name="classType" required>
-            <option value="">Select Class Type</option>
-            <option value="motorcycle">Motorcycle</option>
-            <option value="sedan">Sedan</option>
-            <option value="hatchback">Hatchback</option>
-            <option value="suv">SUV</option>
-            <option value="pickup">Pickup</option>
-            <option value="van">Van</option>
-          </select><br>
-
-          <label for="carBrand">Brand</label>
-          <input type="text" id="carBrand" name="carBrand" required><br>
-
-          <label for="carMake">Make</label>
-          <input type="text" id="carMake" name="carMake" required><br>
-
-          <label for="carModel">Model</label>
-          <input type="text" id="carModel" name="carModel" required><br>
-
-          <label for="carYear">Year</label>
-          <input type="number" id="carYear" name="carYear" required><br>
-
-          <label for="plateNumber">Plate Number (3 Digits, 2 Letters, 5 Digits)</label>
-          <input type="text" id="plateNumber" name="plateNumber" pattern="\d{3}[A-Za-z]{2}\d{5}" required><br>
-
-          <button type="submit">Submit</button>
-        </form>
-      </div>
-    </div>
-
-    <div id="successPopup" class="popupContainer">
-      <div class="popupContent">
-        <span id="closeSuccessPopup" class="closePopup">&times;</span>
-        <h1>Completed</h1>
-        <p>Your car has been added successfully.</p>
-        <button type="submit" id="closeBtn">Done</button>
-      </div>
-    </div>
-
-  </div>
-
-
-  <!--subs-->
-  <div id="active-subs" class="active-subscriptions">
-    <h2>Active Subscriptions</h2>
-
-    <div class="subscriptions">
-      <img src="./images/service-1.png" onclick = "showToken()" >
-      <img src="./images/service-2.png" onclick = "showToken()">
-    </div>
-  </div>
-
-  <div id="subsPopup" class="tokenContainer">
-      <span id="closePopup" class="closePopup" onclick = "closeToken()">&times;</span>
-      <h1>Remaining Tokens for vehicle XXXX1234</h1>
-      
-      <hr>
-      <div class="popupContent">
-        <div class="contentWrapper Tokens">
-            <div class = "image-select">  
-              <input type="radio">
-              <img class="tokenPopupImage" src="./images/service-1.png" alt="service1">
-            </div>
-            <span class="bookingPopupPlateNumber"><strong>Quantity: </strong>1</span>
+          <form id="addCarForm">
+            <label for="classType">Classification</label><br>
+            <select id="classType" name="classType">
+            <option value="" disabled selected>Select Class Type</option>
+            {{#each vehicleClassifications}}
+              <option value="{{this.name}}">{{this.name}}</option>
+            {{/each}}
+            </select><br>
+            <label for="carBrand">Brand</label>
+            <input type="text" id="carBrand" name="carBrand">
+            <label for="plateNumber">Plate Number (3 Digits, 3 Letters, 4 Digits)</label>
+            <input type="text" id="plateNumber" name="plateNumber">
+            <input type="hidden" name="userId" value="{{user._id}}" id="userId">
+            <button type="submit">Submit</button>
+          </form>
         </div>
       </div>
-
-      <hr>
-      <div class="popupContent">
-        <div class="contentWrapper Tokens">
-          <div class = "image-select">  
-            <input type="radio">
-            <img class="tokenPopupImage" src="./images/service-2.png" alt="service2">
-          </div>
-          <span class="bookingPopupPlateNumber"><strong>Quantity: </strong>3</span>
-      </div>
-      </div>
-
-      <hr>
-
-      <button class="booking" onclick="showDateTimePopup()">Proceed to Booking</button>
   </div>
 
-
-  <!--services-->
-  <div id = "active-services" class="active-subscriptions">
+  <div id="active-services" class="active-subscriptions">
     <h2>Active Services</h2>
+      <div class="subscriptions">
+        {{#each serviceAvailed}}
+          <img src="/images/services/{{this.product}}.jpeg" alt="Image for {{this.product}}" style="width: 592px; height: 316px; border-radius: 20px;" onclick="showPopupService('{{this.id}}')">
+        {{/each}}
+      </div>
+  </div>
 
+  <div id="servicePopup" class="tokenContainer">
+    <span class="closePopup" onclick="closePopupService()">&times;</span>
+      <h2 id="servicePopupRemainingTokens">Remaining Tokens</h2>
+      <h2 id="servicePopupPlateNumber">Vehicle XXXX1234</h2>
+      <hr>
+      <div class="popupContent">
+        <span class="bookingPopupPlateNumber">
+          <strong>Price: 1 Token</strong>
+        </span>
+        <div class="contentWrapper Tokens">
+          <div class="image-select">
+            <input type="radio" checked="true">
+            <img id="servicePopupImg" class="tokenPopupImage" src="/images/services/HYPER WASH.jpeg" alt="service1">
+            <input id="serviceBookingId" type="hidden">
+          </div>
+        </div>
+      </div>
+    <hr>
+    <button class="booking" onclick="showDateTimePopupService()">Proceed to Booking</button>
+  </div>
+
+  <div id="dateTimePopupService" class="tokenContainer">
+    <span class="closePopup" onclick="closeDateTimePopupService()">&times;</span>
+    <h2>Select Date and Time</h2>
+    <div class="content">
+      {{!-- Adjusting for UTC+8 (Philippine Time) --}}
+      {{!-- You can replace this with proper handling using a helper or a script in the template --}}
+      <input type="date" id="bookingDate" min="{{nowDate}}" value="{{nowDate}}">
+      <input type="time" id="bookingTime" value="09:00" onchange="validateTime()">
+    </div>
+    <hr>
+    <button class="dateTimeSubmit" onclick="submitDateTimeServiceBooking()">Submit</button>
+  </div>
+
+  <div id="active-subscriptions" class="active-subscriptions">
+    <h2>Active Subscriptions</h2>
     <div class="subscriptions">
-      <img src="./images/service-1.png" onclick="showDateTimePopup()">
-      <img src="./images/service-2.png" onclick="showDateTimePopup()">
+    {{#each subscriptionsAvailed}}
+      <img src="/images/subscriptions/{{this.product}}.jpeg" alt="Image for {{this.product}}" style="width: 592px; height: 316px; border-radius: 20px;" onclick="showPopupSubscription('{{this._id}}')">
+    {{/each}}
     </div>
   </div>
 
-  <!--date and time popup-->
-  <div id="dateTimePopup" class="tokenContainer">
-    <span class="closePopup" onclick="closeDateTimePopup()">&times;</span>
+  <div id="subscriptionPopup" class="tokenContainer">
+    <span class="closePopup" onclick="closePopupSubscription()">&times;</span>
+    <h2 id="subscriptionPopupPlateNumber">Subscription For Vehicle XXXX1234</h2>
+    <div id="generatedCodeHere"></div>
+  </div>
+
+  <div id="dateTimePopupSubscription" class="tokenContainer">
+    <span class="closePopup" onclick="closeDateTimePopupSubscription()">&times;</span>
     <h2>Select Date and Time</h2>
-    <!-- Content -->
-      <div class = "content">
-          <input type="date" id="bookingDate">
-          <input type="time" id="bookingTime">
-      </div>
-      <button class = "dateTimeSubmit" onclick="submitDateTime()">Submit</button>
+    <div class="content">
+      {{!-- Adjusting for UTC+8 (Philippine Time) --}}
+      {{!-- You can replace this with proper handling using a helper or a script in the template --}}
+      <input type="date" id="bookingDateSubscription" min="{{nowDateSubscription}}" value="{{nowDateSubscription}}">
+      <input type="time" id="bookingTimeSubscription" value="09:00" onchange="validateTime()">
+    </div>
+    <hr>
+    <button class="dateTimeSubmit" onclick="submitDateTimeSubscriptionBooking()">Submit</button>
   </div>
  
-  <script src="add-car.js"></script>
-  <script src="view-token.js"></script>
+  <!-- Error Popup -->
+  <div id="errorPopup" class="miniPopupContainer" style="display: none;">
+    <div class="popupContent">
+      <span id="closePopupError" class="closePopup">&times;</span>
+      <h3 style="color: azure;">There seems to be a problem</h3>
+      <p id="errorText" style="color: azure;"></p>
+    </div>
+  </div>
+
+  <!-- Success Popup -->
+  <div id="successPopup" class="miniPopupContainer" style="display: none;">
+    <div class="popupContent">
+      <span id="closePopupSuccess" class="closePopup">&times;</span>
+      <h3 style="color: azure;">Success</h3>
+      <p id="successText" style="color: azure;"></p>
+    </div>
+  </div>
+
+  <div id="confirmPopup" class="miniPopupContainer" style="display: none;">
+    <div class="popupContent">
+      <span id="closePopupConfirm" class="closePopup">&times;</span>
+      <h3 style="color: azure;">Action Required</h3>
+      <p id="confirmText" style="color: azure;">Do you agree that the vehicle details are correct and owned by you. Do you still want to proceed to add this to your vehicle?</p>
+      <button id="confirmButton">Yes</button>
+      <button id="cancelButton">No</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  {{!-- <script src="add-car.js"></script>
+  <script src="view-token.js"></script> --}}
+  <script src="/js/registerVehicle.js"></script>
+  <script src="/js/availService.js"></script>
+  <script src="/js/useSubscription.js"></script>
+  <script src="/js/logout.js"></script>
 </body>
 
 </html>

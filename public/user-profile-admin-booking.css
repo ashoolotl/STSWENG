@@ -159,6 +159,24 @@ header {
     text-align: center;
 }
 
+.miniPopupContainer {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(to right, #1C1B1E, #3A3A3C);
+    padding: 20px;
+    border-radius: 10px;
+    color: red;
+    z-index: 99999; /* Increased z-index value */
+    width: 35%;
+    height: 25%;
+    font-size: 18px;
+    overflow-y: auto;
+    text-align: center;
+}
+
 .popupContent {
     display: flex;
     flex-direction: column;

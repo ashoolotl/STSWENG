@@ -1,62 +1,78 @@
 const addVehicle = async (data) => {
-    try {
-        const res = await axios({
-            method: 'POST',
-            url: '/api/v1/vehicles',
-            headers: {
-                'Content-Type': 'application/json', // Set content type to JSON
-            },
-            data,
-        });
+  try {
+    const response = await fetch("/api/v1/vehicles", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
 
-        if (res.data.status == 'success') {
-            alert('Vehicle added');
-            window.setTimeout(() => {
-                location.assign('/dashboard');
-            }, 1500);
-        }
-    } catch (err) {
-        alert(err.response.data.message);
-        console.log(data);
+    const resData = await response.json();
+
+    if (resData.status == "success") {
+      document.getElementById("successPopup").style.display = "block";
+      document.getElementById("successText").innerText = "Your car has been added successfully.";
+      window.setTimeout(() => {
+        location.assign("/dashboard");
+      }, 1500);
     }
+  } catch (err) {
+    console.error(err.message);
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "An error occurred while adding vehicle. Please try again later.";
+  }
 };
 
-document.getElementById('add').addEventListener('click', function () {
-    document.getElementById('addCarPopup').style.display = 'block';
+document.getElementById("add").addEventListener("click", function () {
+  document.getElementById("addCarPopup").style.display = "block";
 }); // opening of add car popup
 
-document.getElementById('closePopup').addEventListener('click', function () {
-    document.getElementById('addCarPopup').style.display = 'none';
+document.getElementById("closePopup").addEventListener("click", function () {
+  document.getElementById("addCarPopup").style.display = "none";
 }); // closing of add car popup through x button
 
-document
-    .getElementById('addCarForm')
-    .addEventListener('submit', function (event) {
-        event.preventDefault();
-        const vehicleData = {
-            classification: document.getElementById('classType').value,
-            brand: document.getElementById('carBrand').value,
-            plateNumber: document.getElementById('plateNumber').value,
-            owner: document.getElementById('userId').value,
-        };
-        var confirmResult = confirm(
-            'Do you agree that the vehicle details are correct and owned by you. Do you still  want to proceed to add this to your vehicle?'
-        );
-        if (confirmResult) {
-            addVehicle(vehicleData);
-        } else {
-            console.log('');
-        }
-        //
-        // document.getElementById('successPopup').style.display = 'block';
-    }); // when submitted, hide form popup then show success popup
+document.getElementById("addCarForm").addEventListener("submit", function (event) {
+  event.preventDefault();
+  
+  const classType = document.querySelector('#classType').value;
+  const carBrand = document.getElementById("carBrand").value;
+  const plateNumber = document.getElementById("plateNumber").value;
+  const plateNumberRegex = /^\d{3}[A-Z]{3}\d{4}$/; 
+  
+  if (plateNumber.trim() === "" || carBrand.trim() === "" || classType.trim() === "") {
+    console.error("Car brand or plate number is empty.");
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "One or more fields are empty. Please fill in all fields.";
+  }
+  else if (!plateNumberRegex.test(plateNumber)) {
+    console.error("Invalid plate number.");
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "Plate number must be in the format 3Digits3Letters4Digits. \n\nExample: 123ABC4567. Please try again.";
+  } else {
+    const vehicleData = {
+      classification: document.getElementById("classType").value,
+      brand: document.getElementById("carBrand").value,
+      plateNumber: document.getElementById("plateNumber").value,
+      owner: document.getElementById("userId").value,
+    };
+    // document.getElementById("confirmPopup").style.display = "block";
+    // add popup to confirm the details of the vehicle
+    var confirmResult = confirm(
+      "Do you agree that the vehicle details are correct and owned by you. Do you still want to proceed to add this to your vehicle?"
+    );
+    if (confirmResult) {
+      addVehicle(vehicleData);
+    } else {
+      console.log("");
+    }
+  }
+}); 
 
-document
-    .getElementById('closeSuccessPopup')
-    .addEventListener('click', function () {
-        document.getElementById('successPopup').style.display = 'none';
-    }); // closing of success popup through x button
+document.getElementById("closePopupSuccess").addEventListener("click", function () {
+  document.getElementById("successPopup").style.display = "none";
+}); // closing of success popup through x button
 
-document.getElementById('closeBtn').addEventListener('click', function () {
-    document.getElementById('successPopup').style.display = 'none';
-}); // closing of success popup after clicking done button
+document.getElementById("closePopupConfirm").addEventListener("click", function () {
+  document.getElementById("confirmPopup").style.display = "none";
+}); // closing of confirm popup through x button
