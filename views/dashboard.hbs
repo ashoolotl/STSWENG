@@ -38,7 +38,11 @@
         <div class="car-status">
             <div class="car-info">
               <p class="car-text">Status:</p>
+              {{if (eq this.status 'To Review')}}
+              <p class="status" onclick="">{{this.status}}</p>
+              {{else}}
               <p class="status">{{this.status}}</p>
+              {{/if}}
             </div>
             <div class="car-info">
               <p class="car-text">Plate Number:</p>
@@ -173,6 +177,30 @@
     </div>
   </div>
 
+  <!-- {{!-- Leave a Review Popup --}} -->
+  <div id="reviewPopup" class="popupContainer">
+      <div class="popupContent">
+        <span id="closePopup" class="closePopup">&times;</span>
+        <h1>Leave a Review</h1>
+          <form id="reviewForm">
+            <label for="rating">Rating</label>
+            <div class="star-rating" id="starRating">
+              <button class="star" data-rating="1">&#9733;</button>
+              <button class="star" data-rating="2">&#9733;</button>
+              <button class="star" data-rating="3">&#9733;</button>
+              <button class="star" data-rating="4">&#9733;</button>
+              <button class="star" data-rating="5">&#9733;</button>
+            </div>
+            <input type="hidden" name="rating" id="ratingInput" value="" required>
+
+            <label for="reviewText"></label>
+            <input type="text" id="reviewText" name="reviewText" placeholder="Leave your review here..." required>
+
+            <button type="submit">Submit</button>
+          </form>
+        </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   {{!-- <script src="add-car.js"></script>
   <script src="view-token.js"></script> --}}
@@ -180,6 +208,7 @@
   <script src="/js/availService.js"></script>
   <script src="/js/useSubscription.js"></script>
   <script src="/js/logout.js"></script>
+  <script src="/js/reviewDashboard.js"></script>
 </body>
 
 </html>

@@ -401,3 +401,34 @@ header {
     /* Adjust the alpha (fourth value) for darkness */
     z-index: 1;
 }
+
+.star-rating {
+    display: flex;
+    direction: row;
+    font-size: 5rem;
+    justify-content: center;
+}
+
+.star {
+    font-size: 3rem; /* size of the stars */
+}
+
+.star-rating button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+}
+
+.star-rating .star {
+    color: #ccc; /* Gray color for unselected stars */
+}
+
+.star-rating .star.selected {
+    color: #ED1C24; /* Red color for selected stars */
+}
+
+#reviewText {
+    height: 15rem;
+}
