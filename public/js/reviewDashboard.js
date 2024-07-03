@@ -16,3 +16,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+document.getElementById("reviewBtn").addEventListener("click", function () {
+    document.getElementById("reviewPopup").style.display = "block";
+}); // opening of review popup
+
+document.getElementById("closePopup").addEventListener("click", function () {
+    document.getElementById("reviewPopup").style.display = "none";
+}); // closing of review popup through x button
