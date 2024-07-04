@@ -44,6 +44,10 @@ const addItemToCart = async (data) => {
       document.getElementById("successPopup").style.display = "block";
       document.getElementById("successText").innerText = "Item added to cart.";
       document.getElementById("bookingPopup").style.display = "none";
+      setTimeout(() => {
+        document.getElementById("successPopup").style.display = "none";
+        document.getElementById("successText").innerText = "";
+      }, 1000);
     }
   } catch (err) {
     console.log(err.message);

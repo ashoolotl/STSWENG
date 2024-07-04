@@ -144,11 +144,3 @@
 #addPopup .popupContent {
     height: unset;
 }
-
-#bookingPopup button,
-#addPopup button {
-    position: absolute; /* Position the button absolutely within the container */
-    bottom: 20px; /* Adjust as needed */
-    left: 50%; /* Center the button horizontally */
-    transform: translateX(-50%);
-}
