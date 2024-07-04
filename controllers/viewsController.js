@@ -4,6 +4,7 @@ const Service = require("../models/servicesModel");
 const Subscription = require("../models/subscriptionModel");
 const Cart = require("../models/cartModel");
 const ServiceAvailed = require("../models/serviceAvailedModel");
+const Reviews = require("../models/reviewModel");
 const Booking = require("../models/bookingModel");
 const BookingSubscription = require("../models/bookingSubscriptionModel");
 const SubscriptionAvailed = require("../models/subscriptionAvailedModel");
@@ -99,6 +100,21 @@ exports.getServices = async (req, res, next) => {
     user,
     vehicles,
   });
+};
+
+exports.getReviews = async (req, res, next) => {
+  try {
+    const serviceName = req.params.serviceName;
+
+    let reviews = await Reviews.find({ service: serviceName });
+
+    res.status(200).render("reviews", {
+      title: "Reviews",
+      reviews,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 exports.getSubscriptions = async (req, res, next) => {

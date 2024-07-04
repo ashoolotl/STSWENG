@@ -20,6 +20,7 @@ router.get(
     viewsController.getVehicleClassifications
 );
 router.get('/services', viewsController.getServices);
+router.get('/reviews', viewsController.getReviews);
 router.get('/subscriptions', viewsController.getSubscriptions);
 router.get('/register', viewsController.getRegister);
 router.get('/carts', authController.protect, viewsController.getCart);
