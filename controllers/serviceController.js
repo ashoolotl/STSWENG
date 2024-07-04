@@ -210,8 +210,6 @@ exports.editService = catchAsync(async (req, res, next) => {
     }
   );
 
-  console.log(service + "ASDKJAKJLSD");
-
   if (!service) {
     return next(new AppError("No service found with that id", 400));
   }

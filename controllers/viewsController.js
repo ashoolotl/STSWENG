@@ -1,10 +1,11 @@
+const User = require("../models/userModel");
 const Vehicle = require("../models/vehicleModel");
 const VehicleClassification = require("../models/vehicleClassificationModel");
 const Service = require("../models/servicesModel");
 const Subscription = require("../models/subscriptionModel");
 const Cart = require("../models/cartModel");
 const ServiceAvailed = require("../models/serviceAvailedModel");
-const Reviews = require("../models/reviewModel");
+const Review = require("../models/reviewModel");
 const Booking = require("../models/bookingModel");
 const BookingSubscription = require("../models/bookingSubscriptionModel");
 const SubscriptionAvailed = require("../models/subscriptionAvailedModel");
@@ -105,9 +106,14 @@ exports.getServices = async (req, res, next) => {
 exports.getReviews = async (req, res, next) => {
   try {
     const serviceName = req.params.serviceName;
-    console.log(serviceName);
+    console.log("Getting reviews for " + serviceName);
 
-    let reviews = await Reviews.find({ service: serviceName });
+    let reviews = await Review.find({ service: serviceName }).populate({
+      path: "user",
+      select: "lastName firstName email photo",
+    });
+
+    console.log(reviews);
 
     res.status(200).render("reviews", {
       title: "Reviews",
