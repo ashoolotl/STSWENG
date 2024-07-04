@@ -1,4 +1,13 @@
 const mongoose = require("mongoose");
+
+function getCurrentDateString() {
+  const date = new Date();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  const year = date.getFullYear();
+  return `${month}/${day}/${year}`;
+}
+
 const reviewSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -11,8 +20,8 @@ const reviewSchema = new mongoose.Schema({
     uppercase: true,
   },
   date: {
-    type: Date,
-    default: Date.now(),
+    type: String,
+    default: getCurrentDateString,
   },
   rating: {
     type: Number,

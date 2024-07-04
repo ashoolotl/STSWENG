@@ -3,7 +3,7 @@
     <div class="navbar-left">
         <div class="logo">
             <a href="#">
-                <img src="./images/logo-red.png"/>
+                <img src="/images/logo-red.png"/>
             </a>
         </div>
         <a href="/">Home</a>
@@ -15,7 +15,7 @@
             {{#if (eq user.role 'user')}}
                 <div class="dropdown">
                     <button class="dropbtn user-link">
-                        <img src="./images/usernamebg.png" alt="User Profile Image" />
+                        <img src="/images/usernamebg.png" alt="User Profile Image" />
                         <span>Hello, {{user.firstName}}</span>
                     </button>
                     <div class="dropdown-content">
@@ -24,16 +24,16 @@
                     </div>
                 </div>
                 <a href="/carts" class="cart-icon">
-                    <img src="./images/cart.png" />
+                    <img src="/images/cart.png" />
                 </a>
                 <a href="#" class="search-icon">
-                    <img src="./images/search.png" />
+                    <img src="/images/search.png" />
                 </a>
             {{/if}}
             {{#if (eq user.role 'admin')}}
                 <div class="dropdown">
                     <button class="dropbtn user-link">
-                        <img src="./images/usernamebg.png" alt="User Profile Image" />
+                        <img src="/images/usernamebg.png" alt="User Profile Image" />
                         <span>Hello, {{user.firstName}}</span>
                     </button>
                     <div class="dropdown-content">
@@ -47,7 +47,7 @@
             {{else if (eq user 'nouser')}}
                 <div class="username">
                     <a href="/login" class="user-link">
-                        <img src="./images/loginbg.png" alt="User Profile Image" />
+                        <img src="/images/loginbg.png" alt="User Profile Image" />
                         <span>Log In</span>
                     </a>
                 </div>
@@ -55,7 +55,7 @@
         {{else}}
                 <div class="username">
                     <a href="/login" class="user-link">
-                        <img src="./images/loginbg.png" alt="User Profile Image" />
+                        <img src="/images/loginbg.png" alt="User Profile Image" />
                         <span>Log In</span>
                     </a>
                 </div>

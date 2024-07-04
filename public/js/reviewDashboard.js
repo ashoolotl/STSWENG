@@ -1,4 +1,4 @@
-const createReview = async (data) => {
+const createReview = async (data, service) => {
   try {
     const response = await fetch("/api/v1/reviews", {
       method: "POST",
@@ -9,12 +9,16 @@ const createReview = async (data) => {
     });
     const resData = await response.json();
     if (resData.status === "success") {
-      window.location.reload();
+        document.getElementById("successPopup").style.display = "block";
+        document.getElementById("successText").innerText = "Your review has been successfully posted.";
+        window.setTimeout(() => {
+          location.assign(`/reviews/${service}`);
+        }, 1000);
     }
   } catch (err) {
     console.log(err.message);
     document.getElementById("errorPopup").style.display = "block";
-    document.getElementById("errorText").innerText = "An error occurred while fetching services. Please try again later.";
+    document.getElementById("errorText").innerText = "An error occurred while posting your review. Please try again later.";
   }
 };
 
@@ -37,10 +41,47 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-document.getElementById("reviewBtn").addEventListener("click", function () {
-  document.getElementById("reviewPopup").style.display = "block";
-}); // opening of review popup
+document.getElementById("reviewForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+    
+    const rating = document.getElementById("ratingInput").value;
+    const review = document.getElementById("reviewText").value;
+    const user = document.getElementById("userId").value;
+    const serviceName = document.getElementById("serviceName").value;
 
-document.getElementById("closePopup").addEventListener("click", function () {
-  document.getElementById("reviewPopup").style.display = "none";
+    if (rating === "" || review.trim() === "") {
+        document.getElementById("error-message").innerText = "One or more fields are empty. Please fill in all fields and try again.";
+    } else {
+        const data = new FormData();
+        data.append("rating", rating);
+        data.append("ratingMessage", review);
+        // data.append("user", user);
+        data.append("service", serviceName);
+        // const currentDate = new Date();
+        // const formattedDate = `${currentDate.getMonth() + 1}/${currentDate.getDate()}/${currentDate.getFullYear()}`;
+        // data.append("date", formattedDate);
+        // console.log(data);
+        createReview(data, serviceName);
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const reviewBtns = document.querySelectorAll("#reviewBtn");
+    
+    reviewBtns.forEach((btn) => {
+        btn.addEventListener("click", function () {
+            const serviceName = "SERVICE 1123";
+            // const serviceName = this.getAttribute("data-service-name");
+            document.getElementById("reviewPopup").style.display = "block";
+            document.getElementById("serviceName").value = serviceName;
+        });
+    });
+});
+
+// document.getElementById("reviewBtn").addEventListener("click", function () {
+//   document.getElementById("reviewPopup").style.display = "block";
+// }); // opening of review popup
+
+document.getElementById("closeReviewPopup").addEventListener("click", function () {
+    document.getElementById("reviewPopup").style.display = "none";
 }); // closing of review popup through x button

@@ -281,7 +281,7 @@ header {
 .book-appointment-btn,
 .edit-btn,
 .delete-btn,
-.review-btn {
+.review-btn, #submitEditReview, #cancelEditReview {
     font-family: Montserrat;
     font-size: 1.2rem;
     padding: 10px;
@@ -299,10 +299,20 @@ header {
 .book-appointment-btn:hover,
 .edit-btn:hover,
 .delete-btn:hover,
-.review-btn:hover {
+.review-btn:hover, #submitEditReview:hover, #cancelEditReview:hover {
     background-color: #FF5555;
 }
 
 fieldset {
     margin-top: 10px;
+}
+
+#reviewEditText {
+    width: calc(100% - 20px);
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 2px solid #ED1C24;
+    border-radius: 10px;
+    resize: none;
+    height: auto;
 }

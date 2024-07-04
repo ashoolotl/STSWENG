@@ -13,6 +13,39 @@ document.addEventListener('DOMContentLoaded', function() {
     //         });
     //     });
     // });
+    document.getElementById('edit-review').addEventListener('click', function() {
+        console.error('edit button clicked');
+        const reviewTextDiv = document.getElementById('review-text');
+        const ratingMessage = reviewTextDiv.textContent.trim();
+
+        const originalContent = reviewTextDiv.cloneNode(true);
+
+        const label = document.createElement('label');
+        label.setAttribute('for', 'reviewEditText');
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.name = 'reviewEditText';
+        input.value = ratingMessage;
+        input.id = 'reviewEditText';
+        input.maxLength = '250';
+
+        const cancelButton = document.createElement('button');
+        cancelButton.type = 'button';
+        cancelButton.textContent = 'Cancel';
+        cancelButton.id = 'cancelEditReview';
+
+        const submitButton = document.createElement('button');
+        submitButton.type = 'submit';
+        submitButton.textContent = 'Submit';
+        submitButton.id = 'submitEditReview';
+
+        reviewTextDiv.replaceWith(label, input, submitButton, cancelButton);
+
+        cancelButton.addEventListener('click', function() {
+            const container = label.parentNode;
+            container.replaceWith(originalContent);
+        });
+    });
 
     // reply button FOR ADMIN ONLY
     const replyButton = document.querySelector('.reply-button');
@@ -63,4 +96,32 @@ document.addEventListener('DOMContentLoaded', function() {
             saveButton.style.display = 'none';
         });
     });
+
+    document.querySelectorAll(".edit-review").forEach((editButton) => {
+        editButton.addEventListener("click", function() {
+            console.error('edit button clicked');
+            const reviewContainer = this.closest('.review-details'); 
+            const reviewTextDiv = reviewContainer.querySelector('.review-text');
+            const ratingMessage = reviewTextDiv.textContent;
+    
+            const label = document.createElement('label');
+            label.setAttribute('for', 'reviewText');
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.name = 'reviewText';
+            input.value = ratingMessage;
+            input.id = 'reviewText';
+            input.maxLength = '250';
+    
+            const submitButton = document.createElement('button');
+            submitButton.type = 'submit';
+            submitButton.textContent = 'Submit';
+            submitButton.id = 'submitEditReview';
+    
+            reviewTextDiv.replaceWith(label, input, submitButton);
+        });
+    });
 });
+
+
+

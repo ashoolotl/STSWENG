@@ -18,9 +18,13 @@ const addVehicle = async (data) => {
       }, 1500);
     }
   } catch (err) {
-    console.error(err.message);
-    document.getElementById("errorPopup").style.display = "block";
-    document.getElementById("errorText").innerText = "An error occurred while adding vehicle. Please try again later.";
+    console.error(err);
+    if (err.message.includes('E11000 duplicate key error')) {
+      document.getElementById("addcar-error-message").innerText = "Vehicle plate number already exists.";
+    } else {
+      document.getElementById("errorPopup").style.display = "block";
+      document.getElementById("errorText").innerText = "An error occurred while adding vehicle classifications. Please try again later.";
+    }  
   }
 };
 

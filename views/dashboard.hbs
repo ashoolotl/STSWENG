@@ -39,7 +39,7 @@
             <div class="car-info">
               <p class="car-text">Status:</p>
               {{#if (eq this.status 'To Review')}}
-              <p class="status" id="reviewBtn" style="cursor:pointer;">{{this.status}}</p>
+              <p class="status" id="reviewBtn" style="cursor:pointer;">{{this.status}}</p> {{!-- data-service-name="{{this.}}" --}}
               {{else}}
               <p class="status">{{this.status}}</p>
               {{/if}}
@@ -72,6 +72,7 @@
             <label for="plateNumber">Plate Number (3 Digits, 3 Letters, 4 Digits)</label>
             <input type="text" id="plateNumber" name="plateNumber">
             <input type="hidden" name="userId" value="{{user._id}}" id="userId">
+            <p id="addcar-error-message" style="color: rgb(255, 72, 72) !important"></p>
             <button type="submit">Submit</button>
           </form>
         </div>
@@ -180,7 +181,7 @@
   <!-- {{!-- Leave a Review Popup --}} -->
   <div id="reviewPopup" class="popupContainer">
       <div class="popupContent">
-        <span id="closePopup" class="closePopup">&times;</span>
+        <span id="closeReviewPopup" class="closePopup">&times;</span>
         <h1>Leave a Review</h1>
           <form id="reviewForm">
             <label for="rating">Rating</label>
@@ -191,11 +192,12 @@
               <button class="star" data-rating="4">&#9733;</button>
               <button class="star" data-rating="5">&#9733;</button>
             </div>
-            <input type="hidden" name="rating" id="ratingInput" value="" required>
+            <input type="hidden" name="rating" id="ratingInput" value="">
+            <input type="hidden" name="serviceName" id="serviceName" value="">
 
             <label for="reviewText"></label>
-            <input type="text" id="reviewText" name="reviewText" placeholder="Leave your review here..." maxlength="250" required>
-
+            <input type="text" id="reviewText" name="reviewText" placeholder="Leave your review here..." maxlength="250">
+            <p id="error-message" style="color: rgb(255, 72, 72) !important;display: flex;"></p>
             <button type="submit">Submit</button>
           </form>
         </div>
