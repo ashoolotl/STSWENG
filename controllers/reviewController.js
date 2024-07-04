@@ -2,7 +2,7 @@ const Service = require("../models/servicesModel");
 const Review = require("../models/reviewModel");
 const Reply = require("../models/replyModel");
 
-/* exports.getReviewForService = async (req, res, next) => {
+exports.getReviewForService = async (req, res, next) => {
   try {
     const service = await Service.findById(req.params.serviceId);
     const reviews = await Review.find({ service: service.name }).populate({
@@ -20,7 +20,7 @@ const Reply = require("../models/replyModel");
   } catch (error) {
     next(error);
   }
-}; */
+};
 
 exports.createReview = async (req, res, next) => {
   try {

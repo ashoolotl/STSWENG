@@ -20,7 +20,7 @@
             <div class="review-top">
                 <img src="./images/filler-icon.jpg" class="review-pfp">
                 <div class="review-details">
-                    <h1 class="review-name">{{this.user.firstName}} {{this.user.lastName}}</h1>
+                    <h1 class="review-name">{{user.firstName}} {{this.user.lastName}}</h1>
                     {{!-- TO BE IMPLEMENTED DYNAMICALLY --}}
                     <div class="star-rating" id="starRating">
                         <button class="star" data-rating="1">&#9733;</button>
@@ -60,7 +60,7 @@
                     </div>
 
                 </div>
-                <!-- DROPDOWN ONLY APPEARS IF CURRENT USER IS THE USER WHO MADE REVIEW -->
+                <!-- DROPDOWN ONLY APPEARS IF CURRENT USER IS THE USER WHO MADE REVIEW -->\
                 {{#if (eq user.email this.user.email)}}
                 <div class="dropdown">
                     <button class="dropbtn">⋮</button>

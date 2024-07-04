@@ -113,8 +113,6 @@ exports.getReviews = async (req, res, next) => {
       select: "lastName firstName email photo",
     });
 
-    console.log(reviews);
-
     res.status(200).render("reviews", {
       title: "Reviews",
       reviews,
