@@ -138,15 +138,11 @@ exports.createService = catchAsync(async (req, res, next) => {
 
 exports.updateSubscriptionWithService = catchAsync(async (req, res, next) => {
   console.log("INSIDE UPDATE SERVICE WITH SUBSCRIPTION");
-  console.log(req.body);
+
   const service = await Service.findById(req.params.serviceId);
   if (!service) {
     return next(new AppError("No classification found with that id", 400));
   }
-
-  console.log(service.name);
-
-  // Iterate over each subscription document and update
 
   await Subscription.updateMany(
     { "prices.services.service": service.name },
@@ -175,6 +171,7 @@ exports.updateSubscriptionWithService = catchAsync(async (req, res, next) => {
 });
 
 exports.editService = catchAsync(async (req, res, next) => {
+  console.log("INSIDE UPDATE SERVICE");
   let fileName;
   if (req.file) {
     fileName = req.file.filename;
@@ -182,35 +179,51 @@ exports.editService = catchAsync(async (req, res, next) => {
     fileName = "DEFAULT.jpeg";
   }
 
-  if (req.file) {
-    const service = await Service.findByIdAndUpdate(
-      req.params.serviceId,
-      {
-        name: req.body.name,
-        description: req.body.description,
-        duration: req.body.duration,
-        photo: req.file.filename,
-        prices: req.body.prices,
-      },
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+  /*   const lastService = await Service.findOne().sort({ index: -1 });
+  const newIndex = lastService ? lastService.index + 1 : 1; */
 
-    if (!service) {
-      return next(new AppError("No service found with that id", 400));
+  let pricesArray = [];
+  Object.keys(req.body).forEach((key) => {
+    if (key.startsWith("prices[")) {
+      let match = key.match(/^prices\[(\d+)\]\[(\w+)\]$/);
+      if (match) {
+        let index = parseInt(match[1], 10);
+        let property = match[2];
+        pricesArray[index] = pricesArray[index] || {};
+        pricesArray[index][property] = req.body[key];
+      }
     }
-    // await service.save();
-    // to run the middleware that checks if valid vehicle classification is placed
-    res.status(200).json({
-      status: "success",
-      data: {
-        service,
-      },
-    });
+  });
+
+  const service = await Service.findByIdAndUpdate(
+    req.params.serviceId,
+    {
+      name: req.body.name,
+      description: req.body.description,
+      duration: req.body.duration,
+      photo: fileName,
+      prices: pricesArray,
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  console.log(service + "ASDKJAKJLSD");
+
+  if (!service) {
+    return next(new AppError("No service found with that id", 400));
   }
-  if (!req.file) {
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      service,
+    },
+  });
+
+  /*   if (!req.file) {
     const service = await Service.findByIdAndUpdate(req.params.serviceId, req.body, {
       new: true,
       runValidators: true,
@@ -219,16 +232,16 @@ exports.editService = catchAsync(async (req, res, next) => {
     if (!service) {
       return next(new AppError("No service found with that id", 400));
     }
-    // await service.save();
-    // to run the middleware that checks if valid vehicle classification is placed
+
     res.status(200).json({
       status: "success",
       data: {
         service,
       },
     });
-  }
+  } */
 });
+
 exports.deleteServiceWithSubscription = catchAsync(async (req, res, next) => {
   const service = await Service.findById(req.params.serviceId);
   if (!service) {

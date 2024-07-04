@@ -18,9 +18,6 @@ const addService = async (data) => {
   try {
     let object = {};
     data.forEach((value, key) => (object[key] = value));
-    console.log(JSON.stringify(object));
-
-    console.log("DATA BEFORE PASSING INTO ADD");
 
     const res = await fetch("/api/v1/services", {
       method: "POST",
@@ -48,27 +45,30 @@ const addService = async (data) => {
     }
   } catch (err) {
     console.error(err);
-    if (err.message.includes('E11000 duplicate key error')) {
+    if (err.message.includes("E11000 duplicate key error")) {
       document.getElementById("error-message").innerText = "Service already exists.";
     } else {
       document.getElementById("errorPopup").style.display = "block";
       document.getElementById("errorText").innerText = "An error occurred while adding service. Please try again later.";
-    }  
+    }
   }
 };
 
 // update the service with the id to the database
 const updateService = async (data, id) => {
   try {
+    let object = {};
+    data.forEach((value, key) => (object[key] = value));
+
     const res = await fetch(`/api/v1/services/${id}`, {
       method: "PATCH",
-      body: JSON.stringify(data),
+      body: JSON.stringify(object),
       headers: {
         "Content-Type": "application/json",
       },
     });
     const responseData = await res.json();
-    console.log(responseData);
+
     if (responseData.status === "success") {
       document.getElementById("editServicePopup").style.display = "none";
       document.getElementById("successPopup").style.display = "block";
@@ -114,15 +114,11 @@ document.getElementById("form").addEventListener("submit", function (event) {
 
   console.log(checkboxes);
 
-  if (name.trim === "" || 
-    description.trim === "" || 
-    duration.trim === ""
-    ) {
-      document.getElementById("error-message").innerText = "One or more fields is empty. Please fill in all fields and try again";
+  if (name.trim === "" || description.trim === "" || duration.trim === "") {
+    document.getElementById("error-message").innerText = "One or more fields is empty. Please fill in all fields and try again";
   } else if (checkboxes.length === 0) {
     document.getElementById("error-message").innerText = "Please select at least one vehicle classification. Please try again.";
   } else {
-
     const formData = new FormData();
 
     // Append form fields to FormData
@@ -185,41 +181,32 @@ const deleteService = async (id) => {
   }
 };
 
-// this would close the popup form of edit a service
 document.getElementById("closePopupEdit").addEventListener("click", function () {
   hideOverlay();
   document.getElementById("editServicePopup").style.display = "none";
 });
 
-// this would add a onclick event when submit button is clicked
 document.getElementById("formEdit").addEventListener("submit", function (event) {
   event.preventDefault();
   const name = document.getElementById("name").value;
   const description = document.getElementById("description").value;
   const duration = document.getElementById("duration").value;
 
-  if (name.trim === "" || 
-    description.trim === "" || 
-    duration.trim === ""
-    ) {
-      document.getElementById("error-message").innerText = "One or more fields is empty. Please fill in all fields and try again";
+  if (name.trim === "" || description.trim === "" || duration.trim === "") {
+    document.getElementById("error-message").innerText = "One or more fields is empty. Please fill in all fields and try again";
   } else {
-      // Create a new FormData object
     const formData = new FormData();
 
-    // Append form fields to FormData
     var id = document.getElementById("serviceId").value;
     formData.append("name", document.getElementById("nameEdit").value);
     formData.append("description", document.getElementById("descriptionEdit").value);
     formData.append("duration", document.getElementById("durationEdit").value);
     var fileInput = document.getElementById("photoEdit");
-    // Check if any file is selected
+
     if (fileInput.files && fileInput.files[0]) {
-      // An image is uploaded
       formData.append("photo", document.getElementById("photoEdit").files[0]);
     }
 
-    // // Get selected checkboxes and prepare prices data
     const prices = [];
     const checkboxes = document.querySelectorAll('input[type="checkbox"][name="selectedItemsEdit"]:checked');
     checkboxes.forEach(function (checkbox) {
@@ -231,19 +218,12 @@ document.getElementById("formEdit").addEventListener("submit", function (event) 
       });
     });
 
-    // // Append prices data to FormData as individual fields
     prices.forEach((price, index) => {
       formData.append(`prices[${index}][vehicleClassification]`, price.vehicleClassification);
       formData.append(`prices[${index}][price]`, price.price);
     });
-    // console.log('DATA BEFORE PASSING INTO UPDATE');
-    // console.log(prices);
 
-    // // Call addService with the FormData object
     updateService(formData, id);
-
-    // hideOverlay();
-    // document.getElementById('addServicePopup').style.display = 'none';
   }
 });
 // for edit and delete button add functionalities
@@ -260,7 +240,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (service) {
         showOverlay();
         document.getElementById("editServicePopup").style.display = "block";
-        console.log(service.prices);
         document.getElementById("nameEdit").value = service.name;
         document.getElementById("descriptionEdit").value = service.description;
         document.getElementById("durationEdit").value = service.duration;
@@ -307,4 +286,3 @@ document.addEventListener("DOMContentLoaded", async () => {
 document.getElementById("closePopupError").addEventListener("click", function () {
   document.getElementById("errorPopup").style.display = "none";
 });
-
