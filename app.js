@@ -22,6 +22,7 @@ const bookingController = require("./controllers/bookingController");
 const serviceAvailedRouter = require("./routes/serviceAvailedRoutes");
 const subscriptionAvailedRouter = require("./routes/subscriptionAvailedroutes");
 const bookingSubscriptionRouter = require("./routes/bookingSubscriptionRoutes");
+const reviewsRouter = require("./routes/reviewRoutes");
 const { deleteCarByPlateNumber, deleteUserByEmail } = require("./public/js/deleteCarAndUser");
 
 // Express App
@@ -52,7 +53,6 @@ app.engine(
     layoutsDir: path.join(__dirname, "views/layouts"),
     partialsDir: path.join(__dirname, "views/partials"),
     helpers: helpers,
-    
   })
 );
 app.set("view engine", "hbs");
@@ -71,14 +71,7 @@ app.use("/api/v1/bookings", bookingRouter);
 app.use("/api/v1/servicesAvailed", serviceAvailedRouter);
 app.use("/api/v1/bookings-subscription", bookingSubscriptionRouter);
 app.use("/api/v1/subscriptionsAvailed", subscriptionAvailedRouter);
-
-// Catch-all for unhandled routes
-app.all("*", (req, res, next) => {
-  next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
-});
-
-// Error Handling
-app.use(GlobalErrorHandler);
+app.use("api/v1/reviews", reviewsRouter);
 
 /* ----------FOR CYPRESS--------- */
 // delete car
@@ -101,6 +94,14 @@ app.delete("/api/v1/deleteUser/:email", async (req, res) => {
   }
 });
 /* ----------------------- */
+
+// Catch-all for unhandled routes
+app.all("*", (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
+});
+
+// Error Handling
+app.use(GlobalErrorHandler);
 
 // Export App
 module.exports = app;
