@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{Service.name}} Reviews</title>
+    <title>{{serviceName}} Reviews</title>
     <link rel="stylesheet" href="/partials/navbar.css">
     <link rel="stylesheet" href="/featured.css">
     <link rel="stylesheet" href="/reviews.css">
 </head>
 <body>
-    {{> header}}
+    {{> _header}}
 
     <div id="overlay"></div>
-    <header>{{Service.name}} Reviews</header>
+    <header>{{serviceName}} Reviews</header>
 
     <div class="review-container">
         {{#each reviews}}

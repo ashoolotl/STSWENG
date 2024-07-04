@@ -105,12 +105,14 @@ exports.getServices = async (req, res, next) => {
 exports.getReviews = async (req, res, next) => {
   try {
     const serviceName = req.params.serviceName;
+    console.log(serviceName);
 
     let reviews = await Reviews.find({ service: serviceName });
 
     res.status(200).render("reviews", {
       title: "Reviews",
       reviews,
+      serviceName,
     });
   } catch (error) {
     next(error);
