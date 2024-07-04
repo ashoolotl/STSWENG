@@ -38,7 +38,7 @@
         <div class="car-status">
             <div class="car-info">
               <p class="car-text">Status:</p>
-              {{if (eq this.status 'To Review')}}
+              {{#if (eq this.status 'To Review')}}
               <p class="status" id="reviewBtn" style="cursor:pointer;">{{this.status}}</p>
               {{else}}
               <p class="status">{{this.status}}</p>

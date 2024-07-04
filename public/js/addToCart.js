@@ -30,6 +30,7 @@ const getAllVehicleByOwner = async (id) => {
 
 const addItemToCart = async (data) => {
   try {
+    console.log(data);
     const response = await fetch(`/api/v1/carts`, {
       method: "POST",
       headers: {
@@ -37,6 +38,7 @@ const addItemToCart = async (data) => {
       },
       body: JSON.stringify(data),
     });
+
     const resData = await response.json();
     if (resData.status == "success") {
       document.getElementById("successPopup").style.display = "block";
@@ -162,23 +164,24 @@ document.addEventListener("DOMContentLoaded", async () => {
       var serviceName = service.name;
       var serviceDescription = service.description;
 
-      console.log("Vehicle class list for this service:");
-      console.log(service.prices);
+      /*       console.log("Vehicle class list for this service:");
+      console.log(service.prices); */
 
       const ownedVehiclesClassificationsName = [];
       const ownedVehiclesData = [];
       const vehiclesOwned = await getAllVehicleByOwner(this.dataset.owner);
 
-      for (className of vehiclesOwned.data.vehicle) {
+      for (let className of vehiclesOwned.data.vehicle) {
         ownedVehiclesClassificationsName.push(className.classification);
         ownedVehiclesData.push(className);
       }
-      console.log("OWNER OWNS THESE VEHICLES");
-      console.log(ownedVehiclesData);
+      /*       console.log("OWNER OWNS THESE VEHICLES");
+      console.log(ownedVehiclesData); */
+
       const matchingVehicles = ownedVehiclesClassificationsName.filter((vehicle) => {
         return service.prices.some((serviceVehicle) => serviceVehicle.vehicleClassification === vehicle);
       });
-      console.log(matchingVehicles);
+
       if (vehiclesOwned.data.vehicle.length == 0) {
         document.getElementById("errorPopup").style.display = "block";
         document.getElementById("errorText").innerText = "Please add a vehicle before availing this service.";
@@ -202,7 +205,7 @@ document.getElementById("addToCart").addEventListener("submit", function (event)
 
   var plateNumber = infoItemDiv.getAttribute(`plateNumber${selectedVehicle.value}`);
   var price = infoItemDiv.getAttribute(`price${selectedVehicle.value}`);
-  var owner = infoItemDiv.getAttribute(`owner${selectedVehicle.value}`);
+  var owner = this.dataset.owner;
   var classification = infoItemDiv.getAttribute(`classification${selectedVehicle.value}`);
   var serviceName = infoItemDiv.getAttribute(`serviceName${selectedVehicle.value}`);
   var serviceDescription = infoItemDiv.getAttribute(`serviceDescription${selectedVehicle.value}`);

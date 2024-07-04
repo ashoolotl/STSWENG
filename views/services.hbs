@@ -160,7 +160,7 @@
     <!-- Booking Popup -->
     {{#if (eq user.role 'user')}}
       <div id="bookingPopup" class="popupContainer">
-        <form id="addToCart">
+        <form id="addToCart" data-id="{{this._id}}" data-owner="{{user.id}}">
           <span id="closePopupBooking" class="closePopup">&times;</span>
           <h2>Registered Vehicles</h2>
           <hr id="generatePopup">

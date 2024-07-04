@@ -98,13 +98,34 @@ exports.createService = catchAsync(async (req, res, next) => {
   const lastService = await Service.findOne().sort({ index: -1 });
   const newIndex = lastService ? lastService.index + 1 : 1;
 
+  let pricesArray = [];
+  Object.keys(req.body).forEach((key) => {
+    if (key.startsWith("prices[")) {
+      let match = key.match(/^prices\[(\d+)\]\[(\w+)\]$/);
+      if (match) {
+        let index = parseInt(match[1], 10);
+        let property = match[2];
+        pricesArray[index] = pricesArray[index] || {};
+        pricesArray[index][property] = req.body[key];
+      }
+    }
+  });
+
+  if (typeof req.body.prices === "string") {
+    try {
+      pricesArray = JSON.parse(req.body.prices);
+    } catch (error) {
+      return next(new Error("Invalid JSON format for prices"));
+    }
+  }
+
   const newService = await Service.create({
     index: newIndex,
     name: req.body.name,
     description: req.body.description,
     duration: req.body.duration,
     photo: fileName,
-    prices: req.body.prices,
+    prices: pricesArray,
   });
 
   res.status(201).json({
