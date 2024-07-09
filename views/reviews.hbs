@@ -21,21 +21,27 @@
             <div class="review-top">
                 <img src="/images/filler-icon.jpg" class="review-pfp">
                 <div class="review-details">
-                    <h1 class="review-name">{{user.firstName}} {{this.user.lastName}}</h1>
-                    {{!-- TO BE IMPLEMENTED DYNAMICALLY --}}
-                    <div class="star-rating" id="starRating">
-                        <button class="star" data-rating="1">&#9733;</button>
-                        <button class="star" data-rating="2">&#9733;</button>
-                        <button class="star" data-rating="3">&#9733;</button>
-                        <button class="star" data-rating="4">&#9733;</button>
-                        <button class="star" data-rating="5">&#9733;</button>
+                    <div class="main-content">
+                        <h1 class="review-name">{{user.firstName}} {{this.user.lastName}}</h1>
+                        {{!-- TO BE IMPLEMENTED DYNAMICALLY --}}
+
+                        <div class="star-rating" id="starRating">
+                            <div class="star-rating" id="starRating">
+                                <button class="star {{#ifSelected 1 this.rating}}selected{{/ifSelected}}" data-rating="1" >&#9733;</button>
+                                <button class="star {{#ifSelected 2 this.rating}}selected{{/ifSelected}}" data-rating="1" >&#9733;</button>
+                                <button class="star {{#ifSelected 3 this.rating}}selected{{/ifSelected}}" data-rating="1" >&#9733;</button>
+                                <button class="star {{#ifSelected 4 this.rating}}selected{{/ifSelected}}" data-rating="1" >&#9733;</button>
+                                <button class="star {{#ifSelected 5 this.rating}}selected{{/ifSelected}}" data-rating="1" >&#9733;</button>
+                            </div>
+                        </div>
+                        <div class="review-text" id="review-text">
+                            {{this.ratingMessage}}
+                        </div>
+                        <div class="review-date">
+                            Created {{this.date}}
+                        </div>
                     </div>
-                    <div class="review-text" id="review-text">
-                        {{this.ratingMessage}}
-                    </div>
-                    <div class="review-date">
-                        Created {{this.date}}
-                    </div>
+                    
 
                     <div class="review-replies">
 

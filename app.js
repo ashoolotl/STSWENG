@@ -52,7 +52,11 @@ app.engine(
     defaultLayout: false,
     layoutsDir: path.join(__dirname, "views/layouts"),
     partialsDir: path.join(__dirname, "views/partials"),
-    helpers: helpers,
+    helpers: {
+      ifSelected: function(v1, v2, options) {
+        return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+      }
+    },
   })
 );
 app.set("view engine", "hbs");
