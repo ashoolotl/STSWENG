@@ -28,10 +28,10 @@
                         <div class="star-rating" id="starRating">
                             <div class="star-rating" id="starRating">
                                 <button class="star {{#ifSelected 1 this.rating}}selected{{/ifSelected}}" data-rating="1" >&#9733;</button>
-                                <button class="star {{#ifSelected 2 this.rating}}selected{{/ifSelected}}" data-rating="1" >&#9733;</button>
-                                <button class="star {{#ifSelected 3 this.rating}}selected{{/ifSelected}}" data-rating="1" >&#9733;</button>
-                                <button class="star {{#ifSelected 4 this.rating}}selected{{/ifSelected}}" data-rating="1" >&#9733;</button>
-                                <button class="star {{#ifSelected 5 this.rating}}selected{{/ifSelected}}" data-rating="1" >&#9733;</button>
+                                <button class="star {{#ifSelected 2 this.rating}}selected{{/ifSelected}}" data-rating="2" >&#9733;</button>
+                                <button class="star {{#ifSelected 3 this.rating}}selected{{/ifSelected}}" data-rating="3" >&#9733;</button>
+                                <button class="star {{#ifSelected 4 this.rating}}selected{{/ifSelected}}" data-rating="4" >&#9733;</button>
+                                <button class="star {{#ifSelected 5 this.rating}}selected{{/ifSelected}}" data-rating="5" >&#9733;</button>
                             </div>
                         </div>
                         <div class="review-text" id="review-text">
@@ -72,7 +72,7 @@
                 <div class="dropdown">
                     <button class="dropbtn">⋮</button>
                     <div class="dropdown-content">
-                        <a href="#" class="edit-review-link edit-review" id="edit-review">Edit</a>
+                        <a class="edit-review-link" id="edit-review" style="cursor: pointer;">Edit</a>
                         <a href="#">Delete</a>
                     </div>
                 </div>
@@ -83,6 +83,7 @@
         <hr>
         {{/each}}
     </div>
+    
     <script src="/js/reviews.js"></script>
     <script src="/js/logout.js"></script>
 </body>

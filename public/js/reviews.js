@@ -38,11 +38,14 @@ document.addEventListener('DOMContentLoaded', function() {
         submitButton.type = 'submit';
         submitButton.textContent = 'Submit';
         submitButton.id = 'submitEditReview';
-
-        reviewTextDiv.replaceWith(label, input, submitButton, cancelButton);
+        const container = document.createElement('div');
+        container.appendChild(label);
+        container.appendChild(input);
+        container.appendChild(submitButton);
+        container.appendChild(cancelButton);
+        reviewTextDiv.replaceWith(container);
 
         cancelButton.addEventListener('click', function() {
-            const container = label.parentNode;
             container.replaceWith(originalContent);
         });
     });
