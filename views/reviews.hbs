@@ -13,10 +13,11 @@
 
     <div id="overlay"></div>
     <header>{{serviceName}} Reviews</header>
+    <input type="hidden" id="userRole" name="userRole" value="{{user.role}}">
 
     <div class="review-container">
         {{#each reviews}}
-        <input type="hidden" id="postId" name="postId" value="{{this._id}}">
+        <input type="hidden" class="reviewId" name="reviewId" id="reviewId" value="{{this._id}}">
         <div class="review">
             <div class="review-top">
                 <img src="/images/filler-icon.jpg" class="review-pfp">
@@ -33,6 +34,7 @@
                                 <button class="star {{#ifSelected 4 this.rating}}selected{{/ifSelected}}" data-rating="4" >&#9733;</button>
                                 <button class="star {{#ifSelected 5 this.rating}}selected{{/ifSelected}}" data-rating="5" >&#9733;</button>
                             </div>
+                            <input type="hidden" name="rating" id="ratingInput" value="{{this.rating}}">
                         </div>
                         <div class="review-text" id="review-text">
                             {{this.ratingMessage}}

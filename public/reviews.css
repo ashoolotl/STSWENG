@@ -53,13 +53,12 @@ hr {
 
 .star {
     font-size: 1.5rem; /* size of the stars */
-    cursor: default !important;
 }
 
 .star-rating button {
     background: none;
     border: none;
-    cursor: pointer;
+    cursor: default;
     padding: 0;
     outline: none;
 }
