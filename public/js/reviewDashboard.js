@@ -95,14 +95,16 @@ document.getElementById("reviewForm").addEventListener("submit", function (event
 document.addEventListener("DOMContentLoaded", function () {
   const reviewBtns = document.querySelectorAll("#reviewBtn");
 
-  reviewBtns.forEach((btn) => {
-    btn.addEventListener("click", function () {
-      const serviceName = "SERVICE 1123";
-      // const serviceName = this.getAttribute("data-service-name");
-      document.getElementById("reviewPopup").style.display = "block";
-      document.getElementById("serviceName").value = serviceName;
+  if (reviewBtns.length > 0) {
+    reviewBtns.forEach((btn) => {
+      btn.addEventListener("click", function () {
+        const serviceName = "SERVICE 1123";
+        // const serviceName = this.getAttribute("data-service-name");
+        document.getElementById("reviewPopup").style.display = "block";
+        document.getElementById("serviceName").value = serviceName;
+      });
     });
-  });
+  }
 });
 
 // document.getElementById("reviewBtn").addEventListener("click", function () {
@@ -113,6 +115,9 @@ document.getElementById("closeReviewPopup").addEventListener("click", function (
   document.getElementById("reviewPopup").style.display = "none";
 }); // closing of review popup through x button
 
-document.getElementById("see-review").addEventListener("click", function () {
-  location.assign(`/reviews/SERVICE 1123`);
-});
+const seeReview = document.getElementById("see-review");
+if (seeReview) {
+  seeReview.addEventListener("click", function () {
+    location.assign(`/reviews/SERVICE 1123`);
+  });
+}

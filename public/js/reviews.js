@@ -84,7 +84,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   } else {
     document.getElementById("edit-review").addEventListener("click", function () {
-      console.error("edit button clicked");
   
       const stars = document.querySelectorAll(".star");
       const ratingInput = document.getElementById("ratingInput");
