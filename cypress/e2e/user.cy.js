@@ -155,9 +155,7 @@ describe("Vehicle Registration", () => {
 
    it("Duplicate Plate Number", () => {
       user.registerVehicle(vehicleData[2]);
-      cy.on('window:alert', (message) => {
-         expect(message).to.include('duplicate key error');
-      });
+      cy.contains("plate number already exists").should("be.visible");
    });
 
    //after ALL tests are done -> delete created test vehicle
@@ -167,3 +165,40 @@ describe("Vehicle Registration", () => {
 
 });
 
+const reviewText = "This is a review for testing purposes.";
+const editText = "This is an edited review for testing purposes.";
+
+describe("Service Reviews", () => {
+   beforeEach (() => {
+      cy.visit(siteURL + "/login");
+      func.login(userEmail, userPassword);
+      cy.url().should('include', '/dashboard');
+   });
+   it("Add Review", () => {
+      cy.get(':nth-child(3) > .car-status > :nth-child(1)').should('contain', 'To Review');
+      user.createReview(reviewText);
+      cy.contains("Your review has been successfully posted").should('be.visible');
+      //TODO: Login on another account to check if review is visible
+   });
+
+   it("Edit Review", () => {
+      cy.get('[href="/services"]').click();
+      cy.get('#userReviewBtn').click();
+      cy.get('#edit-review').click({ force: true });
+      cy.get('#reviewEditText').clear();
+      cy.get('#reviewEditText').type(editText);
+      cy.get('#submitEditReview').click();
+      cy.contains("Your review has been successfully updated").should('be.visible');
+      cy.contains(editText).should('be.visible');
+   });
+
+   it("Delete Review", () => {
+      cy.get('[href="/services"]').click();
+      cy.get('#userReviewBtn').click();
+      cy.get('#delete-review').click({ force: true });
+      cy.contains("Your review has been successfully deleted").should('be.visible');
+      cy.get('.review-container').children().should('have.length', 0);
+   });
+
+
+});

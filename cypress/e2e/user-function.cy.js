@@ -28,3 +28,15 @@ export function registerVehicle(vehicle) {
       }
    });
 }
+export function createReview(reviewText) {
+   cy.get('#reviewBtn').click();
+   cy.get('[data-rating="2"]').click();
+   cy.get('#reviewText').type(reviewText);
+   cy.get('#reviewForm').submit();
+}
+
+//TODO: Function to login on different account to see created/edited reviews
+
+// cy.get(':nth-child(3) > .car-status > :nth-child(1)').should('contain', 'See Review');
+      // cy.get('#reviewBtn').click();
+      // cy.url().should('include', '/reviews');
