@@ -24,11 +24,14 @@ const register = async (firstName, lastName, email, password, passwordConfirm, n
     window.setTimeout(() => {
       location.assign("/dashboard");
     }, 1000);
-  } catch (error) {
-    const errorMessage = error.message || "An unexpected error occurred.";
-    console.error("Error:", errorMessage);
-    document.getElementById("errorPopup").style.display = "block";
-    document.getElementById("errorText").innerText = "An error occurred while registering. Please try again later.";
+  } catch (err) {
+    console.error(err);
+    if (err.message.includes("E11000 duplicate key error")) {
+      document.getElementById("error-message").innerText = "This email has already been used. Please use a different one.";
+    } else {
+      document.getElementById("errorPopup").style.display = "block";
+      document.getElementById("errorText").innerText = "An error occurred while adding service. Please try again later.";
+    }
   }
 };
 
@@ -51,19 +54,15 @@ document.querySelector("form").addEventListener("submit", (e) => {
       numberOfCarsOwned.trim() === "") {
     console.error("One or more fields are empty.");
     document.getElementById("error-message").innerText = "One or more fields is empty. Please fill in all fields.";
-    document.getElementById("error-message").style.backgroundColor = "red";
   } else if (!emailRegex.test(email)) {
     console.error("Email is invalid.");
     document.getElementById("error-message").innerText = "Email is invalid. Please enter a valid email address.";
-    document.getElementById("error-message").style.backgroundColor = "red";
   } else if (password.length < 8) {
     console.error("Password is too short.");
     document.getElementById("error-message").innerText = "Password is too short. Please enter a password with at least 8 characters.";
-    document.getElementById("error-message").style.backgroundColor = "red";
   } else if (password !== passwordConfirm){
     console.error("Password and Confirm Password do not match.");
     document.getElementById("error-message").innerText = "Password and Confirm Password do not match. Please enter the same password in both fields.";
-    document.getElementById("error-message").style.backgroundColor = "red";
   } else {
     // You can now use these values as needed
     console.log("First Name:", firstName);
@@ -86,3 +85,7 @@ function onlyAlphabets(evt) {
   }
   return true;
 }
+
+document.getElementById("closePopupError").addEventListener("click", function () {
+  document.getElementById("errorPopup").style.display = "none";
+});

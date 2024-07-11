@@ -70,7 +70,7 @@
 
                 </div>
                 <!-- DROPDOWN ONLY APPEARS IF CURRENT USER IS THE USER WHO MADE REVIEW -->
-                {{#if (eq user.email this.user.email)}}
+                {{#if (eq ../user.email this.user.email)}}
                 <div class="dropdown">
                     <button class="dropbtn">⋮</button>
                     <div class="dropdown-content">

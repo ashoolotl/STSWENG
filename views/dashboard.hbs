@@ -41,7 +41,11 @@
               {{#if (eq this.status 'To Review')}}
               <p class="status" id="reviewBtn" style="cursor:pointer;">{{this.status}}</p> {{!-- data-service-name="{{this.}}" --}}
               {{else}}
-              <p class="status">{{this.status}}</p>
+                {{#if (eq this.status 'See Review')}}
+                  <p class="status" id="see-review" style="cursor:pointer;">{{this.status}}</p>
+                {{else}}
+                  <p class="status">{{this.status}}</p>
+                {{/if}}
               {{/if}}
             </div>
             <div class="car-info">
