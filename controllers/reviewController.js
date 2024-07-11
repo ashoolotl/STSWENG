@@ -23,6 +23,18 @@ exports.getReviewForService = async (req, res, next) => {
 
 exports.createReview = async (req, res, next) => {
   try {
+    const existingReview = await Review.findOne({
+      user: req.user.id,
+      service: req.body.service,
+    });
+
+    if (existingReview) {
+      return res.status(409).json({
+        status: "fail",
+        message: "You have already reviewed this service.",
+      });
+    }
+
     const newReview = await Review.create({
       user: req.user.id,
       service: req.body.service,

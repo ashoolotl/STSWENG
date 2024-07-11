@@ -14,6 +14,13 @@ const createReview = async (data, service) => {
     });
 
     const resData = await response.json();
+
+    if (response.status === 409) {
+      document.getElementById("errorPopup").style.display = "block";
+      document.getElementById("errorText").innerText = "You have already reviewed this service.";
+      return;
+    }
+
     if (resData.status === "success") {
       document.getElementById("successPopup").style.display = "block";
       document.getElementById("successText").innerText = "Your review has been successfully posted.";
