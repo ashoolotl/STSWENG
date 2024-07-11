@@ -9,14 +9,13 @@ exports.getReviewForService = async (req, res, next) => {
       path: "user",
       select: "lastName firstName",
     });
-    console.log(reviews);
+
     res.status(200).json({
       status: "success",
       data: {
         reviews,
       },
     });
-    c;
   } catch (error) {
     next(error);
   }
@@ -30,6 +29,7 @@ exports.createReview = async (req, res, next) => {
       rating: req.body.rating,
       ratingMessage: req.body.ratingMessage,
     });
+
     res.status(201).json({
       status: "success",
       data: {
@@ -44,12 +44,14 @@ exports.createReview = async (req, res, next) => {
 exports.editReview = async (req, res, next) => {
   try {
     const review = await Review.findById(req.params.reviewId);
+
     if (review.user.toString() !== req.user.id) {
       return res.status(401).json({
         status: "fail",
         message: "You are not authorized to edit this review",
       });
     }
+
     review.rating = req.body.rating;
     review.ratingMessage = req.body.ratingMessage;
     await review.save();
@@ -67,13 +69,15 @@ exports.editReview = async (req, res, next) => {
 exports.deleteReview = async (req, res, next) => {
   try {
     const review = await Review.findById(req.params.reviewId);
+
     if (review.user.toString() !== req.user.id) {
       return res.status(401).json({
         status: "fail",
         message: "You are not authorized to delete this review",
       });
     }
-    await review.remove();
+
+    await review.deleteReview();
     res.status(200).json({
       status: "success",
       message: "Review deleted successfully",

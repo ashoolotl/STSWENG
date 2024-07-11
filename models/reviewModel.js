@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 function getCurrentDateString() {
   const date = new Date();
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
   const year = date.getFullYear();
   return `${month}/${day}/${year}`;
 }
@@ -32,6 +32,10 @@ const reviewSchema = new mongoose.Schema({
     required: [true, "The item must have a review"],
   },
 });
+
+reviewSchema.methods.deleteReview = async function () {
+  await this.model("Review").findByIdAndDelete(this._id);
+};
 
 const Review = mongoose.model("Review", reviewSchema);
 module.exports = Review;

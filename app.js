@@ -53,9 +53,9 @@ app.engine(
     layoutsDir: path.join(__dirname, "views/layouts"),
     partialsDir: path.join(__dirname, "views/partials"),
     helpers: {
-      ifSelected: function(v1, v2, options) {
-        return (v1 <= v2) ? options.fn(this) : options.inverse(this);
-      }
+      ifSelected: function (v1, v2, options) {
+        return v1 <= v2 ? options.fn(this) : options.inverse(this);
+      },
     },
   })
 );
@@ -75,7 +75,7 @@ app.use("/api/v1/bookings", bookingRouter);
 app.use("/api/v1/servicesAvailed", serviceAvailedRouter);
 app.use("/api/v1/bookings-subscription", bookingSubscriptionRouter);
 app.use("/api/v1/subscriptionsAvailed", subscriptionAvailedRouter);
-app.use("api/v1/reviews", reviewsRouter);
+app.use("/api/v1/reviews", reviewsRouter);
 
 /* ----------FOR CYPRESS--------- */
 // delete car
