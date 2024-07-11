@@ -233,6 +233,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const services = await getAllService();
 
+  if (!editButtons || !deleteButtons || !services) {
+    return;
+  }
+
   editButtons.forEach((button) => {
     button.addEventListener("click", function () {
       const service = services.data.services.find((service) => service._id === this.dataset.id);

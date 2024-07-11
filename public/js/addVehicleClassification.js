@@ -193,6 +193,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   const vehicleClassifications = await getAllVehicleClassification();
   console.log(vehicleClassifications);
 
+  if (!editButtons || !deleteButtons) {
+    return;
+  }
+
   editButtons.forEach((button) => {
     button.addEventListener("click", function () {
       const vehicle = vehicleClassifications.data.vehicleClassification.find((vehicle) => vehicle._id === this.dataset.id);

@@ -199,6 +199,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   // fetch all subscriptions
   const subscriptions = await getAllSubscriptions();
   console.log(subscriptions);
+
+  if (!editButtons || !deleteButtons || !subscriptions) {
+    return;
+  }
+
   editButtons.forEach((button) => {
     button.addEventListener("click", function () {
       // find the subscription with the matching subscription_id == this.dataset.id

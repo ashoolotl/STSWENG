@@ -162,6 +162,9 @@ function generateAvailableServices(classNameToGenerate, vehiclesOwner, serviceDe
 document.addEventListener("DOMContentLoaded", async () => {
   const addToCartButtons = document.querySelectorAll("#serviceAddToCart");
   const services = await getAllService();
+
+  if (!addToCartButtons) return;
+
   addToCartButtons.forEach((button) => {
     button.addEventListener("click", async function () {
       const service = services.data.services.find((service) => service._id === this.dataset.id);
