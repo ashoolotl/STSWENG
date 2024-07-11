@@ -29,12 +29,25 @@ const updateReview = async (data, id) => {
 };
 
 const deleteReview = async (reviewId) => {
+  const vehicleData = {
+    status: `To Review`,
+  };
   try {
+    const id = '667b99dad94099b124477eac';
     const response = await fetch(`/api/v1/reviews/${reviewId}`, {
       method: "DELETE",
     });
+    const response2 = await fetch(`/api/v1/vehicles/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(vehicleData),
+    });
     const resData = await response.json();
-    if (resData.status === "success") {
+    const resData2 = await response2.json();
+
+    if (resData.status === "success" && resData2.status === "success") {
       document.getElementById("successPopup").style.display = "block";
       document.getElementById("successText").innerText = "Your review has been successfully deleted.\n\nReloading...";
       window.setTimeout(() => {
@@ -83,6 +96,10 @@ document.addEventListener("DOMContentLoaded", function () {
       replyButton.style.display = "none";
     });
   } else {
+    const editReviewBtn = document.getElementById("edit-review");
+    if (!editReviewBtn) {
+      return;
+    }
     document.getElementById("edit-review").addEventListener("click", function () {
   
       const stars = document.querySelectorAll(".star");
@@ -190,4 +207,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   
 
+});
+
+document.getElementById("closePopupError").addEventListener("click", function () {
+  document.getElementById("errorPopup").style.display = "none";
 });
