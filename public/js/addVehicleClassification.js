@@ -29,7 +29,6 @@ const addVehicle = async (data) => {
     data.forEach((value, key) => {
       object[key] = value;
     });
-    console.log(JSON.stringify(object));
 
     const res = await fetch("/api/v1/vehicle-classifications", {
       method: "POST",
@@ -59,12 +58,12 @@ const addVehicle = async (data) => {
     }
   } catch (err) {
     console.error(err);
-    if (err.message.includes('E11000 duplicate key error')) {
+    if (err.message.includes("E11000 duplicate key error")) {
       document.getElementById("error-message").innerText = "Vehicle classification already exists.";
     } else {
       document.getElementById("errorPopup").style.display = "block";
       document.getElementById("errorText").innerText = "An error occurred while adding vehicle classifications. Please try again later.";
-    }  
+    }
   }
 };
 // opening of add car popup
@@ -193,6 +192,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const vehicleClassifications = await getAllVehicleClassification();
   console.log(vehicleClassifications);
+
+  if (!editButtons || !deleteButtons) {
+    return;
+  }
 
   editButtons.forEach((button) => {
     button.addEventListener("click", function () {

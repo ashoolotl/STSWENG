@@ -245,7 +245,7 @@ header {
     width: 100%;
 }
 
-.popupContent form button[type="submit"] {
+.popupContent form button[type="submit"], #reviewBtn, #submitEditReview, #see-review {
     font-family: Montserrat;
     font-size: 1.2rem;
     padding: 10px;
@@ -261,7 +261,7 @@ header {
     transition: background-color 0.3s ease;
 }
 
-.popupContent form button[type="submit"]:hover {
+.popupContent form button[type="submit"]:hover, #reviewBtn:hover, #see-review:hover, #submitEditReview:hover {
     background-color: #FF5555;
 }
 
@@ -401,3 +401,36 @@ header {
     /* Adjust the alpha (fourth value) for darkness */
     z-index: 1;
 }
+
+.star-rating {
+    display: flex;
+    direction: row;
+    font-size: 5rem;
+    justify-content: center;
+}
+
+.star {
+    font-size: 3rem; /* size of the stars */
+}
+
+.star-rating button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+}
+
+.star-rating .star {
+    color: #ccc; /* Gray color for unselected stars */
+}
+
+.star-rating .star.selected {
+    color: #ED1C24; /* Red color for selected stars */
+}
+
+#reviewText {
+    height: 15rem;
+    min-width: 400px;
+}
+

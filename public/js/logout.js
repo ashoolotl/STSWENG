@@ -5,7 +5,7 @@ const logout = async () => {
     });
     const res = await response.json();
     if (res.status == "success") {
-      document.getElementById("closePopupSuccess").innerText = "";
+      /* document.getElementById("closePopupSuccess").innerText = "X"; */
       document.getElementById("successPopup").style.display = "block";
       document.getElementById("successText").innerText = "You will now be logged out.";
       window.setTimeout(() => {

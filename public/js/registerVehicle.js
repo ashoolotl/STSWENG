@@ -9,18 +9,24 @@ const addVehicle = async (data) => {
     });
 
     const resData = await response.json();
-
     if (resData.status == "success") {
       document.getElementById("successPopup").style.display = "block";
       document.getElementById("successText").innerText = "Your car has been added successfully.";
       window.setTimeout(() => {
         location.assign("/dashboard");
       }, 1500);
+    } else {
+      throw new Error(`${resData.message || "An error occurred while adding vehicle."}`);
     }
   } catch (err) {
-    console.error(err.message);
-    document.getElementById("errorPopup").style.display = "block";
-    document.getElementById("errorText").innerText = "An error occurred while adding vehicle. Please try again later.";
+    if (err.message.includes('E11000 duplicate key error')) {
+      console.error("Plate Number already exists in database. Duplicate key error.")
+      document.getElementById("addcar-error-message").innerText = "Vehicle plate number already exists.";
+    } else {
+      console.error(err);
+      document.getElementById("errorPopup").style.display = "block";
+      document.getElementById("errorText").innerText = "An error occurred while adding vehicle classifications. Please try again later.";
+    }  
   }
 };
 

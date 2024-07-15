@@ -3,9 +3,8 @@ const removeItemInCart = async (id) => {
     const response = await fetch(`/api/v1/carts/${id}`, {
       method: "DELETE",
     });
-    const res = await response.json();
 
-    if (res.status === undefined) {
+    if (response.status === 200 || response.status === 204) {
       document.getElementById("successPopup").style.display = "block";
       document.getElementById("successText").innerText = "Item successfully removed from cart. Refreshing page...";
       setTimeout(() => {

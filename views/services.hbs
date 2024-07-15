@@ -36,26 +36,31 @@
 
     <div class="bottom-container">
       {{#each services}}
+        
         <div class="bottom-item">
           <img src="/images/services/{{this.photo}}" alt="Image of {{this.name}}">
           <div class="bottom-item-content">
             <h2>{{this.name}}</h2>
             <p>{{this.description}}</p>
+            {{!-- <a href="/reviews/{{this.name}}">asdfasdfs<btntag></a> --}}
 
             {{#if ../user}}
               {{#if (eq ../user.role 'admin')}}
                 <div class="buttons-container">
                   <button id="serviceEditBtn" class="edit-btn" type="button" data-id="{{this._id}}">Edit</button>
                   <button id="serviceDeleteBtn" class="delete-btn" type="button" data-id="{{this._id}}">Delete</button>
+                  <a href="/reviews/{{this.name}}"><button id="adminReviewBtn" class="review-btn" type="button" data-id="{{this._id}}" data-owner="{{../user._id}}">Reviews</button></a>
                 </div>
               {{else}}
                 <div class="buttons-container">
-                  <button id="serviceAddToCart" class="edit-btn" type="button" data-id="{{this._id}}" data-owner="{{user._id}}">Add To Cart</button>
+                  <button id="serviceAddToCart" class="edit-btn" type="button" data-id="{{this._id}}" data-owner="{{../user._id}}">Add To Cart</button>
+                  <a href="/reviews/{{this.name}}"><button id="userReviewBtn" class="review-btn" type="button" data-id="{{this._id}}" data-owner="{{../user._id}}">Reviews</button></a>
                 </div>
               {{/if}}
             {{else}}
             <div class="buttons-container">
               <button id="serviceAddToCartNoUser" class="edit-btn" type="button" onclick="showErrorNotLoggedIn()">Add to Cart</button>
+              <a href="/reviews/{{this.name}}"><button id="noUserReviewBtn" class="review-btn" type="button" data-id="{{this._id}}">Reviews</button></a>
             </div>
             {{/if}}
           </div>
@@ -157,7 +162,7 @@
     <!-- Booking Popup -->
     {{#if (eq user.role 'user')}}
       <div id="bookingPopup" class="popupContainer">
-        <form id="addToCart">
+        <form id="addToCart" data-id="{{this._id}}" data-owner="{{user.id}}">
           <span id="closePopupBooking" class="closePopup">&times;</span>
           <h2>Registered Vehicles</h2>
           <hr id="generatePopup">

@@ -57,7 +57,7 @@ const updateVehicleStatus = async (data, id) => {
   } catch (err) {
     console.log(err.message);
     document.getElementById("errorPopup").style.display = "block";
-    document.getElementById("errorText").innerText = "An error occurred while fetching services. Please try again later.";
+    document.getElementById("errorText").innerText = "An error occurred while updating vehicle status. Please try again later.";
   }
 };
 

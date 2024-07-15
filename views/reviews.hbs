@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{serviceName}} Reviews</title>
+    <link rel="stylesheet" href="/partials/navbar.css">
+    <link rel="stylesheet" href="/featured.css">
+    <link rel="stylesheet" href="/reviews.css">
+</head>
+<body>
+    {{> _header}}
+
+    <div id="overlay"></div>
+    <header>{{serviceName}} Reviews</header>
+    <input type="hidden" id="userRole" name="userRole" value="{{user.role}}">
+
+    <div class="review-container">
+        {{#each reviews}}
+        <input type="hidden" class="reviewId" name="reviewId" id="reviewId" value="{{this._id}}">
+        <div class="review">
+            <div class="review-top">
+                <img src="/images/filler-icon.jpg" class="review-pfp">
+                <div class="review-details">
+                    <div class="main-content">
+                        <h1 class="review-name">{{user.firstName}} {{this.user.lastName}}</h1>
+                        {{!-- TO BE IMPLEMENTED DYNAMICALLY --}}
+
+                        <div class="star-rating" id="starRating">
+                            <div class="star-rating" id="starRating">
+                                <button class="star {{#ifSelected 1 this.rating}}selected{{/ifSelected}}" data-rating="1" >&#9733;</button>
+                                <button class="star {{#ifSelected 2 this.rating}}selected{{/ifSelected}}" data-rating="2" >&#9733;</button>
+                                <button class="star {{#ifSelected 3 this.rating}}selected{{/ifSelected}}" data-rating="3" >&#9733;</button>
+                                <button class="star {{#ifSelected 4 this.rating}}selected{{/ifSelected}}" data-rating="4" >&#9733;</button>
+                                <button class="star {{#ifSelected 5 this.rating}}selected{{/ifSelected}}" data-rating="5" >&#9733;</button>
+                            </div>
+                            <input type="hidden" name="rating" id="ratingInput" value="{{this.rating}}">
+                        </div>
+                        <div class="review-text" id="review-text">
+                            {{this.ratingMessage}}
+                        </div>
+                        <div class="review-date">
+                            Created {{this.date}}
+                        </div>
+                    </div>
+                    
+
+                    <div class="review-replies">
+
+                        {{#each replies}}
+                        <div class="reply">
+                            <img src="/images/filler-icon.jpg" class="reply-pfp">
+                            <div class="reply-details">
+                                <h3 class="reply-name">{{this.userFirstName}} {{this.userLastName}} (Admin)</h3>
+                                <div class="reply-text">
+                                    {{this.text}}
+                                </div>
+                            </div>
+                        </div>
+                        {{/each}}
+
+                        {{#if (eq ../user.role 'admin')}}
+                        <button class="reply-button" type="submit">Reply</button>
+                        <form id="admin-input" style="display: none;">
+                            <input type="text" id="reply-text" name="reply-text" placeholder="Reply here..." required>
+                            <button type="submit">Reply</button>
+                        </form>
+                        {{/if}}
+                    </div>
+
+                </div>
+                <!-- DROPDOWN ONLY APPEARS IF CURRENT USER IS THE USER WHO MADE REVIEW -->
+                {{#if (eq ../user.email this.user.email)}}
+                <div class="dropdown">
+                    <button class="dropbtn">⋮</button>
+                    <div class="dropdown-content">
+                        <a class="edit-review-link" id="edit-review" style="cursor: pointer;">Edit</a>
+                        <a class="delete-review" id="delete-review" style="cursor: pointer;">Delete</a>
+                    </div>
+                </div>
+                {{/if}}
+                
+            </div>
+        </div>
+        <hr>
+        {{/each}}
+    </div>
+    
+    <div id="errorPopup" class="miniPopupContainer" style="display: none;">
+        <div class="popupContent">
+        <span id="closePopupError" class="closePopup">&times;</span>
+        <h3 style="color: azure;">There seems to be a problem</h3>
+        <p id="errorText" style="color: azure;"></p>
+        </div>
+    </div>
+
+    <!-- Success Popup -->
+    <div id="successPopup" class="miniPopupContainer" style="display: none;">
+        <div class="popupContent">
+        <span id="closePopupSuccess" class="closePopup">&times;</span>
+        <h3 style="color: azure;">Success</h3>
+        <p id="successText" style="color: azure;"></p>
+        </div>
+    </div>
+
+    <script src="/js/reviews.js"></script>
+    <script src="/js/logout.js"></script>
+</body>
+</html>
