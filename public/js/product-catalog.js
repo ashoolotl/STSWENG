@@ -137,6 +137,80 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
+    // Check product availability and add "unavailable" class if needed
+    const allProducts = document.querySelectorAll('.product');
+    allProducts.forEach(product => {
+        const availabilityElement = product.querySelector('#product-availability');
+        if (availabilityElement && parseInt(availabilityElement.textContent) === 0) {
+            product.classList.add('unavailable');
+        }
+    });
+
+    // Handle unavailable products styling
+    const unavailableProducts = document.querySelectorAll('.product.unavailable');
+    
+    unavailableProducts.forEach(product => {
+        const addToCartBtn = product.querySelector('.add-to-cart-btn');
+        const productImage = product.querySelector('img');
+        
+        if (addToCartBtn) {
+            addToCartBtn.disabled = true;
+            addToCartBtn.style.opacity = '0.2';
+            productImage.style.opacity = '0.2';
+            productImage.style.borderRadius = '8px';
+    
+            // Change the background color of the product to indicate unavailability
+            product.style.backgroundColor = '#d3d3d3';
+    
+            // Add a semi-transparent overlay to the product image
+            const imageOverlay = document.createElement('div');
+            imageOverlay.style.position = 'absolute';
+            imageOverlay.style.top = '0';
+            imageOverlay.style.left = '0';
+            imageOverlay.style.width = '100%';
+            imageOverlay.style.height = '100%';
+            imageOverlay.style.backgroundColor = 'rgba(255, 255, 255, 0.6)';
+            imageOverlay.style.zIndex = '1';
+            imageOverlay.style.borderRadius = '8px';
+    
+            // Ensure the product image is positioned correctly
+            productImage.style.position = 'relative';
+            productImage.style.zIndex = '2';
+    
+            // Create a container for the image and overlay
+            const imageContainer = document.createElement('div');
+            imageContainer.style.position = 'relative';
+            imageContainer.style.width = '100%';
+            imageContainer.style.height = 'auto';
+            
+            // Append the image and overlay to the container
+            productImage.parentNode.insertBefore(imageContainer, productImage);
+            imageContainer.appendChild(productImage);
+            imageContainer.appendChild(imageOverlay);
+    
+            // Add the "Unavailable" text
+            const unavailableText = document.createElement('div');
+            unavailableText.style.position = 'absolute';
+            unavailableText.style.top = '10px';
+            unavailableText.style.left = '10px';
+            unavailableText.style.backgroundColor = 'rgba(255, 0, 0, 0.8)';
+            unavailableText.style.color = 'white';
+            unavailableText.style.padding = '5px 10px';
+            unavailableText.style.borderRadius = '5px';
+            unavailableText.style.zIndex = '3';
+            unavailableText.style.fontWeight = 'bold';
+            unavailableText.innerText = 'Unavailable';
+    
+            product.style.position = 'relative';
+            product.appendChild(unavailableText);
+    
+            const productDetails = product.querySelector('.product-details');
+            if (productDetails) {
+                productDetails.style.filter = 'grayscale(100%)';
+            }
+        }
+    });
 });
 
 function highlightText(element, searchTerm) {
