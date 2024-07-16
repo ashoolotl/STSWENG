@@ -1,7 +1,9 @@
 //User ONLY test functions/variables 
 
 export const userEmail = "test@gmail.com";
+export const userEmail2 = "viewer@gmail.com";
 export const userPassword = "test1234";
+
 
 
 export function registerUser(user) {

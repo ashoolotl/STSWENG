@@ -1,7 +1,7 @@
 import * as func from './function.cy.js';
 import * as user from './user-function.cy.js';
 //variables
-import {userEmail, userPassword} from './user-function.cy.js';
+import {userEmail, userEmail2, userPassword} from './user-function.cy.js';
 import {siteURL} from './function.cy.js';
 
 describe("Login Validation", () => {
@@ -178,7 +178,19 @@ describe("Service Reviews", () => {
       cy.get(':nth-child(3) > .car-status > :nth-child(1)').should('contain', 'To Review');
       user.createReview(reviewText);
       cy.contains("Your review has been successfully posted").should('be.visible');
-      //TODO: Login on another account to check if review is visible
+      cy.url().should('include', '/reviews');
+      cy.contains(reviewText).should('be.visible');
+   });
+
+   //if review is visible to other users
+   it("View Review", () => { 
+      func.logout();
+      cy.visit(siteURL + "/login");
+      func.login(userEmail2, userPassword);
+      cy.get('[href="/services"]').click();
+      cy.get('#userReviewBtn').click();
+      cy.contains(reviewText).should('be.visible');
+      cy.get('.review-top > .dropdown > .dropbtn').should('not.exist');
    });
 
    it("Edit Review", () => {
