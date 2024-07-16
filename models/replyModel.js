@@ -5,7 +5,15 @@ const replyModel = new mongoose.Schema({
     ref: "User",
     required: [true, "The item must have a owner"],
   },
-  postID: {
+  firstName: {
+    type: String,
+    required: [true, "The item must have a first name"],
+  },
+  lastName: {
+    type: String,
+    required: [true, "The item must have a last name"],
+  },
+  review: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Review",
     required: [true, "The review must have a product"],

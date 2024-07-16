@@ -6,5 +6,6 @@ router.use(authController.protect);
 
 router.route("/").post(reviewController.createReview).get(reviewController.getReviewForService);
 router.route("/:reviewId").patch(reviewController.editReview).delete(reviewController.deleteReview);
+router.route("/:reviewId/reply").post(reviewController.replyToReview);
 
 module.exports = router;

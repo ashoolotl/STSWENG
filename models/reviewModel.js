@@ -31,6 +31,10 @@ const reviewSchema = new mongoose.Schema({
     type: String,
     required: [true, "The item must have a review"],
   },
+  replies: {
+    type: Array,
+    default: [],
+  },
 });
 
 reviewSchema.methods.deleteReview = async function () {

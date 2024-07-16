@@ -23,7 +23,7 @@
                 <img src="/images/filler-icon.jpg" class="review-pfp">
                 <div class="review-details">
                     <div class="main-content">
-                        <h1 class="review-name">{{user.firstName}} {{this.user.lastName}}</h1>
+                        <h1 class="review-name">{{user.firstName}} {{user.lastName}}</h1>
                         {{!-- TO BE IMPLEMENTED DYNAMICALLY --}}
 
                         <div class="star-rating" id="starRating">
@@ -51,9 +51,9 @@
                         <div class="reply">
                             <img src="/images/filler-icon.jpg" class="reply-pfp">
                             <div class="reply-details">
-                                <h3 class="reply-name">{{this.userFirstName}} {{this.userLastName}} (Admin)</h3>
+                                <h3 class="reply-name">{{this.firstName}} {{this.lastName}} (Admin)</h3>
                                 <div class="reply-text">
-                                    {{this.text}}
+                                    {{this.replyMessage}}
                                 </div>
                             </div>
                         </div>
