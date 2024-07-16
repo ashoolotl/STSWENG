@@ -9,6 +9,7 @@
   <title>User Profile</title>
   <link rel="stylesheet" href="user-profile.css">
   <link rel="stylesheet" href = "partials/navbar.css">
+  <link rel="stylesheet" href = "product-catalog.css">
 </head>
 
 <body>
@@ -90,6 +91,26 @@
           <img src="/images/services/{{this.product}}.jpeg" alt="Image for {{this.product}}" style="width: 592px; height: 316px; border-radius: 20px;" onclick="showPopupService('{{this.id}}')">
         {{/each}}
       </div>
+  </div>
+
+  <div id="products" class="active-subscriptions">
+    <h2>Products Orders</h2>
+    <hr>
+    {{#each products}}
+      <div class="dashboardProduct">
+        <img src="/images/products/{{this.photo}}" alt="{{this.name}}">
+        <div class="order-details">
+            Name:
+            <span id="product-name">{{this.name}}</span>
+            Quantity:
+            <span id="product-quantity">x{{this.quantity}}</span>
+        </div>
+        <div class="order-details">
+            Status:
+            <span id="product-status">{{this.status}}</span>
+        </div>
+      </div>
+    {{/each}}
   </div>
 
   <div id="servicePopup" class="tokenContainer">
