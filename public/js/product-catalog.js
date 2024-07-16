@@ -40,6 +40,7 @@ const editProduct = async (data, id) => {
   
       const resData = await response.json();
       if (resData.status == "success") {
+        hideOverlay();
         document.getElementById("successPopup").style.display = "block";
         document.getElementById("successText").innerText = "Product updated.";
         document.getElementById("editProductPopup").style.display = "none";
@@ -213,9 +214,6 @@ if (editSubmitBtn) {
             };
             editProduct(data, productId);
         }
-
-        hideOverlay();
-        document.getElementById('editProductPopup').style.display = 'none';
     });
 }
 
@@ -250,3 +248,8 @@ function showOverlay() {
 function hideOverlay() {
     document.getElementById("overlay").style.display = "none";
 }
+
+document.getElementById("closePopupError").addEventListener("click", function () {
+    document.getElementById("errorPopup").style.display = "none";
+});
+  
