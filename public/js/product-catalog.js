@@ -30,6 +30,17 @@ const addProduct = async (data) => {
       },
       body: JSON.stringify(data),
     });
+    const resData = await response.json();
+    if (resData.status == "success") {
+      hideOverlay();
+      document.getElementById("successPopup").style.display = "block";
+      document.getElementById("successText").innerText = "Product updated.";
+      document.getElementById("editProductPopup").style.display = "none";
+      setTimeout(() => {
+        document.getElementById("successPopup").style.display = "none";
+        document.getElementById("successText").innerText = "";
+      }, 1000);
+    }
   } catch (err) {
     console.log(err.message);
     document.getElementById("errorPopup").style.display = "block";
@@ -275,24 +286,27 @@ const productEditBtn = document.querySelectorAll(".edit-btn");
 productEditBtn.forEach((btn) => {
   btn.addEventListener("click", function () {
     showOverlay();
-    document.getElementById("editProductPopup").style.display = "block";
     const productId = btn.getAttribute("data-edit-product");
 
-    const product = getProductDetails(productId);
-    const editProductName = document.getElementById("editProductName");
-    const editProductDesc = document.getElementById("editProductDesc");
-    const editProductPrice = document.getElementById("editProductPrice");
-    const editProductAvailability = document.getElementById("editProductAvailability");
+    getProductDetails(productId).then((product) => {
+      console.log(product.data.product.name);
+      const editProductName = document.getElementById("editProductName");
+      const editProductDesc = document.getElementById("editProductDesc");
+      const editProductPrice = document.getElementById("editProductPrice");
+      const editProductAvailability = document.getElementById("editProductAvailability");
 
-    if (product) {
-      editProductName.value = product.name;
-      editProductDesc.value = product.description;
-      editProductPrice.value = product.price;
-      editProductAvailability.value = product.quantity;
-    }
+      if (product) {
+        editProductName.value = product.data.product.name;
+        editProductDesc.value = product.data.product.description;
+        editProductPrice.value = product.data.product.price;
+        editProductAvailability.value = product.data.product.quantity;
+      }
+      document.getElementById("editProductPopup").style.display = "block";
 
-    const hiddenInput = document.getElementById("edit-product-id");
-    hiddenInput.value = productId;
+      const hiddenInput = document.getElementById("editProductId");
+      hiddenInput.value = productId;
+    });
+    
   });
 });
 
@@ -321,16 +335,24 @@ if (editSubmitBtn) {
     const editProductPrice = document.getElementById("editProductPrice");
     const editProductAvailability = document.getElementById("editProductAvailability");
 
-    if (editProductName.trim() === "" || editProductDesc.trim() === "" || isNaN(editProductPrice) || isNaN(editProductAvailability)) {
-      document.getElementById("error-message").innerText = "One or more fields is empty. Please fill in all fields.";
-    } else {
-      const data = {
-        name: editProductName.value,
-        description: editProductDesc.value,
-        price: editProductPrice.value,
-        quantity: editProductAvailability.value,
-      };
-      editProduct(data, productId);
+    if (editProductName && editProductDesc && editProductPrice && editProductAvailability) {
+      editProductName = editProductName.value;
+      editProductDesc = editProductDesc.value;
+      editProductPrice = editProductPrice.value;
+      editProductAvailability = editProductAvailability.value;
+
+      if (editProductName.trim() === "" || editProductDesc.trim() === "" || isNaN(editProductPrice) || isNaN(editProductAvailability)) {
+        document.getElementById("error-message").innerText = "One or more fields is empty. Please fill in all fields.";
+      } else {
+        const data = {
+          name: editProductName.value,
+          description: editProductDesc.value,
+          price: editProductPrice.value,
+          quantity: editProductAvailability.value,
+        };
+
+        editProduct(data, productId);
+      }
     }
   });
 }
@@ -343,19 +365,27 @@ if (addSubmitBtn) {
     const addProductPrice = document.getElementById("addProductPrice");
     const addProductAvailability = document.getElementById("addProductAvailability");
 
-    if (addProductName.trim() === "" || addProductDesc.trim() === "" || isNaN(addProductPrice) || isNaN(addProductAvailability)) {
-      document.getElementById("error-message").innerText = "One or more fields is empty. Please fill in all fields.";
-    } else {
-      const data = {
-        name: addProductName.value,
-        description: addProductDesc.value,
-        price: addProductPrice.value,
-        quantity: addProductAvailability.value,
-      };
-      addProduct(data);
+    if (addProductName && addProductDesc && addProductPrice && addProductAvailability) {
+      addProductName = addProductName.value;
+      addProductDesc = addProductDesc.value;
+      addProductPrice = addProductPrice.value;
+      addProductAvailability = addProductAvailability.value;
+
+      if (addProductName.trim() === "" || addProductDesc.trim() === "" || isNaN(addProductPrice) || isNaN(addProductAvailability)) {
+        document.getElementById("error-message").innerText = "One or more fields is empty. Please fill in all fields.";
+      } else {
+        const data = {
+          name: addProductName.value,
+          description: addProductDesc.value,
+          price: addProductPrice.value,
+          quantity: addProductAvailability.value,
+        };
+        addProduct(data);
+        hideOverlay();
+        document.getElementById("addProductPopup").style.display = "none";
+      }
     }
-    hideOverlay();
-    document.getElementById("addProductPopup").style.display = "none";
+
   });
 }
 
