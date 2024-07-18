@@ -32,7 +32,7 @@
             <h3>{{this.name}}</h3>
             <p>{{this.desc}}</p>
             <p style="margin-top: 8px;">Price &euro;<span id="product-price">{{this.price}}</span></p>
-            <p>Availability:<span id="product-availability"> 20</span>{{this.quantity}}</p>
+            <p>Availability:<span id="product-availability"> {{this.quantity}}</span></p>
             <div class="product-counter">
               <button class="counter-button" id="decrement">-</button>
               <span class="quantity-{{this._id}}" id="quantity">1</span>
