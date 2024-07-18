@@ -3,6 +3,12 @@
 @font-face {
     font-family: 'Crillee';
     src: url('./fonts/Crillee.ttf') format('truetype');
+    src: url('./fonts/CrilleeItalicPlain.eot');
+    src: local('Crillee Italic Plain'), local('CrilleeItalicPlain'),
+        url('./fonts/CrilleeItalicPlain.eot?#iefix') format('embedded-opentype'),
+        url('./fonts/CrilleeItalicPlain.woff2') format('woff2'),
+        url('./fonts/CrilleeItalicPlain.woff') format('woff'),
+        url('./fonts/CrilleeItalicPlain.ttf') format('truetype');
 }
 
 body, html {
