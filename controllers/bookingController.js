@@ -37,28 +37,28 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     mode: "payment",
   });
 
-  console.log(req.user);
-
-  try {
-    await fetch(`http://localhost:3000/api/v1/vehicles/platenum/${item.plateNumber}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        status: "To Review",
-        lastService: item.product,
-      }),
-    });
-    console.log("Vehicle status updated");
-  } catch (err) {
-    console.error("Error updating vehicle status", err);
-  }
-
   res.status(200).json({
     status: "success",
     session,
   });
+
+  if (res.statusCode === 200) {
+    try {
+      await fetch(`http://localhost:3000/api/v1/vehicles/platenum/${item.plateNumber}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          status: "To Review",
+          lastService: item.product,
+        }),
+      });
+      console.log("Vehicle status updated");
+    } catch (err) {
+      console.error("Error updating vehicle status", err);
+    }
+  }
 });
 
 const createBookingCheckout = async (session) => {
