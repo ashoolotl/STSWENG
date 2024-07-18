@@ -128,14 +128,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     adminInputForm.addEventListener("submit", async function (event) {
       event.preventDefault();
-      if (document.getElementById('reply-text').value.trim() === "") {
-        document.getElementById("errorPopup").style.display = "block";
-        document.getElementById("errorText").innerText = "Reply text cannot be empty.";
-      } else {
-        const formData = new FormData(adminInputForm);
-        const reviewId = document.getElementById("reviewId").value;
-        await submitReply(formData, reviewId);
-      }
+      const formData = new FormData(adminInputForm);
+      const reviewId = document.getElementById("reviewId").value;
+      await submitReply(formData, reviewId);
     });
   } else {
     const editReviewBtn = document.getElementById("edit-review");
