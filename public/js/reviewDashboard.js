@@ -98,8 +98,10 @@ document.addEventListener("DOMContentLoaded", function () {
   if (reviewBtns.length > 0) {
     reviewBtns.forEach((btn) => {
       btn.addEventListener("click", function () {
-        const serviceName = "SERVICE 1123";
-        // const serviceName = this.getAttribute("data-service-name");
+        let serviceName = "EXPRESS WASH";
+        if (btn.getAttribute("data-service-name")) {
+          serviceName = this.getAttribute("data-service-name");
+        }
         document.getElementById("reviewPopup").style.display = "block";
         document.getElementById("serviceName").value = serviceName;
       });
@@ -118,6 +120,8 @@ document.getElementById("closeReviewPopup").addEventListener("click", function (
 const seeReview = document.getElementById("see-review");
 if (seeReview) {
   seeReview.addEventListener("click", function () {
-    location.assign(`/reviews/SERVICE 1123`);
+    if (seeReview.getAttribute("data-service-name")) {
+      location.assign(`/reviews/${seeReview.getAttribute("data-service-name")}`);
+    }
   });
 }
