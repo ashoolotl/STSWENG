@@ -195,11 +195,7 @@ describe("Service Reviews", () => {
 
    it("Edit Review", () => {
       cy.get('[href="/services"]').click();
-      cy.get('#userReviewBtn').click();
-      cy.get('#edit-review').click({ force: true });
-      cy.get('#reviewEditText').clear();
-      cy.get('#reviewEditText').type(editText);
-      cy.get('#submitEditReview').click();
+      user.editReview(editText);
       cy.contains("Your review has been successfully updated").should('be.visible');
       cy.contains(editText).should('be.visible');
    });

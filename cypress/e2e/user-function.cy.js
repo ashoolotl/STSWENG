@@ -37,6 +37,14 @@ export function createReview(reviewText) {
    cy.get('#reviewForm').submit();
 }
 
+export function editReview(editText) {
+   cy.get('#userReviewBtn').click();
+   cy.get('#edit-review').click({ force: true });
+   cy.get('#reviewEditText').clear();
+   cy.get('#reviewEditText').type(editText);
+   cy.get('#submitEditReview').click();
+}
+
 //TODO: Function to login on different account to see created/edited reviews
 
 // cy.get(':nth-child(3) > .car-status > :nth-child(1)').should('contain', 'See Review');
