@@ -1,18 +1,3 @@
-html, body {
-    height: 100%;
-    margin: 0;
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-}
-
-header {
-    flex: 0 1 auto;
-    text-align: center; /* Center the header text */
-}
-
 .product-container {
     position: relative;
     width: 100%;
