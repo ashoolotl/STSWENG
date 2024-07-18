@@ -45,6 +45,15 @@ export function editReview(editText) {
    cy.get('#submitEditReview').click();
 }
 
+//NOTE: only works for pages on navbar
+export function viewPage(page) {
+   cy.get('a[href="/' + page + '"]').click();
+   cy.url().should('include', '/' + page);
+}
+
+
+
+
 //TODO: Function to login on different account to see created/edited reviews
 
 // cy.get(':nth-child(3) > .car-status > :nth-child(1)').should('contain', 'See Review');

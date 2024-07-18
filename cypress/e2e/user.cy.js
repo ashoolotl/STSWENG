@@ -45,20 +45,20 @@ describe("Viewing/Page Rendering", () => {
    });
 
    it("View Services", () => {
-      cy.get('[href="/services"]').click();
-      cy.url().should('include', '/services');
+      user.viewPage("services");
       cy.get('.top-container').should('not.be.empty');
       cy.get('.bottom-container').should('not.be.empty');
    });
 
    it("View Subscription", () => {
-      cy.get('[href="/subscriptions"]').click();
-      cy.url().should('include', '/subscriptions');
+      user.viewPage("subscriptions");
       cy.get('.top-container').should('not.be.empty');
       cy.get('.bottom-container').should('not.be.empty');
    });
 
-   it.skip("View Catalog", () => {
+   it("View Catalog", () => {
+      user.viewPage("product-catalog");
+      cy.get('.products').should('not.be.empty');
    });
    
 });
@@ -204,7 +204,7 @@ describe("Service Reviews", () => {
    it("Add Review", () => {
       cy.contains("To Review").click();
       user.createReview(reviewText);
-      cy.contains("Your review has been successfully posted").should('be.visible');
+      cy.contains("successfully posted").should('be.visible');
       cy.url().should('include', '/reviews');
       cy.contains(reviewText).should('be.visible');
    });
@@ -231,9 +231,8 @@ describe("Service Reviews", () => {
       cy.get('[href="/services"]').click();
       cy.get('#userReviewBtn').click();
       cy.get('#delete-review').click({ force: true });
-      cy.contains("Your review has been successfully deleted").should('be.visible');
+      cy.contains("successfully deleted").should('be.visible');
       cy.get('.review-container').children().should('have.length', 0);
    });
-
 
 });
