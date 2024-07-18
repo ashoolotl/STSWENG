@@ -24,7 +24,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
           description: item.description,
         },
       },
-      quantity: 1,
+      quantity: item.quantity,
     };
     line_items1.push(newItem);
   }
@@ -70,18 +70,18 @@ const createBookingCheckout = async (session) => {
   const owner = session.client_reference_id;
   const carts = await Cart.find({ owner: owner });
 
-    for (cart of carts) {
-      const newBooking = await Booking.create({
-        tokensAmount: 1,
-        owner: owner,
-        product: cart.product,
-        classification: cart.classification,
-        plateNumber: cart.plateNumber,
-        stripeReferenceNumber: session.payment_intent,
-      });
-      generateTokenForUser(newBooking._id);
-    }
-    deleteItemsInCart(session);
+  for (cart of carts) {
+    const newBooking = await Booking.create({
+      tokensAmount: 1,
+      owner: owner,
+      product: cart.product,
+      classification: cart.classification,
+      plateNumber: cart.plateNumber,
+      stripeReferenceNumber: session.payment_intent,
+    });
+    generateTokenForUser(newBooking._id);
+  }
+  deleteItemsInCart(session);
 };
 
 const createBookingCheckoutSubscription = async (session) => {
