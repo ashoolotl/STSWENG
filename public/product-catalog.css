@@ -156,29 +156,3 @@ header {
     margin-right: auto;
     display: block; /* Center the button horizontally */
 }
-
-.dashboardProduct {
-    padding: 2.5rem;
-    overflow: hidden;
-    display: flex;
-    flex-direction: row;
-    gap: 200px;
-    font-size: 18px;
-}
-
-.dashboardProduct img {
-    width: 15%;
-    height: auto;
-    border-radius: 8px;
-    border: 2px solid #ED1C24;
-}
-
-.order-details {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.product-name, .product-quantity {
-    margin-bottom: 10px;
-}
