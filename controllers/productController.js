@@ -40,6 +40,8 @@ exports.getProductById = async (req, res, next) => {
 
 exports.createProduct = async (req, res, next) => {
   try {
+    console.log("inside createProduct");
+
     const newProduct = await Product.create(req.body);
 
     res.status(201).json({

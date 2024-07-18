@@ -20,8 +20,9 @@ const getAllProducts = async () => {
   }
 };
 
-const createProduct = async (data) => {
+const addProduct = async (data) => {
   try {
+    console.log(data);
     const response = await fetch("/api/v1/products", {
       method: "POST",
       headers: {
@@ -68,7 +69,12 @@ const editProduct = async (data, id) => {
 // Function to get product details by ID from a server
 async function getProductDetails(productId) {
   try {
-    const response = await fetch(`/api/v1/products/${productId}`);
+    const response = await fetch(`/api/v1/products/${productId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }

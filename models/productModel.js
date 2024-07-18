@@ -6,19 +6,22 @@ const productModel = new mongoose.Schema({
   },
   description: {
     type: String,
+    default: "None",
     required: [true, "The item must have a description"],
   },
   price: {
     type: Number,
+    default: 0,
     required: [true, "The item must have a price"],
   },
-  stock: {
+  quantity: {
     type: Number,
+    default: 1,
     required: [true, "The item must have a stock"],
   },
   image: {
     type: String,
-    required: [true, "The item must have a image"],
+    default: "None",
   },
 });
 
