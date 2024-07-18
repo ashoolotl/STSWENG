@@ -36,6 +36,33 @@ describe("Login Validation", () => {
 
 });
 
+describe("Viewing/Page Rendering", () => {
+
+   beforeEach(() => {
+      cy.visit(siteURL + "/login");
+      func.login(userEmail, userPassword);
+      cy.url().should('include', '/dashboard');
+   });
+
+   it("View Services", () => {
+      cy.get('[href="/services"]').click();
+      cy.url().should('include', '/services');
+      cy.get('.top-container').should('not.be.empty');
+      cy.get('.bottom-container').should('not.be.empty');
+   });
+
+   it("View Subscription", () => {
+      cy.get('[href="/subscriptions"]').click();
+      cy.url().should('include', '/subscriptions');
+      cy.get('.top-container').should('not.be.empty');
+      cy.get('.bottom-container').should('not.be.empty');
+   });
+
+   it.skip("View Catalog", () => {
+   });
+   
+});
+
 //Registration data sets for testing
 const registerData = [
    //Valid [0]
@@ -175,7 +202,7 @@ describe("Service Reviews", () => {
       cy.url().should('include', '/dashboard');
    });
    it("Add Review", () => {
-      cy.get(':nth-child(3) > .car-status > :nth-child(1)').should('contain', 'To Review');
+      cy.contains("To Review").click();
       user.createReview(reviewText);
       cy.contains("Your review has been successfully posted").should('be.visible');
       cy.url().should('include', '/reviews');
@@ -187,7 +214,7 @@ describe("Service Reviews", () => {
       func.logout();
       cy.visit(siteURL + "/login");
       func.login(userEmail2, userPassword);
-      cy.get('[href="/services"]').click();
+      cy.get('a[href="/services"]').click();
       cy.get('#userReviewBtn').click();
       cy.contains(reviewText).should('be.visible');
       cy.get('.review-top > .dropdown > .dropbtn').should('not.exist');
