@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="user-profile-admin-booking.css">
     <link rel="stylesheet" href="update-status.css">
     <link rel="stylesheet" href = "partials/navbar.css">
+    <link rel="stylesheet" href = "product-catalog.css">
 </head>
 
 <body>
@@ -96,6 +97,26 @@
                 </div>
             </div>
         {{/each}}
+
+        <h2>Products Orders</h2>
+        <hr>
+        <div id="products" class="active-subscriptions">
+            {{#each products}}
+            <div class="dashboardProduct">
+                <img src="/images/products/{{this.photo}}">
+                <div class="order-details">
+                    Name:
+                    <span id="product-name">{{this.name}}</span>
+                    Quantity:
+                    <span id="product-quantity">x{{this.quantity}}</span>
+                </div>
+                <div class="order-details">
+                    Status:
+                    <span id="product-status" class="status current">{{this.status}}</span>
+                </div>
+            </div>
+            {{/each}}
+        </div>
     </div>
 
     <!-- Popups and Forms -->

@@ -20,6 +20,10 @@ const vehicleSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  lastService: {
+    type: String,
+    default: "Not Available",
+  },
   status: {
     type: String,
     default: "Not Available",

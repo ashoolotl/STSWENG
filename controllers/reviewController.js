@@ -17,7 +17,11 @@ exports.getReviewForService = async (req, res, next) => {
       },
     });
   } catch (error) {
-    next(error);
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching reviews.",
+    });
   }
 };
 
@@ -49,7 +53,11 @@ exports.createReview = async (req, res, next) => {
       },
     });
   } catch (error) {
-    next(error);
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while posting the review.",
+    });
   }
 };
 
@@ -74,7 +82,11 @@ exports.editReview = async (req, res, next) => {
       },
     });
   } catch (error) {
-    next(error);
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while editing the review.",
+    });
   }
 };
 
@@ -95,6 +107,39 @@ exports.deleteReview = async (req, res, next) => {
       message: "Review deleted successfully",
     });
   } catch (error) {
-    next(error);
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while deleting the review.",
+    });
+  }
+};
+
+exports.replyToReview = async (req, res, next) => {
+  try {
+    const review = await Review.findById(req.params.reviewId);
+
+    const newReply = await Reply.create({
+      user: req.user.id,
+      firstName: req.user.firstName,
+      lastName: req.user.lastName,
+      review: req.params.reviewId,
+      replyMessage: req.body["reply-text"],
+    });
+
+    review.replies.push(newReply);
+    await review.save();
+    res.status(200).json({
+      status: "success",
+      data: {
+        reply: newReply,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while replying to the review.",
+    });
   }
 };
