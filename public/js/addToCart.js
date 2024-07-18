@@ -30,7 +30,6 @@ const getAllVehicleByOwner = async (id) => {
 
 const addItemToCart = async (data) => {
   try {
-    console.log(data);
     const response = await fetch(`/api/v1/carts`, {
       method: "POST",
       headers: {

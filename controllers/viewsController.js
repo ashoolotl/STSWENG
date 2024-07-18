@@ -9,6 +9,8 @@ const Review = require("../models/reviewModel");
 const Booking = require("../models/bookingModel");
 const BookingSubscription = require("../models/bookingSubscriptionModel");
 const SubscriptionAvailed = require("../models/subscriptionAvailedModel");
+const Product = require("../models/productModel");
+
 exports.getLoginForm = (req, res, next) => {
   res.status(200).render("login", {
     title: "Log into your account",
@@ -159,11 +161,20 @@ exports.getCart = async (req, res, next) => {
 
   if (user.role === "user") {
     cartItems = await Cart.find({ owner: res.locals.user });
-    console.log(cartItems);
   }
+
   res.status(200).render("cart", {
     title: "Cart",
     cartItems,
     user,
+  });
+};
+
+exports.getProducts = async (req, res, next) => {
+  const products = await Product.find();
+
+  res.status(200).render("product-catalog", {
+    title: "Products",
+    products,
   });
 };

@@ -1,5 +1,6 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const Cart = require("../models/cartModel");
+const Product = require("../models/productModel");
 const Service = require("../models/servicesModel");
 const ServiceAvailed = require("../models/serviceAvailedModel");
 const Subscription = require("../models/subscriptionModel");
@@ -11,7 +12,7 @@ const BookingSubscription = require("../models/bookingSubscriptionModel");
 const SubscriptionAvailed = require("../models/subscriptionAvailedModel");
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
-  const cartItems = await Cart.find({ owner: req.user._id });
+  let cartItems = await Cart.find({ owner: req.user._id });
   let line_items1 = [];
   for (item of cartItems) {
     let newItem = {
@@ -42,7 +43,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     session,
   });
 
-  if (res.statusCode === 200) {
+  if (res.statusCode === 200 && item.plateNumber) {
     try {
       await fetch(`http://localhost:3000/api/v1/vehicles/platenum/${item.plateNumber}`, {
         method: "PATCH",
@@ -63,24 +64,26 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 
 const createBookingCheckout = async (session) => {
   // if successful booking create a checkout and clear the items in cart by the user
-  console.log("inside create booking checkout");
-  const owner = session.client_reference_id;
 
+  console.log("inside create booking checkout");
+
+  const owner = session.client_reference_id;
   const carts = await Cart.find({ owner: owner });
 
-  for (cart of carts) {
-    const newBooking = await Booking.create({
-      tokensAmount: 1,
-      owner: owner,
-      product: cart.product,
-      classification: cart.classification,
-      plateNumber: cart.plateNumber,
-      stripeReferenceNumber: session.payment_intent,
-    });
-    generateTokenForUser(newBooking._id);
-  }
-  deleteItemsInCart(session);
+    for (cart of carts) {
+      const newBooking = await Booking.create({
+        tokensAmount: 1,
+        owner: owner,
+        product: cart.product,
+        classification: cart.classification,
+        plateNumber: cart.plateNumber,
+        stripeReferenceNumber: session.payment_intent,
+      });
+      generateTokenForUser(newBooking._id);
+    }
+    deleteItemsInCart(session);
 };
+
 const createBookingCheckoutSubscription = async (session) => {
   console.log("inside create booking checkout for subscription");
   console.log(session);
@@ -132,6 +135,7 @@ const createBookingCheckoutSubscription = async (session) => {
   generateTokenForUserSubscribed(newBookingSubscription._id);
   // we can now get the subscription we are missing here the plateNumber
 };
+
 const generateTokenForUserSubscribed = async (newSubscriptionId) => {
   const bookingSubscription = await BookingSubscription.findById(newSubscriptionId);
   const subscription = await Subscription.find({
@@ -156,6 +160,7 @@ const generateTokenForUserSubscribed = async (newSubscriptionId) => {
     });
   }
 };
+
 const generateTokenForUser = async (newBookingId) => {
   const services = await Service.find();
   const booking = await Booking.findById(newBookingId);
@@ -180,6 +185,12 @@ const deleteItemsInCart = async (session) => {
   const owner = session.client_reference_id;
   await Cart.deleteMany({ owner: owner });
 };
+
+const deleteItemsInProductCart = async (session) => {
+  const owner = session.client_reference_id;
+  await ProductCart.deleteMany({ owner: owner });
+};
+
 exports.webhookCheckout = catchAsync(async (req, res, next) => {
   console.log("INSIDE WEBHOOK CHECKOUT");
 
