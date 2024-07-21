@@ -95,7 +95,7 @@ async function getProductDetails(productId) {
 const addItemToCart = async (data) => {
   try {
     console.log(data);
-    const response = await fetch(`/api/v1/product-carts`, {
+    const response = await fetch(`/api/v1/carts`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -301,7 +301,6 @@ productEditBtn.forEach((btn) => {
       const hiddenInput = document.getElementById("editProductId");
       hiddenInput.value = productId;
     });
-    
   });
 });
 
@@ -354,7 +353,12 @@ if (editSubmitBtn) {
 
       if (editProductName.trim() === "" || editProductDesc.trim() === "" || isNaN(editProductPrice) || isNaN(editProductAvailability)) {
         document.getElementById("error-message").innerText = "One or more fields is empty. Please fill in all fields.";
-      } else if (editProductName === originalProductName && editProductDesc === originalProductDesc && editProductPrice === originalProductPrice && editProductAvailability === originalProductAvailability)  {
+      } else if (
+        editProductName === originalProductName &&
+        editProductDesc === originalProductDesc &&
+        editProductPrice === originalProductPrice &&
+        editProductAvailability === originalProductAvailability
+      ) {
         document.getElementById("error-message").innerText = "No changes detected. Please make changes to update product.";
       } else {
         const data = {
@@ -398,7 +402,6 @@ if (addSubmitBtn) {
         document.getElementById("addProductPopup").style.display = "none";
       }
     }
-
   });
 }
 
