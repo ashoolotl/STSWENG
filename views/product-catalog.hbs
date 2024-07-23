@@ -34,9 +34,9 @@
             <p style="margin-top: 8px;">Price &euro;<span id="product-price">{{this.price}}</span></p>
             <p>Availability:<span id="product-availability"> {{this.quantity}}</span></p>
             <div class="product-counter">
-              <button class="counter-button" id="decrement">-</button>
-              <span class="quantity-{{this._id}}" id="quantity">1</span>
-              <button class="counter-button" id="increment">+</button>
+              <button class="counter-button" id="{{this._id}}-decrement">-</button>
+              <span data-prod-id="{{this._id}}" class="quantity" id="{{this._id}}-quantity">1</span>
+              <button class="counter-button" id="{{this._id}}-increment">+</button>
             </div>
 
             {{#if ../user}}
