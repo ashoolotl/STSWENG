@@ -64,7 +64,10 @@ const editProduct = async (data, id) => {
       document.getElementById("successPopup").style.display = "block";
       document.getElementById("successText").innerText = "Product updated.";
       document.getElementById("editProductPopup").style.display = "none";
-    }
+      document.getElementById("error-message").innerText = "";
+    } setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   } catch (err) {
     console.log(err.message);
     document.getElementById("errorPopup").style.display = "block";
@@ -274,6 +277,7 @@ if (closeEditPopupBtn) {
   closeEditPopupBtn.addEventListener("click", function () {
     hideOverlay();
     document.getElementById("editProductPopup").style.display = "none";
+    document.getElementById("error-message").innerText = "";
   });
 }
 
@@ -289,12 +293,17 @@ productEditBtn.forEach((btn) => {
       const editProductDesc = document.getElementById("editProductDesc");
       const editProductPrice = document.getElementById("editProductPrice");
       const editProductAvailability = document.getElementById("editProductAvailability");
+      const editSubmit = document.getElementById("editSubmit");
 
       if (product) {
         editProductName.value = product.data.product.name;
         editProductDesc.value = product.data.product.description;
         editProductPrice.value = product.data.product.price;
         editProductAvailability.value = product.data.product.quantity;
+        editSubmit.setAttribute("data-orig-name", product.data.product.name);
+        editSubmit.setAttribute("data-orig-desc", product.data.product.description);
+        editSubmit.setAttribute("data-orig-price", product.data.product.price);
+        editSubmit.setAttribute("data-orig-quan", product.data.product.quantity);
       }
       document.getElementById("editProductPopup").style.display = "block";
 
@@ -326,17 +335,10 @@ if (editSubmitBtn) {
     event.preventDefault();
     const productId = document.getElementById("editProductId").value;
 
-    let originalProductName = "";
-    let originalProductDesc = "";
-    let originalProductPrice = "";
-    let originalProductAvailability = "";
-    getProductDetails(productId).then((product) => {
-      console.log(product.data.product.name);
-      originalProductName = product.data.product.name;
-      originalProductDesc = product.data.product.description;
-      originalProductPrice = product.data.product.price;
-      originalProductAvailability = product.data.product.quantity;
-    });
+    const originalProductName = event.target.getAttribute("data-orig-name");
+    const originalProductDesc = event.target.getAttribute("data-orig-desc");
+    const originalProductPrice = event.target.getAttribute("data-orig-price");
+    const originalProductAvailability = event.target.getAttribute("data-orig-quan");
 
     let editProductNameElem = document.getElementById("editProductName");
     let editProductDescElem = document.getElementById("editProductDesc");
@@ -349,14 +351,12 @@ if (editSubmitBtn) {
       const editProductPrice = editProductPriceElem.value;
       const editProductAvailability = editProductAvailabilityElem.value;
 
-      console.log(editProductName, editProductDesc, editProductPrice, editProductAvailability);
-
       if (editProductName.trim() === "" || editProductDesc.trim() === "" || isNaN(editProductPrice) || isNaN(editProductAvailability)) {
         document.getElementById("error-message").innerText = "One or more fields is empty. Please fill in all fields.";
       } else if (
-        editProductName === originalProductName &&
-        editProductDesc === originalProductDesc &&
-        editProductPrice === originalProductPrice &&
+        editProductName == originalProductName &&
+        editProductDesc == originalProductDesc &&
+        editProductPrice == originalProductPrice &&
         editProductAvailability === originalProductAvailability
       ) {
         document.getElementById("error-message").innerText = "No changes detected. Please make changes to update product.";
