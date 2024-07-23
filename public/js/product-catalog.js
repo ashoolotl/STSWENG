@@ -135,9 +135,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       btn.addEventListener("click", async (e) => {
         const productId = e.target.getAttribute("data-id");
         const product = products.find((product) => product._id === productId);
+        const quantity = document.getElementById(`${productId}-quantity`).textContent;
         const data = {
-          productId: product.name,
-          quantity: document.getElementsByClassName(`quantity-${product.productId}`).textContent,
+          name: product.name,
+          quantity: quantity,
           price: product.price,
         };
         await addItemToCart(data);
@@ -149,14 +150,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 document.addEventListener("DOMContentLoaded", function () {
   const quantityDisplays = document.querySelectorAll(".quantity");
 
-  console.log(quantityDisplays);
-
   if (quantityDisplays) {
     quantityDisplays.forEach((quantityDisplay) => {
       const prodIdentifier = quantityDisplay.getAttribute("data-prod-id");
 
       const decrementButton = document.getElementById(`${prodIdentifier}-decrement`);
-      console.log(decrementButton);
       const incrementButton = document.getElementById(`${prodIdentifier}-increment`);
       
       let quantity = parseInt(quantityDisplay.textContent);
