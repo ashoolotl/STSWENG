@@ -67,7 +67,8 @@ const editProduct = async (data, id) => {
       document.getElementById("successText").innerText = "Product updated.";
       document.getElementById("editProductPopup").style.display = "none";
       document.getElementById("error-message").innerText = "";
-    } setTimeout(() => {
+    }
+    setTimeout(() => {
       window.location.reload();
     }, 1000);
   } catch (err) {
@@ -136,10 +137,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         const productId = e.target.getAttribute("data-id");
         const product = products.find((product) => product._id === productId);
         const quantity = document.getElementById(`${productId}-quantity`).textContent;
+        const price = quantity * product.price;
+        const userId = document.getElementById("userId").value;
         const data = {
-          name: product.name,
-          quantity: quantity,
-          price: product.price,
+          product: product.name,
+          description: product.description,
+          price: price,
+          owner: userId,
         };
         await addItemToCart(data);
       });
@@ -156,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const decrementButton = document.getElementById(`${prodIdentifier}-decrement`);
       const incrementButton = document.getElementById(`${prodIdentifier}-increment`);
-      
+
       let quantity = parseInt(quantityDisplay.textContent);
 
       if (decrementButton) {
@@ -167,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function () {
           }
         });
       }
-    
+
       if (incrementButton) {
         incrementButton.addEventListener("click", function () {
           quantity++;

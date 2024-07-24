@@ -30,4 +30,7 @@ router.get(
     authController.restrictTo('admin'),
     bookingController.getBookingByOwner
 );
+
+router.post("/webhook-checkout", bookingController.webhookCheckout);
+
 module.exports = router;
