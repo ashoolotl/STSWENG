@@ -23,18 +23,6 @@ const getCheckoutSession = async (id) => {
     const response = await fetch(`/api/v1/bookings/checkout-session/${id}`);
     const res = await response.json();
     window.location.href = res.session.url;
-
-    if (res.paymentStatus === "success") {
-      document.getElementById("successPopup").style.display = "block";
-      document.getElementById("successText").innerText = "Payment successful. Thank you for your purchase!";
-      
-      setTimeout(() => {
-        location.assign("/dashboard");
-      }, 2000);
-    } else {
-      document.getElementById("errorPopup").style.display = "block";
-      document.getElementById("errorText").innerText = "Payment failed. Please try again.";
-    }
   } catch (err) {
     console.error(err.message);
     document.getElementById("errorPopup").style.display = "block";
@@ -42,7 +30,24 @@ const getCheckoutSession = async (id) => {
   }
 };
 
+function displayPaymentStatus() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const paymentStatus = urlParams.get("payment");
+
+  if (paymentStatus === "success") {
+    document.getElementById("successPopup").style.display = "block";
+    document.getElementById("successText").innerText = "Payment successful. Thank you for your purchase!";
+    setTimeout(() => {
+      window.location.href = "/carts";
+    }, 3000);
+  } else if (paymentStatus === "failure") {
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "Payment failed. Please try again.";
+  }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
+  displayPaymentStatus();
   // Get the element by its ID
   var removeItems = document.querySelectorAll(".removeItem");
 

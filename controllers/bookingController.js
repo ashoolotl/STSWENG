@@ -12,6 +12,7 @@ const BookingSubscription = require("../models/bookingSubscriptionModel");
 const SubscriptionAvailed = require("../models/subscriptionAvailedModel");
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
+  console.log("INSIDE GET CHECKOUT SESSION");
   let cartItems = await Cart.find({ owner: req.user._id });
   let line_items1 = [];
   for (item of cartItems) {
@@ -24,13 +25,14 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
           description: item.description,
         },
       },
-      quantity: item.quantity,
+      quantity: 1,
     };
     line_items1.push(newItem);
   }
+  console.log("LINE ITEMS", line_items1);
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
-    success_url: `${req.protocol}://${req.get("host")}/dashboard`,
+    success_url: `${req.protocol}://${req.get("host")}/carts?payment=success`,
     cancel_url: `${req.protocol}://${req.get("host")}/carts`,
     customer_email: req.user.email,
     client_reference_id: req.params.userId,
@@ -43,23 +45,52 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     session,
   });
 
-  if (res.statusCode === 200 && item.plateNumber) {
-    try {
-      await fetch(`http://localhost:3000/api/v1/vehicles/platenum/${item.plateNumber}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          status: "To Review",
-          lastService: item.product,
-        }),
-      });
-      console.log("Vehicle status updated");
-    } catch (err) {
-      console.error("Error updating vehicle status", err);
+  if (res.statusCode === 200) {
+    for (let item of cartItems) {
+      if (item.plateNumber) {
+        try {
+          await fetch(`http://localhost:3000/api/v1/vehicles/platenum/${item.plateNumber}`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              status: "To Review",
+              lastService: item.product,
+            }),
+          });
+          console.log("Vehicle status updated");
+        } catch (err) {
+          console.error("Error updating vehicle status", err);
+        }
+      }
     }
+    deleteItemsInCart(session);
   }
+});
+
+exports.webhookCheckout = catchAsync(async (req, res, next) => {
+  console.log("INSIDE WEBHOOK CHECKOUT");
+
+  const sig = req.headers["stripe-signature"];
+  let event;
+  try {
+    event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
+  } catch (err) {
+    res.status(400).send(`Webhook Error: ${err.message}`);
+    return;
+  }
+
+  if (event.type === "checkout.session.completed") {
+    console.log("CHECKOUT IS SUCCESSFUL");
+    console.log(event.data.object);
+  }
+
+  console.log("FINISHED");
+
+  res.status(200).json({
+    received: true,
+  });
 });
 
 const createBookingCheckout = async (session) => {
@@ -88,36 +119,3 @@ const deleteItemsInCart = async (session) => {
   const owner = session.client_reference_id;
   await Cart.deleteMany({ owner: owner });
 };
-
-exports.webhookCheckout = catchAsync(async (req, res, next) => {
-  console.log("INSIDE WEBHOOK CHECKOUT");
-
-  const sig = req.headers["stripe-signature"];
-  let event;
-  try {
-    event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
-  } catch (err) {
-    res.status(400).send(`Webhook Error: ${err.message}`);
-    return;
-  }
-
-  if (event.type === "checkout.session.completed") {
-    console.log("CHECKOUT IS SUCCESSFUL");
-    console.log(event.data.object);
-    if (event.data.object.mode == "subscription") {
-      // for subscriptions generate also te tokens for user
-
-      await createBookingCheckoutSubscription(event.data.object);
-    } else if (event.data.object.mode == "payment") {
-      // for one time payment
-
-      await createBookingCheckout(event.data.object);
-    }
-  }
-
-  console.log("FINISHED");
-
-  res.status(200).json({
-    received: true,
-  });
-});
