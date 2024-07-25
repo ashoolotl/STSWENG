@@ -34,7 +34,7 @@
     <h2>Registered Cars</h2>
     <hr>
     {{#each vehicles}}
-      <div class="car">
+      <div class="car" carDetails = {{this.classification}}-{{this.plateNumber}}>
         <img src="/images/vehicleClassification/{{this.classification}}.jpeg" alt="Vehicle Classification Image">
         <div class="car-status">
             <div class="car-info">

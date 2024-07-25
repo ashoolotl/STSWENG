@@ -18,7 +18,7 @@
     <div class="registered-cars">
         {{#each vehicleClassification}}
             <hr>
-            <div class="car">
+            <div class="car" classification = {{this.name}}>
                 <img src="/images/vehicleClassification/{{this.photo}}">
                 <div class="car-status">
                     <div class="car-info">
