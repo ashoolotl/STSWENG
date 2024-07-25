@@ -113,11 +113,10 @@ const addItemToCart = async (data) => {
     if (resData.status == "success") {
       document.getElementById("successPopup").style.display = "block";
       document.getElementById("successText").innerText = "Item added to cart.";
-      document.getElementById("bookingPopup").style.display = "none";
       setTimeout(() => {
         document.getElementById("successPopup").style.display = "none";
         document.getElementById("successText").innerText = "";
-      }, 1000);
+      }, 1500);
     }
   } catch (err) {
     console.log(err.message);
@@ -163,6 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const incrementButton = document.getElementById(`${prodIdentifier}-increment`);
 
       let quantity = parseInt(quantityDisplay.textContent);
+      const availability = parseInt(quantityDisplay.getAttribute("data-availability"));
 
       if (decrementButton) {
         decrementButton.addEventListener("click", function () {
@@ -175,8 +175,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (incrementButton) {
         incrementButton.addEventListener("click", function () {
-          quantity++;
-          quantityDisplay.textContent = quantity;
+          if (quantity < availability) {
+            quantity++;
+            quantityDisplay.textContent = quantity;
+          }
         });
       }
     });
@@ -428,4 +430,8 @@ function hideOverlay() {
 
 document.getElementById("closePopupError").addEventListener("click", function () {
   document.getElementById("errorPopup").style.display = "none";
+});
+
+document.getElementById("closePopupSuccess").addEventListener("click", function () {
+  document.getElementById("successPopup").style.display = "none";
 });
