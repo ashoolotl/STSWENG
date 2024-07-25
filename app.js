@@ -40,7 +40,6 @@ if (process.env.NODE_ENV === "development") {
 
 // Special case for raw JSON for webhooks
 app.post("/webhook-checkout", express.raw({ type: "application/json" }), bookingController.webhookCheckout);
-app.post("/webhook-subscription", express.raw({ type: "application/json" }), bookingController.webhookIsStillSubscribed);
 
 // View Engine Configuration
 app.engine(

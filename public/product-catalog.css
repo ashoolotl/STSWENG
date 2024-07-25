@@ -86,7 +86,7 @@
     cursor: pointer;
 }
 
-#quantity {
+.quantity {
     display: inline-block;
     width: 40px;
     height: 30px;

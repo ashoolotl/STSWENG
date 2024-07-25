@@ -30,7 +30,24 @@ const getCheckoutSession = async (id) => {
   }
 };
 
+function displayPaymentStatus() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const paymentStatus = urlParams.get("payment");
+
+  if (paymentStatus === "success") {
+    document.getElementById("successPopup").style.display = "block";
+    document.getElementById("successText").innerText = "Payment successful. Thank you for your purchase!";
+    setTimeout(() => {
+      window.location.href = "/carts";
+    }, 3000);
+  } else if (paymentStatus === "failure") {
+    document.getElementById("errorPopup").style.display = "block";
+    document.getElementById("errorText").innerText = "Payment failed. Please try again.";
+  }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
+  displayPaymentStatus();
   // Get the element by its ID
   var removeItems = document.querySelectorAll(".removeItem");
 

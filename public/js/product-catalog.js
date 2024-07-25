@@ -33,12 +33,14 @@ const addProduct = async (data) => {
     const resData = await response.json();
     if (resData.status == "success") {
       hideOverlay();
+      document.getElementById("addProductPopup").style.display = "none";
       document.getElementById("successPopup").style.display = "block";
-      document.getElementById("successText").innerText = "Product updated.";
+      document.getElementById("successText").innerText = "Product successfully added.";
       document.getElementById("editProductPopup").style.display = "none";
       setTimeout(() => {
         document.getElementById("successPopup").style.display = "none";
         document.getElementById("successText").innerText = "";
+        window.location.reload();
       }, 1000);
     }
   } catch (err) {
@@ -64,7 +66,11 @@ const editProduct = async (data, id) => {
       document.getElementById("successPopup").style.display = "block";
       document.getElementById("successText").innerText = "Product updated.";
       document.getElementById("editProductPopup").style.display = "none";
+      document.getElementById("error-message").innerText = "";
     }
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   } catch (err) {
     console.log(err.message);
     document.getElementById("errorPopup").style.display = "block";
@@ -95,7 +101,7 @@ async function getProductDetails(productId) {
 const addItemToCart = async (data) => {
   try {
     console.log(data);
-    const response = await fetch(`/api/v1/product-carts`, {
+    const response = await fetch(`/api/v1/carts`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -130,10 +136,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       btn.addEventListener("click", async (e) => {
         const productId = e.target.getAttribute("data-id");
         const product = products.find((product) => product._id === productId);
+        const quantity = document.getElementById(`${productId}-quantity`).textContent;
+        const price = quantity * product.price;
+        const userId = document.getElementById("userId").value;
         const data = {
-          productId: product.name,
-          quantity: document.getElementsByClassName(`quantity-${product.productId}`).textContent,
-          price: product.price,
+          product: product.name,
+          description: product.description,
+          price: price,
+          owner: userId,
         };
         await addItemToCart(data);
       });
@@ -142,29 +152,35 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  // need to change to every product
-  const decrementButton = document.getElementById("decrement");
-  const incrementButton = document.getElementById("increment");
-  const quantityDisplay = document.getElementById("quantity");
-  const searchInput = document.getElementById("searchInput");
+  const quantityDisplays = document.querySelectorAll(".quantity");
 
-  let quantity = 1;
+  if (quantityDisplays) {
+    quantityDisplays.forEach((quantityDisplay) => {
+      const prodIdentifier = quantityDisplay.getAttribute("data-prod-id");
 
-  if (decrementButton) {
-    decrementButton.addEventListener("click", function () {
-      if (quantity > 1) {
-        quantity--;
-        quantityDisplay.textContent = quantity;
+      const decrementButton = document.getElementById(`${prodIdentifier}-decrement`);
+      const incrementButton = document.getElementById(`${prodIdentifier}-increment`);
+
+      let quantity = parseInt(quantityDisplay.textContent);
+
+      if (decrementButton) {
+        decrementButton.addEventListener("click", function () {
+          if (quantity > 1) {
+            quantity--;
+            quantityDisplay.textContent = quantity;
+          }
+        });
+      }
+
+      if (incrementButton) {
+        incrementButton.addEventListener("click", function () {
+          quantity++;
+          quantityDisplay.textContent = quantity;
+        });
       }
     });
   }
-
-  if (incrementButton) {
-    incrementButton.addEventListener("click", function () {
-      quantity++;
-      quantityDisplay.textContent = quantity;
-    });
-  }
+  const searchInput = document.getElementById("searchInput");
 
   if (searchInput) {
     searchInput.addEventListener("input", function () {
@@ -274,6 +290,7 @@ if (closeEditPopupBtn) {
   closeEditPopupBtn.addEventListener("click", function () {
     hideOverlay();
     document.getElementById("editProductPopup").style.display = "none";
+    document.getElementById("error-message").innerText = "";
   });
 }
 
@@ -289,19 +306,23 @@ productEditBtn.forEach((btn) => {
       const editProductDesc = document.getElementById("editProductDesc");
       const editProductPrice = document.getElementById("editProductPrice");
       const editProductAvailability = document.getElementById("editProductAvailability");
+      const editSubmit = document.getElementById("editSubmit");
 
       if (product) {
         editProductName.value = product.data.product.name;
         editProductDesc.value = product.data.product.description;
         editProductPrice.value = product.data.product.price;
         editProductAvailability.value = product.data.product.quantity;
+        editSubmit.setAttribute("data-orig-name", product.data.product.name);
+        editSubmit.setAttribute("data-orig-desc", product.data.product.description);
+        editSubmit.setAttribute("data-orig-price", product.data.product.price);
+        editSubmit.setAttribute("data-orig-quan", product.data.product.quantity);
       }
       document.getElementById("editProductPopup").style.display = "block";
 
       const hiddenInput = document.getElementById("editProductId");
       hiddenInput.value = productId;
     });
-    
   });
 });
 
@@ -327,17 +348,10 @@ if (editSubmitBtn) {
     event.preventDefault();
     const productId = document.getElementById("editProductId").value;
 
-    let originalProductName = "";
-    let originalProductDesc = "";
-    let originalProductPrice = "";
-    let originalProductAvailability = "";
-    getProductDetails(productId).then((product) => {
-      console.log(product.data.product.name);
-      originalProductName = product.data.product.name;
-      originalProductDesc = product.data.product.description;
-      originalProductPrice = product.data.product.price;
-      originalProductAvailability = product.data.product.quantity;
-    });
+    const originalProductName = event.target.getAttribute("data-orig-name");
+    const originalProductDesc = event.target.getAttribute("data-orig-desc");
+    const originalProductPrice = event.target.getAttribute("data-orig-price");
+    const originalProductAvailability = event.target.getAttribute("data-orig-quan");
 
     let editProductNameElem = document.getElementById("editProductName");
     let editProductDescElem = document.getElementById("editProductDesc");
@@ -350,11 +364,14 @@ if (editSubmitBtn) {
       const editProductPrice = editProductPriceElem.value;
       const editProductAvailability = editProductAvailabilityElem.value;
 
-      console.log(editProductName, editProductDesc, editProductPrice, editProductAvailability);
-
       if (editProductName.trim() === "" || editProductDesc.trim() === "" || isNaN(editProductPrice) || isNaN(editProductAvailability)) {
         document.getElementById("error-message").innerText = "One or more fields is empty. Please fill in all fields.";
-      } else if (editProductName === originalProductName && editProductDesc === originalProductDesc && editProductPrice === originalProductPrice && editProductAvailability === originalProductAvailability)  {
+      } else if (
+        editProductName == originalProductName &&
+        editProductDesc == originalProductDesc &&
+        editProductPrice == originalProductPrice &&
+        editProductAvailability === originalProductAvailability
+      ) {
         document.getElementById("error-message").innerText = "No changes detected. Please make changes to update product.";
       } else {
         const data = {
@@ -372,33 +389,31 @@ if (editSubmitBtn) {
 
 const addSubmitBtn = document.getElementById("addSubmit");
 if (addSubmitBtn) {
-  addSubmitBtn.addEventListener("click", function () {
-    const addProductName = document.getElementById("addProductName");
-    const addProductDesc = document.getElementById("addProductDesc");
-    const addProductPrice = document.getElementById("addProductPrice");
-    const addProductAvailability = document.getElementById("addProductAvailability");
+  addSubmitBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    const addProductNameElem = document.getElementById("addProductName");
+    const addProductDescElem = document.getElementById("addProductDesc");
+    const addProductPriceElem = document.getElementById("addProductPrice");
+    const addProductAvailabilityElem = document.getElementById("addProductAvailability");
 
-    if (addProductName && addProductDesc && addProductPrice && addProductAvailability) {
-      addProductName = addProductName.value;
-      addProductDesc = addProductDesc.value;
-      addProductPrice = addProductPrice.value;
-      addProductAvailability = addProductAvailability.value;
+    if (addProductNameElem && addProductDescElem && addProductPriceElem && addProductAvailabilityElem) {
+      const addProductName = addProductNameElem.value;
+      const addProductDesc = addProductDescElem.value;
+      const addProductPrice = addProductPriceElem.value;
+      const addProductAvailability = addProductAvailabilityElem.value;
 
       if (addProductName.trim() === "" || addProductDesc.trim() === "" || isNaN(addProductPrice) || isNaN(addProductAvailability)) {
         document.getElementById("error-message").innerText = "One or more fields is empty. Please fill in all fields.";
       } else {
         const data = {
-          name: addProductName.value,
-          description: addProductDesc.value,
-          price: addProductPrice.value,
-          quantity: addProductAvailability.value,
+          name: addProductName,
+          description: addProductDesc,
+          price: addProductPrice,
+          quantity: addProductAvailability,
         };
         addProduct(data);
-        hideOverlay();
-        document.getElementById("addProductPopup").style.display = "none";
       }
     }
-
   });
 }
 

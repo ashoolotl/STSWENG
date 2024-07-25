@@ -14,6 +14,7 @@ exports.getItemsInCart = catchAsync(async (req, res, next) => {
 });
 
 exports.addItemsInCart = catchAsync(async (req, res, next) => {
+  console.log("req.body:", req.body);
   const cart = await Cart.create(req.body);
   res.status(200).json({
     status: "success",

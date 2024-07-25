@@ -52,7 +52,7 @@ exports.createProduct = async (req, res, next) => {
     });
   } catch (error) {
     console.error(error);
-    res.statu(500).json({
+    res.status(500).json({
       status: "error",
       message: "An error occurred while creating product.",
     });
@@ -61,14 +61,14 @@ exports.createProduct = async (req, res, next) => {
 
 exports.editProduct = async (req, res, next) => {
   try {
-    const updatedproduct = await Product.findByIdAndUpdate(req.params.id, req.boody, { new: true, runValidators: true });
+    const updatedproduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
     if (!updatedproduct) {
       return res.status(404).json({
         status: "fail",
         message: "Product not found",
       });
     }
-    res.send(200).json({
+    res.status(200).json({
       status: "success",
       data: {
         product: updatedproduct,

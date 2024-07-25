@@ -17,7 +17,6 @@ const productModel = new mongoose.Schema({
   quantity: {
     type: Number,
     default: 1,
-    required: [true, "The item must have a stock"],
   },
   image: {
     type: String,
