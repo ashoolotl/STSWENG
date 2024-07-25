@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <link rel="stylesheet" href="/partials/navbar.css">
+    <link rel="stylesheet" href="cart.css">
+    <link rel="stylesheet" href="receipt.css">
+</head>
+<body>
+    {{> _header }}
+
+    <div id="top-container" style="justify-content: center;">
+        <div class="top-container-labels">
+            <p>Receipt</p>
+        </div>
+    </div>
+
+    <div class="receipt-container">
+        {{#each products}}
+        <div class="product-container">
+            <div class="receipt-container-labels">
+                <h3 class="product-name">{{this.name}}</h3>
+                <p class="product-quantity">Quantity: x{{this.quantity}}</p>
+            </div>
+    
+            <div class="receipt-container-details">
+                <h3 class="product-price">&euro;{{this.price}}</h3>
+            </div>
+        </div>
+        {{/each}}
+
+        <hr class="receiptHr">
+
+        <div class="total-container">
+            <div class="total-container-labels">
+                <h3>Total Price</h3>
+            </div>
+    
+            <div class="total-container-details">
+                <h3 class="total-price"></h3>
+            </div>
+        </div>
+    </div>
+
+    <div id="checkout-button" style="position: fixed;">
+        <button id="return-to-dashboard-btn">Return to Dashboard</button>
+    </div>
+
+    <script src="/js/logout.js"></script>
+    <script src="/js/receipt.js"></script>
+</body>
+</html>
