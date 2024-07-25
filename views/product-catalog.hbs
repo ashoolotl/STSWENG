@@ -26,7 +26,7 @@
       <div class="products">
         <input type="hidden" name="userId" value="{{user._id}}" id="userId">
         {{#each products}}
-        <div class="product">
+        <div class="product" productName="{{this.name}}">
           <img src="/images/products/{{this.photo}}" alt="{{this.name}}">
           <div class="product-details">
             <h3>{{this.name}}</h3>

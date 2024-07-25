@@ -119,7 +119,7 @@
 
     <div class="bottom-container">
         {{#each subscriptions}}
-            <div class="bottom-item">
+            <div class="bottom-item" subName ={{this.name}}>
                 <img src="/images/subscriptions/{{this.photo}}" alt="Image for {{this.name}}">
                 <div class="bottom-item-content">
                     <h2>{{this.name}}</h2>
