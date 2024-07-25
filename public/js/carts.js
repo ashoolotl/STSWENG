@@ -30,11 +30,64 @@ const getCheckoutSession = async (id) => {
   }
 };
 
-function displayPaymentStatus() {
+const updateDatabaseItems = async () => {
+  try {
+    const owner = document.getElementById("ownerCartId").value;
+    const cartItemsResponse = await fetch(`/api/v1/carts/${owner}`);
+    let cartItemsJson = await cartItemsResponse.json();
+    let cartItems = cartItemsJson.data.cart;
+
+    for (let item of cartItems) {
+      if (item.plateNumber) {
+        // update vehicle status To Review
+        try {
+          await fetch(`/api/v1/vehicles/platenum/${item.plateNumber}`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              status: "To Review",
+              lastService: item.product,
+            }),
+          });
+        } catch (err) {
+          console.error("Error updating vehicle status for item", item.plateNumber, err);
+        }
+      }
+
+      // update product stock
+      try {
+        await fetch(`/api/v1/products/updateStock`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: item.product,
+            quantity: -item.quantity,
+          }),
+        });
+      } catch (err) {
+        console.error("Error updating product quantity for item", item.product, err);
+      }
+    }
+
+    // clear cart items
+    await fetch(`/api/v1/carts/clear/${owner}`, {
+      method: "DELETE",
+    });
+  } catch (err) {
+    console.error("Error processing cart items", err);
+  }
+};
+
+async function displayPaymentStatus() {
   const urlParams = new URLSearchParams(window.location.search);
   const paymentStatus = urlParams.get("payment");
 
   if (paymentStatus === "success") {
+    await updateDatabaseItems();
     document.getElementById("successPopup").style.display = "block";
     document.getElementById("successText").innerText = "Payment successful. Thank you for your purchase!";
     setTimeout(() => {
