@@ -143,6 +143,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           product: product.name,
           description: product.description,
           price: price,
+          quantity: quantity,
           owner: userId,
         };
         await addItemToCart(data);

@@ -82,3 +82,27 @@ exports.editProduct = async (req, res, next) => {
     });
   }
 };
+
+exports.updateStock = async (req, res, next) => {
+  try {
+    const product = await Product.findOne({ name: req.body.name });
+    console.log("product", product);
+    if (!product) {
+      return next();
+    }
+    product.quantity += req.body.quantity;
+    await product.save();
+    res.status(200).json({
+      status: "success",
+      data: {
+        product,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while updating product stock.",
+    });
+  }
+};

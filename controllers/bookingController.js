@@ -12,7 +12,6 @@ const BookingSubscription = require("../models/bookingSubscriptionModel");
 const SubscriptionAvailed = require("../models/subscriptionAvailedModel");
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
-  console.log("INSIDE GET CHECKOUT SESSION");
   let cartItems = await Cart.find({ owner: req.user._id });
   let line_items1 = [];
   for (item of cartItems) {
@@ -29,7 +28,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     };
     line_items1.push(newItem);
   }
-  console.log("LINE ITEMS", line_items1);
+
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     success_url: `${req.protocol}://${req.get("host")}/carts?payment=success`,
@@ -44,29 +43,6 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     status: "success",
     session,
   });
-
-  if (res.statusCode === 200) {
-    for (let item of cartItems) {
-      if (item.plateNumber) {
-        try {
-          await fetch(`http://localhost:3000/api/v1/vehicles/platenum/${item.plateNumber}`, {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              status: "To Review",
-              lastService: item.product,
-            }),
-          });
-          console.log("Vehicle status updated");
-        } catch (err) {
-          console.error("Error updating vehicle status", err);
-        }
-      }
-    }
-    deleteItemsInCart(session);
-  }
 });
 
 exports.webhookCheckout = catchAsync(async (req, res, next) => {
