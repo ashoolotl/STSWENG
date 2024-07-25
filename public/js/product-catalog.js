@@ -113,11 +113,10 @@ const addItemToCart = async (data) => {
     if (resData.status == "success") {
       document.getElementById("successPopup").style.display = "block";
       document.getElementById("successText").innerText = "Item added to cart.";
-      document.getElementById("bookingPopup").style.display = "none";
       setTimeout(() => {
         document.getElementById("successPopup").style.display = "none";
         document.getElementById("successText").innerText = "";
-      }, 1000);
+      }, 1500);
     }
   } catch (err) {
     console.log(err.message);
@@ -431,4 +430,8 @@ function hideOverlay() {
 
 document.getElementById("closePopupError").addEventListener("click", function () {
   document.getElementById("errorPopup").style.display = "none";
+});
+
+document.getElementById("closePopupSuccess").addEventListener("click", function () {
+  document.getElementById("successPopup").style.display = "none";
 });
