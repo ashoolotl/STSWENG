@@ -163,6 +163,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const incrementButton = document.getElementById(`${prodIdentifier}-increment`);
 
       let quantity = parseInt(quantityDisplay.textContent);
+      const availability = parseInt(quantityDisplay.getAttribute("data-availability"));
 
       if (decrementButton) {
         decrementButton.addEventListener("click", function () {
@@ -175,8 +176,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (incrementButton) {
         incrementButton.addEventListener("click", function () {
-          quantity++;
-          quantityDisplay.textContent = quantity;
+          if (quantity < availability) {
+            quantity++;
+            quantityDisplay.textContent = quantity;
+          }
         });
       }
     });
