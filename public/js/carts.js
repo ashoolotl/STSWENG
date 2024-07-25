@@ -92,7 +92,7 @@ async function displayPaymentStatus() {
     document.getElementById("successText").innerText = "Payment successful. Thank you for your purchase!";
     setTimeout(() => {
       window.location.href = "/carts";
-    }, 3000);
+    }, 2000);
   } else if (paymentStatus === "failure") {
     document.getElementById("errorPopup").style.display = "block";
     document.getElementById("errorText").innerText = "Payment failed. Please try again.";
