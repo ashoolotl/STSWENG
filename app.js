@@ -96,7 +96,7 @@ app.delete("/api/v1/deleteUser/:email", async (req, res) => {
 });
 
 // delete product by name
-app.delete("/api/v1/deleteProduct/:id", async (req, res) => {
+app.delete("/api/v1/deleteProduct/:name", async (req, res) => {
   try {
     await deleteProductByName(req.params.name);
     res.status(200).send("Product deleted successfully");
