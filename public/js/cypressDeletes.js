@@ -1,5 +1,6 @@
 const Vehicle = require("../../models/vehicleModel");
 const User = require("../../models/userModel");
+const Product = require("../../models/productModel");
 
 const deleteCarByPlateNumber = async (plateNumber) => {
   try {
