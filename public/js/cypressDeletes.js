@@ -1,5 +1,6 @@
 const Vehicle = require("../../models/vehicleModel");
 const User = require("../../models/userModel");
+const Product = require("../../models/productModel");
 
 const deleteCarByPlateNumber = async (plateNumber) => {
   try {
@@ -29,4 +30,17 @@ const deleteUserByEmail = async (email) => {
   }
 };
 
-module.exports = { deleteCarByPlateNumber, deleteUserByEmail };
+const deleteProductByName = async (name) => {
+  try {
+    const result = await Product.findOneAndDelete({ name: name });
+    if (result) {
+      console.log(`Product with name ${name} was deleted.`);
+    } else {
+      console.log(`Product with name ${name} not found.`);
+    }
+  } catch (error) {
+    console.error("Error deleting product:", error);
+  }
+};
+
+module.exports = { deleteCarByPlateNumber, deleteUserByEmail, deleteProductByName };

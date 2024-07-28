@@ -16,6 +16,11 @@
 
     {{> _header }}
     
+    <div class="tab-container">
+        <button id="productCartTab" class="tab selected">Products Cart</button>
+        <button id="servicesCartTab" class="tab">Services Cart</button>
+    </div>
+
     <div id="top-container">
         <div class="top-container-labels">
             <p>Order</p>
@@ -29,35 +34,67 @@
         <input type="hidden" id="ownerCartId" value="{{user._id}}">
     {{/if}}
 
-    <div id="item-container">
+    <div id="item-container" class="productCart">
         {{#each cartItems}}
-            <div class="item">
-                <div class="left-item">
-                    <label class="checkmark-container">
-                        <input type="checkbox" checked="checked">
-                        <span class="checkmark"></span>
-                    </label>
-                    <div class="image-container">
-                        <img src="/images/services/DEFAULT.jpeg" alt="Image for {{this.product}}">
-                        <div class="overlay"></div>
+            {{#if (eq this.plateNumber 'None')}}
+                <div class="item">
+                    <div class="left-item">
+                        <label class="checkmark-container">
+                            <input type="checkbox" checked="checked">
+                            <span class="checkmark"></span>
+                        </label>
+                        <div class="image-container">
+                            <img src="/images/services/DEFAULT.jpeg" alt="Image for {{this.product}}">
+                            <div class="overlay"></div>
+                        </div>
+                        <div class="item-details">
+                            <h1>{{this.product}}</h1>
+                            <p>{{this.description}}</p>
+                            <p>Quantity: x{{this.quantity}}</p>
+                        </div>
                     </div>
-                    <div class="item-details">
-                        <h1>{{this.product}}</h1>
-                        <p>{{this.description}}</p>
-                        <input type="text" value="{{this.plateNumber}}" disabled>
+                    <div class="right-item">
+                        <h1>€{{this.price}}</h1>
+                        <p class="removeItem" data-id="{{this._id}}">Remove</p>
                     </div>
                 </div>
-                <div class="right-item">
-                    <h1>€{{this.price}}</h1>
-                    <p class="removeItem" data-id="{{this._id}}">Remove</p>
-                </div>
-            </div>
+            {{/if}}
         {{/each}}
     </div>
 
-    <div id="checkout-button">
-        <button id="proceed-to-booking">Proceed to Booking</button>
+    <div id="item-container" class="servicesCart hide">
+        {{#each cartItems}}
+            {{#unless (eq this.plateNumber 'None')}}
+                <div class="item">
+                    <div class="left-item">
+                        <label class="checkmark-container">
+                            <input type="checkbox" checked="checked">
+                            <span class="checkmark"></span>
+                        </label>
+                        <div class="image-container">
+                            <img src="/images/services/DEFAULT.jpeg" alt="Image for {{this.product}}">
+                            <div class="overlay"></div>
+                        </div>
+                        <div class="item-details">
+                            <h1>{{this.product}}</h1>
+                            <p>{{this.description}}</p>
+                            <input type="text" value="{{this.plateNumber}}" disabled>
+                        </div>
+                    </div>
+                    <div class="right-item">
+                        <h1>€{{this.price}}</h1>
+                        <p class="removeItem" data-id="{{this._id}}">Remove</p>
+                    </div>
+                </div>
+            {{/unless}}
+        {{/each}}
     </div>
+
+    
+    <button id="proceed-to-booking">
+        Proceed to Checkout
+    </button>
+    
 
     <!-- Error Popup -->
     <div id="errorPopup" class="miniPopupContainer" style="display: none;">

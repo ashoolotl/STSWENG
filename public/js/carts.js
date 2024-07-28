@@ -92,7 +92,7 @@ async function displayPaymentStatus() {
     document.getElementById("successText").innerText = "Payment successful. Thank you for your purchase!";
     setTimeout(() => {
       window.location.href = "/carts";
-    }, 3000);
+    }, 2000);
   } else if (paymentStatus === "failure") {
     document.getElementById("errorPopup").style.display = "block";
     document.getElementById("errorText").innerText = "Payment failed. Please try again.";
@@ -126,4 +126,29 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     // continue
   });
+
+  const productCartItems = document.querySelector(".productCart");
+  const servicesCartItems = document.querySelector(".servicesCart");
+  const productCartButton = document.getElementById("productCartTab");
+  const servicesCartButton = document.getElementById("servicesCartTab");
+
+  if (productCartButton && productCartItems) {
+    productCartButton.addEventListener("click", function () {
+      servicesCartButton.classList.remove("selected");
+      servicesCartItems.classList.add("hide");
+
+      productCartItems.classList.remove("hide");
+      productCartButton.classList.add("selected");
+    });
+  }
+
+  if (servicesCartButton && servicesCartItems) {
+    servicesCartButton.addEventListener("click", function () {
+      productCartButton.classList.remove("selected");
+      productCartItems.classList.add("hide");
+
+      servicesCartButton.classList.add("selected");
+      servicesCartItems.classList.remove("hide");
+    });
+  }
 });

@@ -50,7 +50,6 @@ exports.signup = catchAsync(async (req, res, next) => {
 });
 
 exports.login = catchAsync(async (req, res, next) => {
-  console.log("Request body:", req.body);
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ message: "Please provide email and password" });
@@ -83,7 +82,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
 
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-  
+
   const currentUser = await User.findById(decoded.id);
   if (!currentUser) {
     return next(new AppError("The user belonging to this token no longer exist", 401));

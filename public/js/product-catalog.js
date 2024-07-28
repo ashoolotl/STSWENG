@@ -100,7 +100,6 @@ async function getProductDetails(productId) {
 // add product to cart
 const addItemToCart = async (data) => {
   try {
-    console.log(data);
     const response = await fetch(`/api/v1/carts`, {
       method: "POST",
       headers: {
@@ -117,6 +116,9 @@ const addItemToCart = async (data) => {
         document.getElementById("successPopup").style.display = "none";
         document.getElementById("successText").innerText = "";
       }, 1500);
+    } else if (resData.status == "error") {
+      document.getElementById("errorPopup").style.display = "block";
+      document.getElementById("errorText").innerText = "Not enough stock for this product";
     }
   } catch (err) {
     console.log(err.message);
