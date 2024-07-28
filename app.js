@@ -22,7 +22,7 @@ const serviceAvailedRouter = require("./routes/serviceAvailedRoutes");
 const bookingSubscriptionRouter = require("./routes/bookingSubscriptionRoutes");
 const reviewsRouter = require("./routes/reviewRoutes");
 const productsRouter = require("./routes/productRoutes");
-const { deleteCarByPlateNumber, deleteUserByEmail } = require("./public/js/deleteCarAndUser");
+const {deleteCarByPlateNumber, deleteProductByName, deleteUserByEmail}= require("./public/js/cypressDeletes");
 
 // Express App
 const app = express();
@@ -75,7 +75,7 @@ app.use("/api/v1/reviews", reviewsRouter);
 app.use("/api/v1/products", productsRouter);
 
 /* ----------FOR CYPRESS--------- */
-// delete car
+// delete car by platenum
 app.delete("/api/v1/deleteVehicle/:plateNumber", async (req, res) => {
   try {
     await deleteCarByPlateNumber(req.params.plateNumber);
@@ -85,13 +85,23 @@ app.delete("/api/v1/deleteVehicle/:plateNumber", async (req, res) => {
   }
 });
 
-// delete user
+// delete user by email
 app.delete("/api/v1/deleteUser/:email", async (req, res) => {
   try {
     await deleteUserByEmail(req.params.email);
     res.status(200).send("User deleted successfully");
   } catch (error) {
     res.status(500).send("Error deleting user");
+  }
+});
+
+// delete product by name
+app.delete("/api/v1/deleteProduct/:id", async (req, res) => {
+  try {
+    await deleteProductByName(req.params.name);
+    res.status(200).send("Product deleted successfully");
+  } catch (error) {
+    res.status(500).send("Error deleting product");
   }
 });
 /* ----------------------- */
