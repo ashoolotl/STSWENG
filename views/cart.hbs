@@ -37,7 +37,7 @@
     <div id="item-container" class="productCart">
         {{#each cartItems}}
             {{#if (eq this.plateNumber 'None')}}
-                <div class="item">
+                <div class="item" data-productName="{{this.product}}">
                     <div class="left-item">
                         <label class="checkmark-container">
                             <input type="checkbox" checked="checked">
@@ -65,7 +65,7 @@
     <div id="item-container" class="servicesCart hide">
         {{#each cartItems}}
             {{#unless (eq this.plateNumber 'None')}}
-                <div class="item">
+                <div class="item" data-productName="{{this.product}}">
                     <div class="left-item">
                         <label class="checkmark-container">
                             <input type="checkbox" checked="checked">

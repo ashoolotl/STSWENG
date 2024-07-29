@@ -19,7 +19,7 @@
 
     <div class="receipt-container">
         {{#each receipt.products}}
-        <div class="product-container">
+        <div class="product-container" data-productName="{{this.name}}">
             <div class="receipt-container-labels">
                 <h3 class="product-name">{{this.name}}</h3>
                 <p class="product-quantity">Quantity: x{{this.quantity}}</p>
