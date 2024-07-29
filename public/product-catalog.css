@@ -97,13 +97,13 @@
     margin: 0 10px;
 }
 
-#productAddToCart {
+.productAddToCart {
     margin-left: auto;
     margin-right: auto;
     margin-top: 10px;
 }
 
-#productEdit {
+.productEdit {
     margin-left: auto;
     margin-right: auto;
     margin-top: 10px;

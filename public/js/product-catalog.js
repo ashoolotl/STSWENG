@@ -212,7 +212,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Check product availability and add "unavailable" class if needed
   const allProducts = document.querySelectorAll(".product");
   allProducts.forEach((product) => {
-    const availabilityElement = product.querySelector("#product-availability");
+    const availabilityElement = product.querySelector(".product-availability");
     if (availabilityElement && parseInt(availabilityElement.textContent) === 0) {
       product.classList.add("unavailable");
     }

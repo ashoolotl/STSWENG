@@ -159,7 +159,7 @@ function generateAvailableServices(classNameToGenerate, vehiclesOwner, serviceDe
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const addToCartButtons = document.querySelectorAll("#serviceAddToCart");
+  const addToCartButtons = document.querySelectorAll(".serviceAddToCart");
   const services = await getAllService();
 
   if (!addToCartButtons) return;

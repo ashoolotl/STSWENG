@@ -228,8 +228,8 @@ document.getElementById("formEdit").addEventListener("submit", function (event) 
 });
 // for edit and delete button add functionalities
 document.addEventListener("DOMContentLoaded", async () => {
-  const editButtons = document.querySelectorAll("#serviceEditBtn");
-  const deleteButtons = document.querySelectorAll("#serviceDeleteBtn");
+  const editButtons = document.querySelectorAll(".serviceEditBtn");
+  const deleteButtons = document.querySelectorAll(".serviceDeleteBtn");
 
   const services = await getAllService();
 

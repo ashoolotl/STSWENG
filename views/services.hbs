@@ -47,20 +47,20 @@
             {{#if ../user}}
               {{#if (eq ../user.role 'admin')}}
                 <div class="buttons-container">
-                  <button id="serviceEditBtn" class="edit-btn" type="button" data-id="{{this._id}}">Edit</button>
-                  <button id="serviceDeleteBtn" class="delete-btn" type="button" data-id="{{this._id}}">Delete</button>
-                  <a href="/reviews/{{this.name}}"><button id="adminReviewBtn" class="review-btn" type="button" data-id="{{this._id}}" data-owner="{{../user._id}}">Reviews</button></a>
+                  <button class="serviceEditBtn edit-btn" type="button" data-id="{{this._id}}">Edit</button>
+                  <button class="serviceDeleteBtn delete-btn" type="button" data-id="{{this._id}}">Delete</button>
+                  <a href="/reviews/{{this.name}}"><button class="adminReviewBtn review-btn" type="button" data-id="{{this._id}}" data-owner="{{../user._id}}">Reviews</button></a>
                 </div>
               {{else}}
                 <div class="buttons-container">
-                  <button id="serviceAddToCart" class="edit-btn" type="button" data-id="{{this._id}}" data-owner="{{../user._id}}">Add To Cart</button>
-                  <a href="/reviews/{{this.name}}"><button id="userReviewBtn" class="review-btn" type="button" data-id="{{this._id}}" data-owner="{{../user._id}}">Reviews</button></a>
+                  <button class="serviceAddToCart edit-btn" type="button" data-id="{{this._id}}" data-owner="{{../user._id}}">Add To Cart</button>
+                  <a href="/reviews/{{this.name}}"><button class="review-btn" type="button" data-id="{{this._id}}" data-owner="{{../user._id}}">Reviews</button></a>
                 </div>
               {{/if}}
             {{else}}
             <div class="buttons-container">
-              <button id="serviceAddToCartNoUser" class="edit-btn" type="button" onclick="showErrorNotLoggedIn()">Add to Cart</button>
-              <a href="/reviews/{{this.name}}"><button id="noUserReviewBtn" class="review-btn" type="button" data-id="{{this._id}}">Reviews</button></a>
+              <button class="serviceAddToCartNoUser edit-btn" type="button" onclick="showErrorNotLoggedIn()">Add to Cart</button>
+              <a href="/reviews/{{this.name}}"><button class="noUserReviewBtn review-btn" type="button" data-id="{{this._id}}">Reviews</button></a>
             </div>
             {{/if}}
           </div>

@@ -187,8 +187,8 @@ const deleteVehicleClassification = async (id) => {
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const editButtons = document.querySelectorAll("#vehicleClassificationEditBtn");
-  const deleteButtons = document.querySelectorAll("#vehicleClassificationDeleteBtn");
+  const editButtons = document.querySelectorAll(".vehicleClassificationEditBtn");
+  const deleteButtons = document.querySelectorAll(".vehicleClassificationDeleteBtn");
 
   const vehicleClassifications = await getAllVehicleClassification();
   console.log(vehicleClassifications);

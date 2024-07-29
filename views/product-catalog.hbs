@@ -32,7 +32,7 @@
             <h3>{{this.name}}</h3>
             <p>{{this.desc}}</p>
             <p style="margin-top: 8px;">Price &euro;<span id="product-price">{{this.price}}</span></p>
-            <p>Availability:<span id="product-availability"> {{this.quantity}}</span></p>
+            <p>Availability:<span class="product-availability"> {{this.quantity}}</span></p>
             <div class="product-counter">
               <button class="counter-button" id="{{this._id}}-decrement">-</button>
               <span data-prod-id="{{this._id}}" data-availability="{{this.quantity}}" class="quantity" id="{{this._id}}-quantity">1</span>
@@ -41,12 +41,12 @@
 
             {{#if ../user}}
               {{#if (eq ../user.role 'admin')}}
-              <button id="productEdit" class="edit-btn" type="button" data-edit-product="{{this._id}}">Edit Product</button>
+              <button class="productEdit edit-btn" type="button" data-edit-product="{{this._id}}">Edit Product</button>
               {{else}}
-              <button id="productAddToCart" class="add-to-cart-btn" type="button" data-id="{{this._id}}" data-owner="{{../user._id}}">Add to Cart</button>
+              <button class="productAddToCart add-to-cart-btn" type="button" data-id="{{this._id}}" data-owner="{{../user._id}}">Add to Cart</button>
               {{/if}}
             {{else}}
-              <button id="productAddToCart" class="add-to-cart-btn" type="button" onclick="showErrorNotLoggedIn()">Add to Cart</button>
+              <button class="productAddToCart add-to-cart-btn" type="button" onclick="showErrorNotLoggedIn()">Add to Cart</button>
             {{/if}}
 
           </div>
