@@ -21,3 +21,9 @@ document.addEventListener("DOMContentLoaded", function () {
     totalPriceElement.textContent = `€${totalPrice.toFixed(2)}`;
   }
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  document.getElementById("return-to-dashboard-btn").addEventListener("click", function () {
+    window.location.href = "/dashboard";
+  });
+});
