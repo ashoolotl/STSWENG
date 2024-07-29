@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const vehicleSchema = new mongoose.Schema({
   classification: {
     type: String,
-    // required: [true, "Please input the classification."],
     uppercase: true,
   },
   brand: {

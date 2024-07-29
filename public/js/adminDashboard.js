@@ -1,360 +1,72 @@
-async function showMoreInformation(serviceBookingId, ownerId, bookingReferenceNumber, serviceName) {
-  const userInformation = await getUserInformation(ownerId);
-  console.log(userInformation);
-
-  document.getElementById("first-name").textContent = userInformation.data.user.firstName;
-  document.getElementById("last-name").textContent = userInformation.data.user.lastName;
-  document.getElementById("user-email").textContent = userInformation.data.user.email;
-  document.getElementById("booking-reference-number").textContent = bookingReferenceNumber;
-  document.getElementById("wash-type").textContent = serviceName;
-
-  document.getElementById("showMoreInfoPopup").style.display = "block";
-}
-function closeMoreInfoPopup() {
-  document.getElementById("showMoreInfoPopup").style.display = "none";
-}
-
-const getUserInformation = async (id) => {
+const getAllVehicles = async () => {
   try {
-    const response = await fetch(`/api/v1/users/${id}`, {
-      method: "GET",
-    });
-    if (!response.ok) throw new Error("Network response was not ok.");
-    return await response.json();
-  } catch (err) {
-    console.error(err.message);
-    document.getElementById("errorPopup").style.display = "block";
-    document.getElementById("errorText").innerText = "An error occurred while fetching user informations. Please try again later.";
+    const res = await fetch("/api/v1/vehicles");
+    const data = await res.json();
+    return data.data.vehicles;
+  } catch (error) {
+    console.log(error);
   }
 };
 
-async function showUpdateServicePopup(serviceBookingId, ownerId) {
-  document.getElementById(`status-form`).style.display = "block";
-  document.getElementById("statusFormHiddenId").value = serviceBookingId;
-  document.getElementById("statusFormHiddenOwnerId").value = ownerId;
-}
-function closeStatusForm() {
-  document.getElementById(`status-form`).style.display = "none";
-}
-
-// function to update service booking
-const updateBooking = async (data, id) => {
+const getAllReceipts = async () => {
   try {
-    const response = await fetch(`/api/v1/bookings/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) throw new Error("Network response was not ok.");
-  } catch (err) {
-    console.error(err.message);
-    document.getElementById("errorPopup").style.display = "block";
-    document.getElementById("errorText").innerText = "An error occurred while updating booking. Please try again later.";
+    const res = await fetch("/api/v1/receipts/all");
+    const data = await res.json();
+    return data.data.receipts;
+  } catch (error) {
+    console.log(error);
   }
 };
 
-// // functiom to update vehicle status by user view
-document.getElementById("status-change-form").addEventListener("submit", async function (event) {
-  event.preventDefault();
-  const serviceBookingToUpdateId = document.getElementById("statusFormHiddenId").value;
-  const serviceOwner = document.getElementById("statusFormHiddenOwnerId").value;
-
-  var selectElement = document.getElementById("status-select");
-
-  var selectedIndex = selectElement.selectedIndex;
-  var selectedValue = selectElement.options[selectedIndex].value;
-  var options = selectElement.options;
-
-  // set the text to reflect fast
-  document.getElementById(`displayBookingStatus${serviceBookingToUpdateId}`).textContent = selectedValue;
-
-  // check if last subscription
-
-  // hide the form
-
-  // update
-
-  var buttonElement = document.getElementById("changeButton");
-  buttonElement.disabled = true;
-
-  // update user and the service
-  const bookingData = {
-    status: selectedValue,
-  };
-
-  if (selectedIndex === selectElement.options.length - 1) {
-    // if done update the vehicle status to not available
-    // remove them from availed services
-    const bookingData = {
-      status: "Completed",
-    };
-    const serviceAvailedData = {
-      status: "Not Available",
-    };
-    await updateBooking(bookingData, serviceBookingToUpdateId);
-    await updateVehicleStatusByPlateNumber(serviceAvailedData, serviceOwner);
-    // remove it from users availed service
-    console.log(serviceBookingToUpdateId);
-    removeBookingFromVehiclesAvailed(serviceBookingToUpdateId);
-  } else {
-    await updateBooking(bookingData, serviceBookingToUpdateId);
-
-    await updateVehicleStatusByPlateNumber(bookingData, serviceOwner);
-  }
-});
-
-const removeBookingFromVehiclesAvailed = async (id) => {
-  try {
-    const response = await fetch(`/api/v1/servicesAvailed/${id}`, {
-      method: "DELETE",
-    });
-    if (!response.ok) throw new Error("Network response was not ok.");
-    window.location.reload();
-  } catch (err) {
-    console.error(err.message);
-    document.getElementById("errorPopup").style.display = "block";
-    document.getElementById("errorText").innerText = "An error occurred while removing booking. Please try again later.";
-  }
+const populateVehicles = (vehicles) => {
+  const vehiclesContainer = document.querySelector(".registered-cars");
+  vehicles.forEach((vehicle) => {
+    const vehicleElement = document.createElement("div");
+    vehicleElement.classList.add("car");
+    vehicleElement.dataset.carDetails = `${vehicle.classification}-${vehicle.plateNumber}`;
+    vehicleElement.innerHTML = `
+      <img src="/images/vehicleClassification/${vehicle.classification}.jpeg" alt="Image for ${vehicle.classification}.jpeg">
+      <div class="car-status">
+        <div class="car-info">
+          <p class="car-text"><strong>Owner: </strong>${vehicle.owner}</p>
+          <p class="car-text"><strong>Plate Number: </strong>${vehicle.plateNumber}</p>
+          <p class="car-text"><strong>Status: </strong><span class="status current">${vehicle.status} ${vehicle.lastService}</span></p>
+          <button class="more-info-btn" onclick="showMoreInformation('${vehicle._id}', '${vehicle.owner}', '${vehicle.stripeReferenceNumber}', '${
+      vehicle.product
+    }')">More Information</button>
+          ${vehicle.status === "Pending:" ? '<button class="update-status">Mark Complete</button>' : ""}
+        </div>
+      </div>
+    `;
+    vehiclesContainer.appendChild(vehicleElement);
+  });
 };
 
-const updateVehicleStatusByPlateNumber = async (data, id) => {
-  try {
-    const response = await fetch(`/api/v1/vehicles/unit/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
+const populateReceipts = (receipts) => {
+  console.log(receipts);
+  const receiptsContainer = document.querySelector(".ordered-products");
+  receipts.forEach((receipt) => {
+    receipt.products.forEach((product) => {
+      const receiptElement = document.createElement("div");
+      receiptElement.classList.add("dashboardProduct");
+      receiptElement.innerHTML = `
+      <img src="/images/products/${product.photo}">
+      <div class="order-details">
+        Name: <span id="product-name">${product.name}</span>
+        Quantity: <span id="product-quantity">x${product.quantity}</span>
+      </div>
+      <div class="order-details">
+        Status: <span id="product-status" class="status current">${product.price}</span>
+      </div>
+    `;
+      receiptsContainer.appendChild(receiptElement);
     });
-    if (!response.ok) throw new Error("Network response was not ok.");
-  } catch (err) {
-    console.error(err.message);
-    document.getElementById("errorPopup").style.display = "block";
-    document.getElementById("errorText").innerText = "An error occurred while udpating vehicle status. Please try again later.";
-  }
+  });
 };
 
-function checkStatusChange() {
-  var buttonElement = document.getElementById("changeButton");
-  buttonElement.disabled = false;
-}
-
-// ========================================== SUBSCRIPTION=======================================================
-
-async function showMoreInformationSubscription(subscriptionBookingId, ownerId, stripeReferenceNumber, subscriptioName, chosenService) {
-  const userInformation = await getUserInformation(ownerId);
-  console.log(userInformation);
-
-  document.getElementById("subscription-bookingId").textContent = subscriptionBookingId;
-  document.getElementById("subscription-name").textContent = subscriptioName;
-
-  document.getElementById("first-name-subscription").textContent = userInformation.data.user.firstName;
-  document.getElementById("last-name-subscription").textContent = userInformation.data.user.lastName;
-  document.getElementById("user-email-subscription").textContent = userInformation.data.user.email;
-  document.getElementById("booking-reference-number-subscription").textContent = stripeReferenceNumber;
-  document.getElementById("wash-type").textContent = chosenService;
-
-  document.getElementById("showMoreInfoPopupSubscription").style.display = "block";
-}
-
-function closeMoreInfoPopupSubscription() {
-  document.getElementById("showMoreInfoPopupSubscription").style.display = "none";
-}
-
-async function showUpdateServicePopupSubscription(subscriptionBookingId, ownerId, chosenService) {
-  document.getElementById(`status-form-subscription`).style.display = "block";
-  document.getElementById("statusFormHiddenIdSubscription").value = subscriptionBookingId;
-  document.getElementById("statusFormHiddenChosenService").value = chosenService;
-  document.getElementById("statusFormHiddenOwnerIdSubscription").value = ownerId;
-}
-
-function closeStatusFormSubscription() {
-  document.getElementById(`status-form-subscription`).style.display = "none";
-}
-function checkStatusChangeSubscription() {
-  var buttonElement = document.getElementById("changeButtonSubscription");
-  buttonElement.disabled = false;
-}
-
-document.getElementById("status-change-form-subscription").addEventListener("submit", async function (event) {
-  event.preventDefault();
-
-  const subscriptionBookingToUpdateId = document.getElementById("statusFormHiddenIdSubscription").value;
-  const subscriptionOwner = document.getElementById("statusFormHiddenOwnerIdSubscription").value;
-
-  const subscriptionServiceAvailed = document.getElementById("statusFormHiddenChosenService").value;
-
-  var selectElement = document.getElementById("status-select-subscription");
-
-  var selectedIndex = selectElement.selectedIndex;
-
-  var selectedValue = selectElement.options[selectedIndex].value;
-  var options = selectElement.options;
-
-  // set the text to reflect fast
-  document.getElementById(`displayBookingStatus${subscriptionBookingToUpdateId}`).textContent = selectedValue;
-
-  // check if last subscription
-
-  // hide the form
-
-  // update
-
-  var buttonElement = document.getElementById("changeButtonSubscription");
-  buttonElement.disabled = true;
-
-  // update user and the service
-  const bookingData = {
-    status: selectedValue,
-  };
-
-  if (selectedIndex === selectElement.options.length - 1) {
-    // if done update the vehicle status to not available
-    // remove them from availed services
-    alert("finished");
-    const bookingData = {
-      scheduledDate: null,
-      status: "Not Available",
-      chosenService: null,
-    };
-    const serviceAvailedData = {
-      status: "Not Available",
-    };
-
-    await updateSubscriptionBookingStatus(bookingData, subscriptionBookingToUpdateId);
-    await updateVehicleStatusByPlateNumber(bookingData, subscriptionOwner);
-    // deduct the tokens
-    // first fetch the subscription booking id and get the subscriptions
-
-    const subscriptionBookingFound = await getBookingSubscriptionById(subscriptionBookingToUpdateId);
-    console.log(subscriptionBookingFound);
-    const listOfSubscriptionDetails = subscriptionBookingFound.data.subscriptionBooking.subscriptionDetails;
-
-    console.log(listOfSubscriptionDetails);
-    const newData = {
-      subscriptionDetails: [],
-    };
-
-    // Iterate over the original data
-    listOfSubscriptionDetails.forEach((item) => {
-      // Create a new object based on the original item
-      const newItem = {
-        service: item.service,
-        tokensAmount: item.tokensAmount,
-        _id: item._id,
-      };
-
-      // If the service is "MASTER WASH", deduct 1 from tokensAmount
-      if (item.service === subscriptionServiceAvailed) {
-        console.log("SIMILAR");
-        newItem.tokensAmount -= 1;
-      }
-
-      // Push the new object to the subscriptionDetails array inside newData
-      newData.subscriptionDetails.push(newItem);
-    });
-    console.log("ME IS NEW DATA");
-    console.log(newData);
-
-    // update the subscription tokens here
-    await updateSubscriptionBookingTokens(newData, subscriptionBookingToUpdateId);
-    await updateUserSubscriptionDetails(newData, subscriptionBookingToUpdateId);
-    //window.location.reload();
-
-    //update also the user with this
-  } else {
-    await updateSubscriptionBookingStatus(bookingData, subscriptionBookingToUpdateId);
-    await updateVehicleStatusByPlateNumber(bookingData, subscriptionOwner);
-  }
-});
-
-// update the booking and update the vehicleStatus
-const updateSubscriptionBookingStatus = async (data, id) => {
-  try {
-    const res = await fetch(`/api/v1/bookings-subscription/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    const responseData = await res.json();
-  } catch (err) {
-    console.error(err.message);
-    document.getElementById("errorPopup").style.display = "block";
-    document.getElementById("errorText").innerText = "An error occurred while updating subscription booking status. Please try again later.";
-    console.log("here error patch bookings-subscription");
-  }
-};
-
-const updateVehicleStatusByPlateNumberSubscription = async (data, id) => {
-  try {
-    const res = await fetch(`/api/v1/vehicles/unit/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    const responseData = await res.json();
-  } catch (err) {
-    console.error(err.message);
-    document.getElementById("errorPopup").style.display = "block";
-    document.getElementById("errorText").innerText = "An error occurred while updating vehicle status. Please try again later.";
-    console.log("here error patch /api/v1/vehicles/unit/");
-  }
-};
-const getBookingSubscriptionById = async (id) => {
-  try {
-    const res = await fetch(`/api/v1/bookings-subscription/${id}`, {
-      method: "GET",
-    });
-    const responseData = await res.json();
-    return responseData;
-  } catch (err) {
-    console.error(err.message);
-    document.getElementById("errorPopup").style.display = "block";
-    document.getElementById("errorText").innerText = "An error occurred while getting booking subscription. Please try again later.";
-  }
-};
-const updateSubscriptionBookingTokens = async (data, id) => {
-  try {
-    const res = await fetch(`/api/v1/bookings-subscription/token/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    const responseData = await res.json();
-  } catch (err) {
-    console.log("/api/v1/bookings-subscription/token");
-    console.error(err.message);
-    document.getElementById("errorPopup").style.display = "block";
-    document.getElementById("errorText").innerText = "An error occurred while updating subscription booking tokens. Please try again later.";
-  }
-};
-
-const updateUserSubscriptionDetails = async (data, id) => {
-  try {
-    const res = await fetch(`/api/v1/subscriptionsAvailed/token/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    const responseData = await res.json();
-  } catch (err) {
-    console.log("/api/v1/subscriptionsAvailed/token/");
-    console.error(err.message);
-    document.getElementById("errorPopup").style.display = "block";
-    document.getElementById("errorText").innerText = "An error occurred while updating user subscription details. Please try again later.";
-  }
-};
-
-document.getElementById("closePopupError").addEventListener("click", function () {
-  document.getElementById("errorPopup").style.display = "none";
+document.addEventListener("DOMContentLoaded", async () => {
+  const vehicles = await getAllVehicles();
+  const receipts = await getAllReceipts();
+  populateVehicles(vehicles);
+  populateReceipts(receipts);
 });

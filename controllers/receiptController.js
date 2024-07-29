@@ -1,4 +1,4 @@
-const Receipt = require("../models/receiptModel");
+const Receipt = require("../models/receiptModel.js");
 
 exports.createReceipt = async (req, res, next) => {
   try {
@@ -40,17 +40,37 @@ exports.getAllReceiptsOfUser = async (req, res, next) => {
   const userId = req.params.userId;
   const allReceiptsOfUser = await Receipt.find({ owner: userId });
 
-  res.status(200).render("receipts", {
-    title: "Receipts",
-    allReceiptsOfUser,
-  });
+  try {
+    res.status(201).json({
+      status: "success",
+      data: {
+        receipts: allReceiptsOfUser,
+      },
+    });
+  } catch (error) {
+    res.status(404).json({
+      status: "fail",
+      message: error,
+    });
+    next();
+  }
 };
 
 exports.getAllReceipts = async (req, res, next) => {
   const allReceipts = await Receipt.find();
-
-  res.status(200).render("receipts", {
-    title: "Receipts",
-    allReceipts,
-  });
+  
+  try {
+    res.status(200).json({
+      status: "success",
+      data: {
+        receipts: allReceipts,
+      },
+    });
+  } catch (error) {
+    res.status(404).json({
+      status: "fail",
+      message: error,
+    });
+    next();
+  }
 };

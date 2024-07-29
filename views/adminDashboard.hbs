@@ -1,135 +1,141 @@
-<!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="icon" type="image/png" href="../images/logo-red.png">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="icon" type="image/png" href="../images/logo-red.png" />
 
     <title>AutoworxPro | Admin Dashboard</title>
-    <link rel="stylesheet" href="user-profile-admin-booking.css">
-    <link rel="stylesheet" href="update-status.css">
-    <link rel="stylesheet" href = "partials/navbar.css">
-    <link rel="stylesheet" href = "product-catalog.css">
-</head>
+    <link rel="stylesheet" href="user-profile-admin-booking.css" />
+    <link rel="stylesheet" href="update-status.css" />
+    <link rel="stylesheet" href="partials/navbar.css" />
+    <link rel="stylesheet" href="product-catalog.css" />
+  </head>
 
-<body>
+  <body>
 
     {{> _header }}
-
     <div id="overlay"></div>
 
     <header>
-        <!--add photo here-->
+      <!--add photo here-->
     </header>
 
     <div class="profile-container">
-        <div id="profile-picture">
-            <img src="./images/filler-icon.jpg" alt="Profile Picture">
-        </div>
+      <div id="profile-picture">
+        <img src="./images/filler-icon.jpg" alt="Profile Picture" />
+      </div>
 
-        <h1>Hi, <span>{{user.firstName}}</span></h1>
-        <p>What would you like to get started on today?</p>
+      <h1>Hi, <span>{{user.firstName}}</span></h1>
+      <p>What would you like to get started on today?</p>
     </div>
 
     <div class="registered-cars">
-        <h2>Service Bookings</h2>
-        <hr>
-        <!-- Display service bookings -->
-        {{#each serviceBookings}}
-            {{#if (eq this.status 'Pending:')}}
-            <div class="car" data-carDetails="{{this.classification}}-{{this.plateNumber}}">
-                <img src="/images/vehicleClassification/{{this.classification}}.jpeg" alt="Image for {{this.classification}}.jpeg">
-                <div class="car-status">
-                    <div class="car-info">
-                        <p class="car-text">
-                            <strong>Owner: </strong>
-                            {{this.owner}}
-                        </p>
-                        <p class="car-text">
-                            <strong>Plate Number: </strong>
-                            {{this.plateNumber}}
-                        </p>
-                        <p class="car-text">
-                            <strong>Status: </strong>
-                            <span class="status current">{{this.status}} {{this.lastService}}</span>
-                        </p>
-                        <button class="more-info-btn" onclick="showMoreInformation('{{this._id}}', '{{this.owner}}', '{{this.stripeReferenceNumber}}', '{{this.product}}')">More Information</button>
-                        <button class="update-status">Mark Complete</button>
-                    </div>
-                </div>
+      <h2>Service Bookings</h2>
+      <hr />
+      <!-- Display service bookings -->
+      {{#each serviceBookings}}
+        {{#if (eq this.status "Pending:")}}
+          <div class="car" data-carDetails="{{this.classification}}-{{this.plateNumber}}">
+            <img src="/images/vehicleClassification/{{this.classification}}.jpeg" alt="Image for {{this.classification}}.jpeg" />
+            <div class="car-status">
+              <div class="car-info">
+                <p class="car-text">
+                  <strong>Owner: </strong>
+                  {{this.owner}}
+                </p>
+                <p class="car-text">
+                  <strong>Plate Number: </strong>
+                  {{this.plateNumber}}
+                </p>
+                <p class="car-text">
+                  <strong>Status: </strong>
+                  <span class="status current">{{this.status}} {{this.lastService}}</span>
+                </p>
+                <button
+                  class="more-info-btn"
+                  onclick="showMoreInformation('{{this._id}}', '{{this.owner}}', '{{this.stripeReferenceNumber}}', '{{this.product}}')"
+                >More Information</button>
+                <button class="update-status">Mark Complete</button>
+              </div>
             </div>
-            {{else}}
-            <div class="car" data-carDetails="{{this.classification}}-{{this.plateNumber}}">
-                <img src="/images/vehicleClassification/{{this.classification}}.jpeg" alt="Image for {{this.classification}}.jpeg">
-                <div class="car-status">
-                    <div class="car-info">
-                        <p class="car-text">
-                            <strong>Owner: </strong>
-                            {{this.owner}}
-                        </p>
-                        <p class="car-text">
-                            <strong>Plate Number: </strong>
-                            {{this.plateNumber}}
-                        </p>
-                        <p class="car-text">
-                            <strong>Status: </strong>
-                            <span class="status current">{{this.status}}</span>
-                        </p>
-                        <button class="more-info-btn" onclick="showMoreInformation('{{this._id}}', '{{this.owner}}', '{{this.stripeReferenceNumber}}', '{{this.product}}')">More Information</button>
-                    </div>
-                </div>
+          </div>
+        {{else}}
+          <div class="car" data-carDetails="{{this.classification}}-{{this.plateNumber}}">
+            <img src="/images/vehicleClassification/{{this.classification}}.jpeg" alt="Image for {{this.classification}}.jpeg" />
+            <div class="car-status">
+              <div class="car-info">
+                <p class="car-text">
+                  <strong>Owner: </strong>
+                  {{this.owner}}
+                </p>
+                <p class="car-text">
+                  <strong>Plate Number: </strong>
+                  {{this.plateNumber}}
+                </p>
+                <p class="car-text">
+                  <strong>Status: </strong>
+                  <span class="status current">{{this.status}}</span>
+                </p>
+                <button
+                  class="more-info-btn"
+                  onclick="showMoreInformation('{{this._id}}', '{{this.owner}}', '{{this.stripeReferenceNumber}}', '{{this.product}}')"
+                >More Information</button>
+              </div>
             </div>
-            {{/if}}
-        {{/each}}
+          </div>
+        {{/if}}
+      {{/each}}
+    </div>
 
-        <h2>Products Orders</h2>
-        <hr>
-        <div id="products" class="active-subscriptions">
-            {{#each products}}
-            <div class="dashboardProduct">
-                <img src="/images/products/{{this.photo}}">
-                <div class="order-details">
-                    Name:
-                    <span id="product-name">{{this.name}}</span>
-                    Quantity:
-                    <span id="product-quantity">x{{this.quantity}}</span>
-                </div>
-                <div class="order-details">
-                    Status:
-                    <span id="product-status" class="status current">{{this.status}}</span>
-                </div>
+    <div class="ordered-products">
+      <h2>Products Orders</h2>
+      <hr />
+      <div id="products" class="active-subscriptions">
+        {{#each products}}
+          <div class="dashboardProduct">
+            <img src="/images/products/{{this.photo}}" />
+            <div class="order-details">
+              Name:
+              <span id="product-name">{{this.name}}</span>
+              Quantity:
+              <span id="product-quantity">x{{this.quantity}}</span>
             </div>
-            {{/each}}
-        </div>
+            <div class="order-details">
+              Price:
+              <span id="product-status" class="status current">{{this.price}}</span>
+            </div>
+          </div>
+        {{/each}}
+      </div>
     </div>
 
     <!-- Popups and Forms -->
     <div id="showMoreInfoPopup" class="popupContainer">
-        <div class="popupContent">
-            <span class="closePopup" onclick="closeMoreInfoPopup()">&times;</span>
-            <div class="info-item">
-                <label for="wash-type">Wash Type: </label>
-                <span id="wash-type">Hyper Wash</span>
-            </div>
-            <div class="info-item">
-                <label for="first-name">Owner First Name: </label>
-                <span id="first-name">John</span>
-            </div>
-            <div class="info-item">
-                <label for="last-name">Owner Last Name: </label>
-                <span id="last-name">Doe</span>
-            </div>
-            <div class="info-item">
-                <label for="user-email">Owner Email: </label>
-                <span id="user-email">Doe@gmail.com</span>
-            </div>
-            <div class="info-item">
-                <label for="booking-reference-number">Payment Reference Number: </label>
-                <span id="booking-reference-number">pi_12312352</span>
-            </div>
+      <div class="popupContent">
+        <span class="closePopup" onclick="closeMoreInfoPopup()">&times;</span>
+        <div class="info-item">
+          <label for="wash-type">Wash Type: </label>
+          <span id="wash-type">Hyper Wash</span>
         </div>
+        <div class="info-item">
+          <label for="first-name">Owner First Name: </label>
+          <span id="first-name">John</span>
+        </div>
+        <div class="info-item">
+          <label for="last-name">Owner Last Name: </label>
+          <span id="last-name">Doe</span>
+        </div>
+        <div class="info-item">
+          <label for="user-email">Owner Email: </label>
+          <span id="user-email">Doe@gmail.com</span>
+        </div>
+        <div class="info-item">
+          <label for="booking-reference-number">Payment Reference Number: </label>
+          <span id="booking-reference-number">pi_12312352</span>
+        </div>
+      </div>
     </div>
 
     <!-- Error Popup -->
@@ -153,5 +159,5 @@
     <script src="/js/adminDashboard.js"></script>
     <script src="/js/logout.js"></script>
     <script src="update-status.js"></script>
-</body>
+  </body>
 </html>

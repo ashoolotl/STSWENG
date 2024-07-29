@@ -1,5 +1,4 @@
 const Vehicle = require("../models/vehicleModel");
-const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 
 exports.getAllVehicle = catchAsync(async (req, res, next) => {
@@ -8,7 +7,7 @@ exports.getAllVehicle = catchAsync(async (req, res, next) => {
     status: "success",
     length: vehicles.length,
     data: {
-      vehicle: vehicles,
+      vehicles: vehicles,
     },
   });
 });
