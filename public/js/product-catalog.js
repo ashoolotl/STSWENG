@@ -36,7 +36,8 @@ const addProduct = async (data) => {
       document.getElementById("addProductPopup").style.display = "none";
       document.getElementById("successPopup").style.display = "block";
       document.getElementById("successText").innerText = "Product successfully added.";
-      document.getElementById("editProductPopup").style.display = "none";
+      document.getElementById("addProductPopup").style.display = "none";
+      document.getElementById("error-message-add").innerText = "";
       setTimeout(() => {
         document.getElementById("successPopup").style.display = "none";
         document.getElementById("successText").innerText = "";
@@ -66,7 +67,7 @@ const editProduct = async (data, id) => {
       document.getElementById("successPopup").style.display = "block";
       document.getElementById("successText").innerText = "Product updated.";
       document.getElementById("editProductPopup").style.display = "none";
-      document.getElementById("error-message").innerText = "";
+      document.getElementById("error-message-edit").innerText = "";
     }
     setTimeout(() => {
       window.location.reload();
@@ -349,9 +350,10 @@ if (addProductBtn) {
 
 const editSubmitBtn = document.getElementById("editSubmit");
 if (editSubmitBtn) {
-  editSubmitBtn.addEventListener("click", function (event) {
+  editSubmitBtn.addEventListener("click", async (event) => {
     event.preventDefault();
     const productId = document.getElementById("editProductId").value;
+    const currentProducts = await getAllProducts();
 
     const originalProductName = event.target.getAttribute("data-orig-name");
     const originalProductDesc = event.target.getAttribute("data-orig-desc");
@@ -368,25 +370,32 @@ if (editSubmitBtn) {
       const editProductDesc = editProductDescElem.value;
       const editProductPrice = editProductPriceElem.value;
       const editProductAvailability = editProductAvailabilityElem.value;
-
+      
       if (editProductName.trim() === "" || editProductDesc.trim() === "" || isNaN(editProductPrice) || isNaN(editProductAvailability)) {
-        document.getElementById("error-message").innerText = "One or more fields is empty. Please fill in all fields.";
+        document.getElementById("error-message-edit").innerText = "One or more fields is empty. Please fill in all fields.";
       } else if (
         editProductName == originalProductName &&
         editProductDesc == originalProductDesc &&
         editProductPrice == originalProductPrice &&
         editProductAvailability === originalProductAvailability
       ) {
-        document.getElementById("error-message").innerText = "No changes detected. Please make changes to update product.";
+        document.getElementById("error-message-edit").innerText = "No changes detected. Please make changes to update product.";
+      } else if (editProductPrice <= 0) {
+        document.getElementById("error-message-edit").innerText = "Price cannot be zero or negative. Please enter a valid price.";
       } else {
-        const data = {
-          name: editProductName,
-          description: editProductDesc,
-          price: editProductPrice,
-          quantity: editProductAvailability,
-        };
-
-        editProduct(data, productId);
+        const product = currentProducts.find((product) => product.name === editProductNameElem.value && product.name !== originalProductName);
+        if (product) {
+          document.getElementById("error-message-edit").innerText = "Product name already exists. Please choose a different name.";
+        } else {
+          const data = {
+            name: editProductName,
+            description: editProductDesc,
+            price: editProductPrice,
+            quantity: editProductAvailability,
+          };
+  
+          await editProduct(data, productId);
+        }
       }
     }
   });
@@ -408,7 +417,9 @@ if (addSubmitBtn) {
       const addProductAvailability = addProductAvailabilityElem.value;
 
       if (addProductName.trim() === "" || addProductDesc.trim() === "" || isNaN(addProductPrice) || isNaN(addProductAvailability)) {
-        document.getElementById("error-message").innerText = "One or more fields is empty. Please fill in all fields.";
+        document.getElementById("error-message-add").innerText = "One or more fields is empty. Please fill in all fields.";
+      } else if (addProductPrice <= 0) {
+        document.getElementById("error-message-add").innerText = "Price cannot be zero or negative. Please enter a valid price.";
       } else {
         const data = {
           name: addProductName,
@@ -437,3 +448,9 @@ document.getElementById("closePopupError").addEventListener("click", function ()
 document.getElementById("closePopupSuccess").addEventListener("click", function () {
   document.getElementById("successPopup").style.display = "none";
 });
+
+function preventMinus(event) {
+  if (event.key === "-") {
+    event.preventDefault();
+  }
+}

@@ -55,6 +55,9 @@ app.engine(
       ifSelected: function (v1, v2, options) {
         return v1 <= v2 ? options.fn(this) : options.inverse(this);
       },
+      greaterThan: function (v1, v2) {
+        return v1 > v2;
+      }
     },
   })
 );
