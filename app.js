@@ -22,7 +22,8 @@ const serviceAvailedRouter = require("./routes/serviceAvailedRoutes");
 const bookingSubscriptionRouter = require("./routes/bookingSubscriptionRoutes");
 const reviewsRouter = require("./routes/reviewRoutes");
 const productsRouter = require("./routes/productRoutes");
-const {deleteCarByPlateNumber, deleteProductByName, deleteUserByEmail}= require("./public/js/cypressDeletes");
+const receiptRouter = require("./routes/receiptRoutes");
+const { deleteCarByPlateNumber, deleteProductByName, deleteUserByEmail } = require("./public/js/cypressDeletes");
 
 // Express App
 const app = express();
@@ -73,6 +74,7 @@ app.use("/api/v1/servicesAvailed", serviceAvailedRouter);
 app.use("/api/v1/bookings-subscription", bookingSubscriptionRouter);
 app.use("/api/v1/reviews", reviewsRouter);
 app.use("/api/v1/products", productsRouter);
+app.use("/api/v1/receipts", receiptRouter);
 
 /* ----------FOR CYPRESS--------- */
 // delete car by platenum

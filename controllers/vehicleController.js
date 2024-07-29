@@ -60,9 +60,16 @@ exports.updateVehicleStatus = catchAsync(async (req, res, next) => {
 
 exports.updateVehicleStatusByPlateNumber = catchAsync(async (req, res, next) => {
   console.log("updating vehicle by platenum");
-  console.log("plate num", req.params.plateNumber);
+  const plateNumber = req.params.plateNumber;
+
+  if (!plateNumber) {
+    console.log("Plate number is null, skipping update.");
+    return;
+  }
+
+  console.log("plate num", plateNumber);
   const vehicle = await Vehicle.findOneAndUpdate(
-    { plateNumber: req.params.plateNumber },
+    { plateNumber: plateNumber },
     {
       status: req.body.status,
       lastService: req.body.lastService,
@@ -79,7 +86,7 @@ exports.updateVehicleStatusByPlateNumber = catchAsync(async (req, res, next) => 
       booking: vehicle,
     },
   });
-});
+}); 
 
 exports.getVehicleById = catchAsync(async (req, res, next) => {
   const vehicle = await Vehicle.find({

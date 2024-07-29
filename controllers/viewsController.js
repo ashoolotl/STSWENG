@@ -10,6 +10,7 @@ const Booking = require("../models/bookingModel");
 const BookingSubscription = require("../models/bookingSubscriptionModel");
 const SubscriptionAvailed = require("../models/subscriptionAvailedModel");
 const Product = require("../models/productModel");
+const Receipt = require("../models/receiptModel");
 
 exports.getLoginForm = (req, res, next) => {
   res.status(200).render("login", {
@@ -178,3 +179,13 @@ exports.getProducts = async (req, res, next) => {
     products,
   });
 };
+
+exports.getReceiptById = async (req, res, next) => {
+  const receipt = await Receipt.findById(req.params.id);
+
+  res.status(200).render("receipt", {
+    title: "Receipt",
+    receipt,
+  });
+};
+
