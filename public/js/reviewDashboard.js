@@ -93,7 +93,7 @@ document.getElementById("reviewForm").addEventListener("submit", function (event
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  const reviewBtns = document.querySelectorAll("#reviewBtn");
+  const reviewBtns = document.querySelectorAll(".reviewBtn");
 
   if (reviewBtns.length > 0) {
     reviewBtns.forEach((btn) => {
@@ -109,19 +109,16 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-// document.getElementById("reviewBtn").addEventListener("click", function () {
-//   document.getElementById("reviewPopup").style.display = "block";
-// }); // opening of review popup
-
 document.getElementById("closeReviewPopup").addEventListener("click", function () {
   document.getElementById("reviewPopup").style.display = "none";
 }); // closing of review popup through x button
 
-const seeReview = document.getElementById("see-review");
-if (seeReview) {
-  seeReview.addEventListener("click", function () {
-    if (seeReview.getAttribute("data-service-name")) {
-      location.assign(`/reviews/${seeReview.getAttribute("data-service-name")}`);
-    }
-  });
-}
+//TO SEE REVIEW
+// const seeReview = document.getElementById("see-review");
+// if (seeReview) {
+//   seeReview.addEventListener("click", function () {
+//     if (seeReview.getAttribute("data-service-name")) {
+//       location.assign(`/reviews/${seeReview.getAttribute("data-service-name")}`);
+//     }
+//   });
+// }

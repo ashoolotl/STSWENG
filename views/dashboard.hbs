@@ -40,10 +40,10 @@
             <div class="car-info">
               <p class="car-text">Status:</p>
               {{#if (eq this.status 'To Review')}}
-              <p class="status" data-last-service="{{this.lastService}}" id="reviewBtn" style="cursor:pointer;">{{this.status}}</p> 
+              <p class="reviewBtn status" data-last-service="{{this.lastService}}" style="cursor:pointer;">{{this.status}}</p> 
               {{else}}
-                {{#if (eq this.status 'See Review')}}
-                  <p class="status" data-last-service="{{this.lastService}}" id="see-review" style="cursor:pointer;">{{this.status}}</p>
+                {{#if (eq this.status 'Pending:')}}
+                  <p class="status" data-last-service="{{this.lastService}}" style="cursor:pointer;">{{this.status}} {{this.lastService}}</p>
                 {{else}}
                   <p class="status">{{this.status}}</p>
                 {{/if}}

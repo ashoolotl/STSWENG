@@ -38,19 +38,14 @@
         <hr>
         <!-- Display service bookings -->
         {{#each serviceBookings}}
-            <div class="car">
+            {{#if (eq this.status 'Pending:')}}
+            <div class="car" data-carDetails="{{this.classification}}-{{this.plateNumber}}">
                 <img src="/images/vehicleClassification/{{this.classification}}.jpeg" alt="Image for {{this.classification}}.jpeg">
                 <div class="car-status">
                     <div class="car-info">
                         <p class="car-text">
-                            {{#if this.scheduledDate}}
-                                {{!-- Format the date --}}
-                                <strong>Booking Date: </strong>
-                                <span>{{this.scheduledDate}}</span>
-                            {{else}}
-                                <strong>Booking Date: </strong>
-                                <span>Not Available</span>
-                            {{/if}}
+                            <strong>Owner: </strong>
+                            {{this.owner}}
                         </p>
                         <p class="car-text">
                             <strong>Plate Number: </strong>
@@ -58,44 +53,35 @@
                         </p>
                         <p class="car-text">
                             <strong>Status: </strong>
-                            <span id="displayBookingStatus{{this._id}}" class="status current" onclick="showUpdateServicePopup('{{this._id}}','{{this.plateNumber}}')">{{this.status}}</span>
+                            <span class="status current">{{this.status}} {{this.lastService}}</span>
+                        </p>
+                        <button class="more-info-btn" onclick="showMoreInformation('{{this._id}}', '{{this.owner}}', '{{this.stripeReferenceNumber}}', '{{this.product}}')">More Information</button>
+                        <button class="update-status">Mark Complete</button>
+                    </div>
+                </div>
+            </div>
+            {{else}}
+            <div class="car" data-carDetails="{{this.classification}}-{{this.plateNumber}}">
+                <img src="/images/vehicleClassification/{{this.classification}}.jpeg" alt="Image for {{this.classification}}.jpeg">
+                <div class="car-status">
+                    <div class="car-info">
+                        <p class="car-text">
+                            <strong>Owner: </strong>
+                            {{this.owner}}
+                        </p>
+                        <p class="car-text">
+                            <strong>Plate Number: </strong>
+                            {{this.plateNumber}}
+                        </p>
+                        <p class="car-text">
+                            <strong>Status: </strong>
+                            <span class="status current">{{this.status}}</span>
                         </p>
                         <button class="more-info-btn" onclick="showMoreInformation('{{this._id}}', '{{this.owner}}', '{{this.stripeReferenceNumber}}', '{{this.product}}')">More Information</button>
                     </div>
                 </div>
             </div>
-        {{/each}}
-
-        <h2>Service Bookings Subscribed Users</h2>
-        <hr>
-        <!-- Display subscription bookings -->
-        {{#each subscriptionBookings}}
-            <div class="car">
-                <img src="/images/vehicleClassification/{{this.classification}}.jpeg" alt="Image for {{this.classification}}.jpeg">
-                <div class="car-status">
-                    <div class="car-info">
-                        <p class="car-text">
-                            {{#if this.scheduledDate}}
-                                {{!-- Format the date --}}
-                                <strong>Booking Date: </strong>
-                                <span>{{this.scheduledDate}}</span>
-                            {{else}}
-                                <strong>Booking Date: </strong>
-                                <span>Not Available</span>
-                            {{/if}}
-                        </p>
-                        <p class="car-text">
-                            <strong>Plate Number: </strong>
-                            {{this.plateNumber}}
-                        </p>
-                        <p class="car-text">
-                            <strong>Status: </strong>
-                            <span id="displayBookingStatus{{this._id}}" class="status current" onclick="showUpdateServicePopupSubscription('{{this._id}}','{{this.plateNumber}}', '{{this.chosenService}}')">{{this.status}}</span>
-                        </p>
-                        <button class="more-info-btn" onclick="showMoreInformationSubscription('{{this._id}}', '{{this.owner}}', '{{this.stripeReferenceNumber}}', '{{this.product}}', '{{this.chosenService}}')">More Information</button>
-                    </div>
-                </div>
-            </div>
+            {{/if}}
         {{/each}}
 
         <h2>Products Orders</h2>
@@ -144,78 +130,6 @@
                 <span id="booking-reference-number">pi_12312352</span>
             </div>
         </div>
-    </div>
-
-    <div id="status-form" class="status-form">
-        <form id="status-change-form">
-            <span class="closePopup" onclick="closeStatusForm()">&times;</span>
-            <input type="hidden" id="statusFormHiddenId">
-            <input type="hidden" id="statusFormHiddenOwnerId">
-            <label for="status-select">Select Status:</label>
-            <select id="status-select" onchange="checkStatusChange()">
-                <option value="Waiting for vehicle" selected>Waiting for vehicle</option>
-                <option value="Vehicle received">Vehicle received</option>
-                <option value="Vehicle in queue">Vehicle in queue</option>
-                <option value="Work in progress">Work in progress</option>
-                <option value="Drying">Drying</option>
-                <option value="Turnovered">Turnovered</option>
-            </select>
-            <button type="submit" id="changeButton" disabled>Change</button>
-        </form>
-    </div>
-
-    <div id="showMoreInfoPopupSubscription" class="popupContainer">
-        <div class="popupContent">
-            <span class="closePopup" onclick="closeMoreInfoPopupSubscription()">&times;</span>
-            <div class="info-item">
-                <label for="wash-type-subscription">Booking Id: </label>
-                <span id="subscription-bookingId">Hyper Wash</span>
-            </div>
-            <div class="info-item">
-                <label for="wash-type-subscription">Subscription Name: </label>
-                <span id="subscription-name">Hyper Wash</span>
-            </div>
-            <div class="info-item">
-                <label for="wash-type-subscription">Wash Type: </label>
-                <span id="wash-type-subscription">Hyper Wash</span>
-            </div>
-            <div class="info-item">
-                <label for="first-name-subscription">Owner First Name: </label>
-                <span id="first-name-subscription">John</span>
-            </div>
-            <div class="info-item">
-                <label for="last-name-subscription">Owner Last Name: </label>
-                <span id="last-name-subscription">Doe</span>
-            </div>
-            <div class="info-item">
-                <label for="user-email-subscription">Owner Email: </label>
-                <span id="user-email-subscription">Doe@gmail.com</span>
-            </div>
-            <div class="info-item">
-                <label for="booking-reference-number-subscription">Payment Reference Number: </label>
-                <span id="booking-reference-number-subscription">pi_12312352</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Dropdown form for selecting status -->
-    <div id="status-form-subscription" class="status-form" style="display: none;">
-        <form id="status-change-form-subscription">
-            <span class="closePopup" onclick="closeStatusFormSubscription()">&times;</span>
-            <input type="hidden" id="statusFormHiddenIdSubscription">
-            <input type="hidden" id="statusFormHiddenOwnerIdSubscription">
-            <input type="hidden" id="statusFormHiddenChosenService">
-            <label for="status-select-subscription">Select Status:</label>
-            <select id="status-select-subscription" onchange="checkStatusChangeSubscription()">
-                <option value="Waiting for vehicle" selected>Waiting for vehicle</option>
-                <option value="Vehicle received">Vehicle received</option>
-                <option value="Vehicle in queue">Vehicle in queue</option>
-                <option value="Work in progress">Work in progress</option>
-                <option value="Drying">Drying</option>
-                <option value="Turnovered">Turnovered</option>
-            </select>
-            <button type="submit" id="changeButtonSubscription" disabled>Change</button>
-        </form>
     </div>
 
     <!-- Error Popup -->

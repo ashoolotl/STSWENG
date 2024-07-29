@@ -167,3 +167,21 @@
 .product-name, .product-quantity {
     margin-bottom: 10px;
 }
+
+.update-status {
+    font-family: Montserrat;
+    font-size: 1.2rem;
+    padding: 10px;
+    margin-right: 10px;
+    background-color: #ED1C24;
+    color: white;
+    background-color: transparent;
+    border: 2px solid white;
+    cursor: pointer;
+    border-radius: 2px;
+    z-index: 1;
+}
+
+.update-status:hover {
+    background-color: #FF5555;
+}

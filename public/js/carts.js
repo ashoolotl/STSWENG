@@ -47,7 +47,7 @@ const updateDatabaseItems = async (receiptId) => {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              status: "To Review",
+              status: "Pending:",
               lastService: item.product,
             }),
           });
