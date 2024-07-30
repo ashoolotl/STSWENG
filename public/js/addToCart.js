@@ -61,7 +61,7 @@ function generateAvailableServices(classNameToGenerate, vehiclesOwner, serviceDe
   vehiclesOwner.forEach((vehicleOwner) => {
     const matchingServiceDetail = serviceDetails.find((serviceDetail) => serviceDetail.vehicleClassification === vehicleOwner.classification);
 
-    if (matchingServiceDetail) {
+    if (matchingServiceDetail && !(vehicleOwner.status === "Pending:")) {
       matchingVehicles.push({
         plateNumber: vehicleOwner.plateNumber,
         classification: vehicleOwner.classification,

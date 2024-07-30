@@ -100,3 +100,15 @@ exports.getVehicleById = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.getVehicleStatusByPlateNumber = catchAsync(async (req, res, next) => {
+  const vehicle = await Vehicle.find({
+    plateNumber: req.params.plateNumber,
+  });
+  res.status(200).json({
+    status: "success",
+    data: {
+      vehicle: vehicle.status,
+    },
+  });
+});
