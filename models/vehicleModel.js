@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const vehicleSchema = new mongoose.Schema({
   classification: {
     type: String,
-    // required: [true, "Please input the classification."],
     uppercase: true,
   },
   brand: {
@@ -17,7 +16,7 @@ const vehicleSchema = new mongoose.Schema({
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "user",
     required: true,
   },
   lastService: {

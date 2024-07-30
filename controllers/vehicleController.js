@@ -1,14 +1,15 @@
 const Vehicle = require("../models/vehicleModel");
-const AppError = require("../utils/appError");
+const User = require("../models/userModel");
 const catchAsync = require("../utils/catchAsync");
 
 exports.getAllVehicle = catchAsync(async (req, res, next) => {
-  const vehicles = await Vehicle.find();
+  const vehicles = await Vehicle.find().populate({path: 'owner', select: 'lastName firstName',});
+
   res.status(200).json({
     status: "success",
     length: vehicles.length,
     data: {
-      vehicle: vehicles,
+      vehicles: vehicles,
     },
   });
 });
@@ -60,9 +61,16 @@ exports.updateVehicleStatus = catchAsync(async (req, res, next) => {
 
 exports.updateVehicleStatusByPlateNumber = catchAsync(async (req, res, next) => {
   console.log("updating vehicle by platenum");
-  console.log("plate num", req.params.plateNumber);
+  const plateNumber = req.params.plateNumber;
+
+  if (!plateNumber) {
+    console.log("Plate number is null, skipping update.");
+    return;
+  }
+
+  console.log("plate num", plateNumber);
   const vehicle = await Vehicle.findOneAndUpdate(
-    { plateNumber: req.params.plateNumber },
+    { plateNumber: plateNumber },
     {
       status: req.body.status,
       lastService: req.body.lastService,
@@ -79,7 +87,7 @@ exports.updateVehicleStatusByPlateNumber = catchAsync(async (req, res, next) => 
       booking: vehicle,
     },
   });
-});
+}); 
 
 exports.getVehicleById = catchAsync(async (req, res, next) => {
   const vehicle = await Vehicle.find({
@@ -89,6 +97,18 @@ exports.getVehicleById = catchAsync(async (req, res, next) => {
     status: "success",
     data: {
       vehicle,
+    },
+  });
+});
+
+exports.getVehicleStatusByPlateNumber = catchAsync(async (req, res, next) => {
+  const vehicle = await Vehicle.find({
+    plateNumber: req.params.plateNumber,
+  });
+  res.status(200).json({
+    status: "success",
+    data: {
+      vehicle: vehicle.status,
     },
   });
 });

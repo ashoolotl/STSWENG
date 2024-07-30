@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice</title>
     <link rel="stylesheet" href="/partials/navbar.css">
-    <link rel="stylesheet" href="cart.css">
-    <link rel="stylesheet" href="receipt.css">
+    <link rel="stylesheet" href="/cart.css">
+    <link rel="stylesheet" href="/receipt.css">
 </head>
 <body>
     {{> _header }}
@@ -18,8 +18,8 @@
     </div>
 
     <div class="receipt-container">
-        {{#each products}}
-        <div class="product-container">
+        {{#each receipt.products}}
+        <div class="product-container" data-productName="{{this.name}}">
             <div class="receipt-container-labels">
                 <h3 class="product-name">{{this.name}}</h3>
                 <p class="product-quantity">Quantity: x{{this.quantity}}</p>

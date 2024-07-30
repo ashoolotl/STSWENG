@@ -16,4 +16,6 @@ router.get("/register", viewsController.getRegister);
 router.get("/carts", authController.protect, viewsController.getCart);
 router.get("/adminDashboard", authController.protect, authController.restrictTo("admin"), viewsController.getAdminDashboard);
 router.get("/product-catalog", viewsController.getProducts);
+router.get("/receipts/:id", viewsController.getReceiptById);
+
 module.exports = router;

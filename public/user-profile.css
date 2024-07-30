@@ -245,7 +245,7 @@ header {
     width: 100%;
 }
 
-.popupContent form button[type="submit"], #reviewBtn, #submitEditReview, #see-review {
+.popupContent form button[type="submit"], .reviewBtn, #submitEditReview {
     font-family: Montserrat;
     font-size: 1.2rem;
     padding: 10px;
@@ -261,7 +261,7 @@ header {
     transition: background-color 0.3s ease;
 }
 
-.popupContent form button[type="submit"]:hover, #reviewBtn:hover, #see-review:hover, #submitEditReview:hover {
+.popupContent form button[type="submit"]:hover, .reviewBtn:hover, #submitEditReview:hover {
     background-color: #FF5555;
 }
 

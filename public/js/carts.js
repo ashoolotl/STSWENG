@@ -30,7 +30,7 @@ const getCheckoutSession = async (id) => {
   }
 };
 
-const updateDatabaseItems = async () => {
+const updateDatabaseItems = async (receiptId) => {
   try {
     const owner = document.getElementById("ownerCartId").value;
     const cartItemsResponse = await fetch(`/api/v1/carts/${owner}`);
@@ -47,7 +47,7 @@ const updateDatabaseItems = async () => {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              status: "To Review",
+              status: "Pending:",
               lastService: item.product,
             }),
           });
@@ -73,6 +73,35 @@ const updateDatabaseItems = async () => {
       }
     }
 
+    // create receipt and get ID
+    try {
+      const products = cartItems.map((item) => ({
+        name: item.product,
+        quantity: item.quantity,
+        price: item.price,
+        plateNumber: item.plateNumber,
+      }));
+
+      const totalPrice = products.reduce((acc, product) => acc + product.price * product.quantity, 0);
+
+      const response = await fetch(`api/v1/receipts/create/${owner}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          owner: owner,
+          products: products,
+          totalPrice: totalPrice,
+        }),
+      });
+
+      const responseData = await response.json();
+      receiptId.value = responseData.data.id;
+    } catch (err) {
+      console.error("Error creating receipt", err);
+    }
+
     // clear cart items
     await fetch(`/api/v1/carts/clear/${owner}`, {
       method: "DELETE",
@@ -85,13 +114,14 @@ const updateDatabaseItems = async () => {
 async function displayPaymentStatus() {
   const urlParams = new URLSearchParams(window.location.search);
   const paymentStatus = urlParams.get("payment");
+  let receiptId = { value: "" };
 
   if (paymentStatus === "success") {
-    await updateDatabaseItems();
+    await updateDatabaseItems(receiptId);
     document.getElementById("successPopup").style.display = "block";
     document.getElementById("successText").innerText = "Payment successful. Thank you for your purchase!";
     setTimeout(() => {
-      window.location.href = "/carts";
+      window.location.href = `/receipts/${receiptId.value}`;
     }, 2000);
   } else if (paymentStatus === "failure") {
     document.getElementById("errorPopup").style.display = "block";
@@ -151,4 +181,12 @@ document.addEventListener("DOMContentLoaded", function () {
       servicesCartItems.classList.remove("hide");
     });
   }
+});
+
+document.getElementById("closePopupError").addEventListener("click", function () {
+  document.getElementById("errorPopup").style.display = "none";
+});
+
+document.getElementById("closePopupSuccess").addEventListener("click", function () {
+  document.getElementById("successPopup").style.display = "none";
 });

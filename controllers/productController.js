@@ -86,7 +86,6 @@ exports.editProduct = async (req, res, next) => {
 exports.updateStock = async (req, res, next) => {
   try {
     const product = await Product.findOne({ name: req.body.name });
-    console.log("product", product);
     if (!product) {
       return next();
     }
@@ -98,6 +97,7 @@ exports.updateStock = async (req, res, next) => {
         product,
       },
     });
+
   } catch (error) {
     console.error(error);
     res.status(500).json({
