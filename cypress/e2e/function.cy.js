@@ -15,3 +15,14 @@ export function logout() {
   //TODO: Update when Logout is fixed, try to refrain from using force
   cy.get('.dropdown-content a').contains('Log Out').click({ force: true });
 }
+
+export function selectDropdown(value) {
+  cy.get('.dropbtn.user-link').realHover();
+  cy.contains(value).click();
+}
+
+//NOTE: only works for pages on navbar
+export function viewPage(page) {
+  cy.get('a[href="/' + page + '"]').click();
+  cy.url().should('include', '/' + page);
+}
