@@ -40,10 +40,10 @@
             <div class="car-info">
               <p class="car-text">Status:</p>
               {{#if (eq this.status 'To Review')}}
-              <p class="reviewBtn status" data-last-service="{{this.lastService}}" style="cursor:pointer;">{{this.status}}</p> 
+              <p class="reviewBtn status" data-plate-number="{{this.plateNumber}}" data-last-service="{{this.lastService}}" style="cursor:pointer;">{{this.status}}</p>
               {{else}}
                 {{#if (eq this.status 'Pending:')}}
-                  <p class="status" data-last-service="{{this.lastService}}" style="cursor:pointer;">{{this.status}} {{this.lastService}}</p>
+                  <p class="status" data-last-service="{{this.lastService}}">{{this.status}} {{this.lastService}}</p>
                 {{else}}
                   <p class="status">{{this.status}}</p>
                 {{/if}}
@@ -84,15 +84,6 @@
       </div>
   </div>
 
-  <div id="active-services" class="active-subscriptions">
-    <h2>Active Services</h2>
-      <div class="subscriptions">
-        {{#each serviceAvailed}}
-          <img src="/images/services/{{this.product}}.jpeg" alt="Image for {{this.product}}" style="width: 592px; height: 316px; border-radius: 20px;" onclick="showPopupService('{{this.id}}')">
-        {{/each}}
-      </div>
-  </div>
-
   <div id="products" class="active-subscriptions">
     <h2>Products Orders</h2>
     <hr>
@@ -111,68 +102,6 @@
         </div>
       </div>
     {{/each}}
-  </div>
-
-  <div id="servicePopup" class="tokenContainer">
-    <span class="closePopup" onclick="closePopupService()">&times;</span>
-      <h2 id="servicePopupRemainingTokens">Remaining Tokens</h2>
-      <h2 id="servicePopupPlateNumber">Vehicle XXXX1234</h2>
-      <hr>
-      <div class="popupContent">
-        <span class="bookingPopupPlateNumber">
-          <strong>Price: 1 Token</strong>
-        </span>
-        <div class="contentWrapper Tokens">
-          <div class="image-select">
-            <input type="radio" checked="true">
-            <img id="servicePopupImg" class="tokenPopupImage" src="/images/services/HYPER WASH.jpeg" alt="service1">
-            <input id="serviceBookingId" type="hidden">
-          </div>
-        </div>
-      </div>
-    <hr>
-    <button class="booking" onclick="showDateTimePopupService()">Proceed to Booking</button>
-  </div>
-
-  <div id="dateTimePopupService" class="tokenContainer">
-    <span class="closePopup" onclick="closeDateTimePopupService()">&times;</span>
-    <h2>Select Date and Time</h2>
-    <div class="content">
-      {{!-- Adjusting for UTC+8 (Philippine Time) --}}
-      {{!-- You can replace this with proper handling using a helper or a script in the template --}}
-      <input type="date" id="bookingDate" min="{{nowDate}}" value="{{nowDate}}">
-      <input type="time" id="bookingTime" value="09:00" onchange="validateTime()">
-    </div>
-    <hr>
-    <button class="dateTimeSubmit" onclick="submitDateTimeServiceBooking()">Submit</button>
-  </div>
-
-  <div id="active-subscriptions" class="active-subscriptions">
-    <h2>Active Subscriptions</h2>
-    <div class="subscriptions">
-    {{#each subscriptionsAvailed}}
-      <img src="/images/subscriptions/{{this.product}}.jpeg" alt="Image for {{this.product}}" style="width: 592px; height: 316px; border-radius: 20px;" onclick="showPopupSubscription('{{this._id}}')">
-    {{/each}}
-    </div>
-  </div>
-
-  <div id="subscriptionPopup" class="tokenContainer">
-    <span class="closePopup" onclick="closePopupSubscription()">&times;</span>
-    <h2 id="subscriptionPopupPlateNumber">Subscription For Vehicle XXXX1234</h2>
-    <div id="generatedCodeHere"></div>
-  </div>
-
-  <div id="dateTimePopupSubscription" class="tokenContainer">
-    <span class="closePopup" onclick="closeDateTimePopupSubscription()">&times;</span>
-    <h2>Select Date and Time</h2>
-    <div class="content">
-      {{!-- Adjusting for UTC+8 (Philippine Time) --}}
-      {{!-- You can replace this with proper handling using a helper or a script in the template --}}
-      <input type="date" id="bookingDateSubscription" min="{{nowDateSubscription}}" value="{{nowDateSubscription}}">
-      <input type="time" id="bookingTimeSubscription" value="09:00" onchange="validateTime()">
-    </div>
-    <hr>
-    <button class="dateTimeSubmit" onclick="submitDateTimeSubscriptionBooking()">Submit</button>
   </div>
  
   <!-- Error Popup -->
@@ -207,7 +136,7 @@
   <div id="reviewPopup" class="popupContainer">
       <div class="popupContent">
         <span id="closeReviewPopup" class="closePopup">&times;</span>
-        <h1>Leave a Review</h1>
+        <h1 id="reviewHeader"></h1>
           <form id="reviewForm">
             <label for="rating">Rating</label>
             <div class="star-rating" id="starRating">
@@ -219,6 +148,7 @@
             </div>
             <input type="hidden" name="rating" id="ratingInput" value="">
             <input type="hidden" name="serviceName" id="serviceName" value="">
+            <input type="hidden" name="vehiclePlateNum" id="reviewPlateNum" value="">
 
             <label for="reviewText"></label>
             <input type="text" id="reviewText" name="reviewText" placeholder="Leave your review here..." maxlength="250">

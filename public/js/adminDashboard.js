@@ -24,17 +24,15 @@ const populateVehicles = (vehicles) => {
     const vehicleElement = document.createElement("div");
     vehicleElement.classList.add("car");
     vehicleElement.dataset.carDetails = `${vehicle.classification}-${vehicle.plateNumber}`;
+    const markCompleteButton = `<button class="update-status" data-vehicleplatenum="${vehicle.plateNumber}">Mark Complete</button>`;
     vehicleElement.innerHTML = `
       <img src="/images/vehicleClassification/${vehicle.classification}.jpeg" alt="Image for ${vehicle.classification}.jpeg">
       <div class="car-status">
         <div class="car-info">
-          <p class="car-text"><strong>Owner: </strong>${vehicle.owner}</p>
+          <p class="car-text"><strong>Owner: </strong>${vehicle.owner.firstName} ${vehicle.owner.firstName}</p>
           <p class="car-text"><strong>Plate Number: </strong>${vehicle.plateNumber}</p>
-          <p class="car-text"><strong>Status: </strong><span class="status current">${vehicle.status} ${vehicle.lastService}</span></p>
-          <button class="more-info-btn" onclick="showMoreInformation('${vehicle._id}', '${vehicle.owner}', '${vehicle.stripeReferenceNumber}', '${
-      vehicle.product
-    }')">More Information</button>
-          ${vehicle.status === "Pending:" ? '<button class="update-status">Mark Complete</button>' : ""}
+          <p class="car-text"><strong>Status: </strong><span class="status current">${vehicle.status} ${vehicle.status === "Pending:" ? vehicle.lastService : ""}</span></p>
+          ${vehicle.status === "Pending:" ? markCompleteButton : ""}
         </div>
       </div>
     `;
@@ -49,14 +47,13 @@ const populateReceipts = (receipts) => {
     receipt.products.forEach((product) => {
       const receiptElement = document.createElement("div");
       receiptElement.classList.add("dashboardProduct");
+      // CHANGE TO PRODUCT IMAGE
       receiptElement.innerHTML = `
-      <img src="/images/products/${product.photo}">
+      <img src="/images/products/car wash shampoo.png"> 
       <div class="order-details">
-        Name: <span id="product-name">${product.name}</span>
-        Quantity: <span id="product-quantity">x${product.quantity}</span>
-      </div>
-      <div class="order-details">
-        Status: <span id="product-status" class="status current">${product.price}</span>
+        <p><strong>Name:</strong> <span id="product-name">${product.name}</span></p>
+        <p><strong>Quantity:</strong> <span id="product-quantity">x${product.quantity}</span></p>
+        <p><strong>Total Price:</strong> <span id="product-price">&euro; ${product.price}</span></p>
       </div>
     `;
       receiptsContainer.appendChild(receiptElement);
@@ -69,4 +66,29 @@ document.addEventListener("DOMContentLoaded", async () => {
   const receipts = await getAllReceipts();
   populateVehicles(vehicles);
   populateReceipts(receipts);
+
+  const updateStatusButtons = document.querySelectorAll(".update-status");
+  if (updateStatusButtons.length > 0) {
+    updateStatusButtons.forEach((button) => {
+      button.addEventListener("click", async (e) => {
+        const vehiclePlatNum = e.target.dataset.vehicleplatenum;
+        try {
+          await fetch(`/api/v1/vehicles/platenum/${vehiclePlatNum}`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              status: "To Review",
+            }),
+          });
+          location.reload();
+        } catch (err) {
+          console.error("Error updating vehicle status for item", vehiclePlatNum, err);
+          document.getElementById("errorPopup").style.display = "block";
+          document.getElementById("errorText").innerText = "Failed to update vehicle status. Please try again later.";
+        }
+      });
+    });
+  }
 });

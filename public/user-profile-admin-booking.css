@@ -52,7 +52,7 @@ header {
 }
 
 /*registered cars*/
-.registered-cars {
+.registered-cars, .ordered-products {
     margin: 30px;
     color: white;
     font-size: 12px;
@@ -105,7 +105,6 @@ header {
 
 .status {
     margin-right: 20px;
-    cursor: pointer;
 }
 
 .current {
@@ -114,11 +113,6 @@ header {
     padding: 5px 10px;
     transition: background-color 0.3s ease;
 
-}
-
-.current:hover {
-    background-color: black;
-    /* Add hover effect */
 }
 
 .more-info-btn {
@@ -231,4 +225,9 @@ header {
 
 .car .popupContent .closePopup {
     color: rgba(237, 28, 36);
+}
+
+.order-details p {
+    margin-block-start: 0;
+    margin-block-end: 0;
 }

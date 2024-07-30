@@ -36,6 +36,7 @@
       <hr />
       <!-- Display service bookings -->
       {{#each serviceBookings}}
+      <p>{{this}}</p>
         {{#if (eq this.status "Pending:")}}
           <div class="car" data-carDetails="{{this.classification}}-{{this.plateNumber}}">
             <img src="/images/vehicleClassification/{{this.classification}}.jpeg" alt="Image for {{this.classification}}.jpeg" />
@@ -53,10 +54,6 @@
                   <strong>Status: </strong>
                   <span class="status current">{{this.status}} {{this.lastService}}</span>
                 </p>
-                <button
-                  class="more-info-btn"
-                  onclick="showMoreInformation('{{this._id}}', '{{this.owner}}', '{{this.stripeReferenceNumber}}', '{{this.product}}')"
-                >More Information</button>
                 <button class="update-status">Mark Complete</button>
               </div>
             </div>
@@ -78,10 +75,6 @@
                   <strong>Status: </strong>
                   <span class="status current">{{this.status}}</span>
                 </p>
-                <button
-                  class="more-info-btn"
-                  onclick="showMoreInformation('{{this._id}}', '{{this.owner}}', '{{this.stripeReferenceNumber}}', '{{this.product}}')"
-                >More Information</button>
               </div>
             </div>
           </div>
@@ -158,6 +151,5 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/js/adminDashboard.js"></script>
     <script src="/js/logout.js"></script>
-    <script src="update-status.js"></script>
   </body>
 </html>

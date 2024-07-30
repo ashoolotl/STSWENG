@@ -1,8 +1,10 @@
 const Vehicle = require("../models/vehicleModel");
+const User = require("../models/userModel");
 const catchAsync = require("../utils/catchAsync");
 
 exports.getAllVehicle = catchAsync(async (req, res, next) => {
-  const vehicles = await Vehicle.find();
+  const vehicles = await Vehicle.find().populate({path: 'owner', select: 'lastName firstName',});
+
   res.status(200).json({
     status: "success",
     length: vehicles.length,
