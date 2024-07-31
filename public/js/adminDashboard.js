@@ -1,4 +1,4 @@
-const getAllVehicles = async () => {
+/* const getAllVehicles = async () => {
   try {
     const res = await fetch("/api/v1/vehicles");
     const data = await res.json();
@@ -41,7 +41,6 @@ const populateVehicles = (vehicles) => {
 };
 
 const populateReceipts = (receipts) => {
-  console.log(receipts);
   const receiptsContainer = document.querySelector(".ordered-products");
   receipts.forEach((receipt) => {
     receipt.products.forEach((product) => {
@@ -59,14 +58,9 @@ const populateReceipts = (receipts) => {
       receiptsContainer.appendChild(receiptElement);
     });
   });
-};
+}; */
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const vehicles = await getAllVehicles();
-  const receipts = await getAllReceipts();
-  populateVehicles(vehicles);
-  populateReceipts(receipts);
-
   const updateStatusButtons = document.querySelectorAll(".update-status");
   if (updateStatusButtons.length > 0) {
     updateStatusButtons.forEach((button) => {

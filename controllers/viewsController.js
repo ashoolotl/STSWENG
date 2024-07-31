@@ -6,8 +6,6 @@ const Subscription = require("../models/subscriptionModel");
 const Cart = require("../models/cartModel");
 const ServiceAvailed = require("../models/serviceAvailedModel");
 const Review = require("../models/reviewModel");
-const Booking = require("../models/bookingModel");
-const BookingSubscription = require("../models/bookingSubscriptionModel");
 const SubscriptionAvailed = require("../models/subscriptionAvailedModel");
 const Product = require("../models/productModel");
 const Receipt = require("../models/receiptModel");
@@ -21,23 +19,26 @@ exports.getLoginForm = (req, res, next) => {
 exports.getHomepage = (req, res, next) => {
   res.status(200).render("homepage");
 };
-exports.getAdminDashboard = async (req, res, next) => {
-  const serviceBookings = await Booking.find({
-    status: { $ne: "Completed" },
-    scheduledDate: { $exists: true },
-  });
-  console.log(serviceBookings);
-  const subscriptionBookings = await BookingSubscription.find({
-    status: { $ne: "none" },
-    scheduledDate: { $exists: true },
-  });
-  res.status(200).render("adminDashboard", {
-    title: "Admin Dashboard",
 
-    serviceBookings,
-    subscriptionBookings,
-  });
+exports.getAdminDashboard = async (req, res, next) => {
+  try {
+    const allVehicles = await Vehicle.find({}).populate({ path: "owner", select: "lastName firstName" });
+    const allReceipts = await Receipt.find({});
+
+    const products = allReceipts.flatMap((receipt) => {
+      return receipt.products;
+    });
+
+    res.status(200).render("adminDashboard", {
+      title: "Admin Dashboard",
+      allVehicles,
+      products,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
+
 exports.getDashboard = async (req, res, next) => {
   const user = req.user;
 
@@ -188,4 +189,3 @@ exports.getReceiptById = async (req, res, next) => {
     receipt,
   });
 };
-
