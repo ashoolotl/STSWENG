@@ -412,6 +412,8 @@ if (addSubmitBtn) {
     const addProductAvailabilityElem = document.getElementById("addProductAvailability");
     const currentProducts = await getAllProducts();
 
+    console.log(currentProducts.find((product) => product.name.toLowerCase() === addProductNameElem.value.toLowerCase()))
+
     if (addProductNameElem && addProductDescElem && addProductPriceElem && addProductAvailabilityElem) {
       const addProductName = addProductNameElem.value;
       const addProductDesc = addProductDescElem.value;
