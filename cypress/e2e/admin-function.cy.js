@@ -30,8 +30,8 @@ export function addProduct(product) {
 }
 
 export function editProduct(productName, newProduct) {
-   cy.get(`[productname="${productName}"] > .product-details > .productEdit`).wait(10000).click();
-   //clear all fields
+   cy.get(`[productname="${productName}"] > .product-details > .productEdit`).wait(3000).click();
+   //clear
    cy.get('#editProductName').clear();
    cy.get('#editProductDesc').clear();
    cy.get('#editProductPrice').clear();
@@ -49,3 +49,77 @@ export function editProduct(productName, newProduct) {
    }
    cy.get('#editSubmit').click();
 }
+
+export function addService(service) {
+   cy.get('#add > img').click();
+   
+   //if any data variable is empty -> space
+   if (!service || Object.keys(service).length === 0) {
+      cy.get('#name').type(" ");
+      cy.get('#description').type(" ");
+      cy.get('#duration').type(" ");
+   } 
+   //if not empty -> fill in the data
+   if (service.name) cy.get('#name').clear().type(service.name);
+   if (service.description) cy.get('#description').clear().type(service.description);
+   if (service.duration) cy.get('#duration').clear().type(service.duration.toString());
+ 
+   //vehicle classification + price
+   if (service.classification && Array.isArray(service.classification)) {
+      service.classification.forEach(item => {
+      if (item.type && item.price !== undefined) {
+          cy.get(`[data-vehicle-classification="${item.type}"]:visible [type="checkbox"]`).check();
+          cy.get(`[data-vehicle-classification="${item.type}"]:visible [type="number"]`).clear().type(item.price.toString());
+      }
+      });
+   }
+
+   cy.get('#form > button').click();
+ }
+ 
+ export function editService(serviceName, service, newService) {
+   const serviceNameIdentifier = getServiceNameIdentifier(serviceName);
+   cy.get(`[servicename="${serviceNameIdentifier}"] > .bottom-item-content > .buttons-container > .serviceEditBtn`).wait(5000).click();
+  
+   //clear
+   cy.get('#nameEdit').clear();
+   cy.get('#descriptionEdit').clear();
+   cy.get('#durationEdit').clear();
+   //clear classification/price of original service details
+   if (service.classification && Array.isArray(service.classification)) {
+      service.classification.forEach(item => {
+        if (item.type) {
+          cy.get(`#${item.type}[type="checkbox"]`).uncheck({ force: true });
+          cy.get(`#price-${item.type}`).clear();
+        }
+      });
+   }
+    
+ 
+   //if any data variable is empty -> space
+   if (!newService || Object.keys(newService).length === 0) {
+     cy.get('#nameEdit').type(" ");
+   } 
+   
+   else {
+     if (newService.name) cy.get('#nameEdit').type(newService.name);
+     if (newService.description) cy.get('#descriptionEdit').type(newService.description);
+     if (newService.duration) cy.get('#durationEdit').type(newService.duration.toString());
+ 
+     //vehicle classification + price
+     if (newService.classification && Array.isArray(newService.classification)) {
+       newService.classification.forEach(item => {
+         if (item.type) {
+            cy.get(`#${item.type}[type="checkbox"]`).check({ force: true });
+            cy.get(`#price-${item.type}`).clear().type(item.price.toString());
+          }
+       });
+     }
+   }
+   cy.get('#formEdit > button').click();
+ }
+//eg. EXPRESS-WASH for services div tags 
+export function getServiceNameIdentifier(serviceName) {
+   return serviceName.replace(/\s+/g, '-').toUpperCase();
+ }
+ 

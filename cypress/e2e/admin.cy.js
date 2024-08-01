@@ -133,57 +133,157 @@ const productData = [
       productStock: 27,
    }
 ];
-describe("Manage Product Catalog", () => {
+// describe("Manage Product Catalog", () => {
+//    beforeEach(() => {
+//       cy.visit(siteURL + "/login");
+//       func.login(adminEmail, adminPassword);
+//       func.viewPage('product-catalog');
+//    });
+
+
+//    it("Add Valid Product", () => {
+//       admin.addProduct(productData[0]);
+//       cy.contains('Product successfully added.').should('be.visible');
+//       cy.get(`[productname="${productData[0].productName}"]`).should('be.visible');
+//    });
+
+//    //TODO Add Invalid Products
+
+//    it("Duplicate Name Edit", () => {  
+//       admin.editProduct(productData[0].productName, productData[1]);
+//       cy.contains('Product name already exists. Please choose a different name.').should('be.visible');
+//       cy.reload();
+//       cy.visit(siteURL + "/product-catalog");
+//       cy.get(`[productname="${productData[0].productName}"]`).should('be.visible'); //product remains unchanged
+//    });
+   
+//    it("Empty Values Edit", () => {
+//       admin.editProduct(productData[0].productName, productData[2]);
+//       cy.contains('One or more fields is empty. Please fill in all fields.').should('be.visible');
+//       cy.reload();
+//       cy.visit(siteURL + "/product-catalog");
+//       cy.get(`[productname="${productData[0].productName}"]`).should('be.visible'); //product remains unchanged
+//    });
+
+//    it("Invalid Price Edit", () => {
+//       admin.editProduct(productData[0].productName, productData[3]);
+//       cy.contains('Price cannot be zero or negative. Please enter a valid price.').should('be.visible');
+//       cy.reload();
+//       cy.visit(siteURL + "/product-catalog");
+//       cy.get(`[productname="${productData[0].productName}"]`).should('be.visible'); //product remains unchanged
+//    });
+//    it("Valid Edit Product", () => {
+//       admin.editProduct(productData[0].productName, productData[4]);
+//       cy.contains('Product updated.').should('be.visible');
+//       cy.get(`[productname="${productData[0].productName}"]`).should('be.visible');
+//    });
+
+   
+   
+//    after (() => {
+//       cy.request('DELETE', "api/v1/deleteProduct/" + productData[0].productName)
+//       cy.request('DELETE', "api/v1/deleteProduct/" + productData[4].productName)
+//    });
+   
+// });
+
+const serviceData = [
+  // Valid Case [0]
+  {
+    name: "Quick Wash",
+    description: "Complete car wash and detailing",
+    duration: 120,
+    classification: [
+      { type: "SEDAN", price: 50 },
+      { type: "COUPE", price: 70 }
+    ]
+  },
+  // Empty Field/s [1]
+  {
+    name: "",
+    description: "Complete car wash and detailing",
+    duration: 120,
+    classification: [
+      { type: "SEDAN", price: 50 },
+      { type: "COUPE", price: 70 }
+    ]
+  },
+  // Invalid Duration [2]
+  {
+    name: "Invalid Duration Service",
+    description: "Basic car wash",
+    duration: 0,
+    classification: [
+      { type: "SEDAN", price: 20 }
+    ]
+  },
+  // No Vehicle Classification/Price [3]
+  {
+    name: "Interior Cleaning",
+    description: "Detailed interior cleaning",
+    duration: 60,
+    classification: []
+  },
+  // Invalid Price [4]
+  {
+    name: "Engine Cleaning",
+    description: "Engine bay cleaning",
+    duration: 30,
+    classification: [
+      { type: "SEDAN", price: 0 }
+    ]
+  },
+  // Duplicate Name [5]
+  {
+    name: "Full Service",
+    description: "Complete car wash and detailing",
+    duration: 120,
+    classification: [
+      { type: "SEDAN", price: 50 },
+      { type: "SUV", price: 70 }
+    ]
+  },
+   // Valid Edit [6]
+   {
+      name: "Hyper Wash",
+      description: "Complete car wash and detailing",
+      duration: 120,
+      classification: [
+        { type: "SEDAN", price: 50 },
+        { type: "VAN", price: 70 }
+      ]
+    }
+];
+describe("Manage Services", () => {
    beforeEach(() => {
       cy.visit(siteURL + "/login");
       func.login(adminEmail, adminPassword);
-      func.viewPage('product-catalog');
-   });
+      cy.url().should('eq', siteURL + "/dashboard");
+      func.selectDropdown('Manage Services');
+   }); 
 
-
-   it("Add Valid Product", () => {
-      admin.addProduct(productData[0]);
-      cy.contains('Product successfully added.').should('be.visible');
-      cy.get(`[productname="${productData[0].productName}"]`).should('be.visible');
-   });
-
-   //TODO Add Invalid Products
-
-   it("Duplicate Name Edit", () => {  
-      admin.editProduct(productData[0].productName, productData[1]);
-      cy.contains('Product name already exists. Please choose a different name.').should('be.visible');
-      cy.reload();
-      cy.visit(siteURL + "/product-catalog");
-      cy.get(`[productname="${productData[0].productName}"]`).should('be.visible'); //product remains unchanged
-   });
-   
-   it("Empty Values Edit", () => {
-      admin.editProduct(productData[0].productName, productData[2]);
-      cy.contains('One or more fields is empty. Please fill in all fields.').should('be.visible');
-      cy.reload();
-      cy.visit(siteURL + "/product-catalog");
-      cy.get(`[productname="${productData[0].productName}"]`).should('be.visible'); //product remains unchanged
-   });
-
-   it("Invalid Price Edit", () => {
-      admin.editProduct(productData[0].productName, productData[3]);
-      cy.contains('Price cannot be zero or negative. Please enter a valid price.').should('be.visible');
-      cy.reload();
-      cy.visit(siteURL + "/product-catalog");
-      cy.get(`[productname="${productData[0].productName}"]`).should('be.visible'); //product remains unchanged
-   });
-   it("Valid Edit Product", () => {
-      admin.editProduct(productData[0].productName, productData[4]);
-      cy.contains('Product updated.').should('be.visible');
-      cy.get(`[productname="${productData[0].productName}"]`).should('be.visible');
-   });
-
-   
-   
-   after (() => {
-      cy.request('DELETE', "api/v1/deleteProduct/" + productData[0].productName)
-      cy.request('DELETE', "api/v1/deleteProduct/" + productData[4].productName)
-   });
-   
+   it("Add Valid Service", () => {
+      cy.url().should('eq', siteURL + "/services");
+      admin.addService(serviceData[0]);
+      const serviceNameIdentifier = admin.getServiceNameIdentifier(serviceData[0].name);
+      cy.get(`[servicename="${serviceNameIdentifier}"] > img`).should('be.visible');
+    });
+    
+    it("Valid Service Edit", () => {
+      const serviceNameIdentifier = admin.getServiceNameIdentifier(serviceData[0].name);
+      const newServiceNameIdentifier = admin.getServiceNameIdentifier(serviceData[6].name);
+      admin.editService(serviceNameIdentifier, serviceData[0], serviceData[6]);
+      cy.contains('The service has been successfully updated.').should('be.visible');
+      cy.get(`[servicename="${newServiceNameIdentifier}"] > img`).should('be.visible');
+    });
+    
+    it("Delete Service", () => {
+      const serviceNameIdentifier = admin.getServiceNameIdentifier(serviceData[6].name);
+      cy.get(`[servicename="${serviceNameIdentifier}"] > .bottom-item-content > .buttons-container > .serviceDeleteBtn`).wait(4000).click();
+      cy.contains('The service has been deleted successfully.').should('be.visible');
+      cy.get(`[servicename="${serviceNameIdentifier}"]`).should('not.exist');
+    });
+    
 });
+
 
