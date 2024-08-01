@@ -434,7 +434,7 @@ if (addSubmitBtn) {
           price: addProductPrice,
           quantity: addProductAvailability,
         };
-        addProduct(data);
+        await addProduct(data);
       }
     }
   });
@@ -456,8 +456,14 @@ document.getElementById("closePopupSuccess").addEventListener("click", function 
   document.getElementById("successPopup").style.display = "none";
 });
 
-function preventMinus(event) {
+function preventMinusZero(event) {
   if (event.key === "-" || (event.key === "0" && event.target.value.length === 0)) {
+    event.preventDefault();
+  }
+}
+
+function preventMinus(event) {
+  if (event.key === "-") {
     event.preventDefault();
   }
 }

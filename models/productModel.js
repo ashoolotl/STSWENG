@@ -20,7 +20,7 @@ const productModel = new mongoose.Schema({
   },
   image: {
     type: String,
-    default: "car wash shampoo.png",
+    default: "default-product-image.png",
   },
 });
 
