@@ -140,11 +140,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         const product = products.find((product) => product._id === productId);
         const quantity = document.getElementById(`${productId}-quantity`).textContent;
         const price = quantity * product.price;
+        const image = product.image;
         const userId = document.getElementById("userId").value;
         const data = {
           product: product.name,
           description: product.description,
           price: price,
+          image: image,
           quantity: quantity,
           owner: userId,
           image: product.image,
