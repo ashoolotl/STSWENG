@@ -35,8 +35,8 @@
       <h2>Service Bookings</h2>
       <hr />
       <!-- Display service bookings -->
-      {{#each serviceBookings}}
-      <p>{{this}}</p>
+      {{#each allVehicles}}
+      <p></p>
         {{#if (eq this.status "Pending:")}}
           <div class="car" data-carDetails="{{this.classification}}-{{this.plateNumber}}">
             <img src="/images/vehicleClassification/{{this.classification}}.jpeg" alt="Image for {{this.classification}}.jpeg" />
@@ -44,7 +44,7 @@
               <div class="car-info">
                 <p class="car-text">
                   <strong>Owner: </strong>
-                  {{this.owner}}
+                  {{this.owner.firstName}} {{this.owner.lastName}}
                 </p>
                 <p class="car-text">
                   <strong>Plate Number: </strong>
@@ -54,7 +54,7 @@
                   <strong>Status: </strong>
                   <span class="status current">{{this.status}} {{this.lastService}}</span>
                 </p>
-                <button class="update-status">Mark Complete</button>
+                <button class="update-status" data-vehicleplatenum="{{this.plateNumber}}">Mark Complete</button>
               </div>
             </div>
           </div>
@@ -65,7 +65,7 @@
               <div class="car-info">
                 <p class="car-text">
                   <strong>Owner: </strong>
-                  {{this.owner}}
+                  {{this.owner.lastName}} {{this.owner.firstName}}
                 </p>
                 <p class="car-text">
                   <strong>Plate Number: </strong>
@@ -88,7 +88,7 @@
       <div id="products" class="active-subscriptions">
         {{#each products}}
           <div class="dashboardProduct">
-            <img src="/images/products/{{this.photo}}" />
+            <img src="/images/products/car wash shampoo.png" />
             <div class="order-details">
               Name:
               <span id="product-name">{{this.name}}</span>
