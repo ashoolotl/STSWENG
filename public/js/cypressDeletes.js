@@ -2,6 +2,17 @@ const Vehicle = require("../../models/vehicleModel");
 const User = require("../../models/userModel");
 const Product = require("../../models/productModel");
 const Receipt = require("../../models/receiptModel");
+const Cart = require("../../models/cartModel");
+
+exports.deleteAllCarts = async () => {
+  try {
+    await Cart.deleteMany({});
+    console.log("All carts deleted successfully.");
+  } catch (error) {
+    console.error("Error deleting carts:", error);
+    throw error;
+  }
+};
 
 exports.deleteCarByPlateNumber = async (plateNumber) => {
   try {

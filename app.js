@@ -23,7 +23,7 @@ const bookingSubscriptionRouter = require("./routes/bookingSubscriptionRoutes");
 const reviewsRouter = require("./routes/reviewRoutes");
 const productsRouter = require("./routes/productRoutes");
 const receiptRouter = require("./routes/receiptRoutes");
-const { deleteCarByPlateNumber, deleteProductByName, deleteUserByEmail, deleteReceiptById } = require("./public/js/cypressDeletes");
+const {deleteAllCarts, deleteCarByPlateNumber, deleteProductByName, deleteUserByEmail, deleteReceiptById } = require("./public/js/cypressDeletes");
 
 // Express App
 const app = express();
@@ -116,6 +116,15 @@ app.delete("/api/v1/deleteReceipt/:id", async (req, res) => {
     res.status(200).send("Receipt deleted successfully");
   } catch (error) {
     res.status(500).send("Error deleting receipt");
+  }
+});
+
+app.delete("/api/v1/deleteAllCarts", async (req, res) => {
+  try {
+    await deleteAllCarts();
+    res.status(200).send("All carts deleted successfully");
+  } catch (error) {
+    res.status(500).send("Error deleting carts");
   }
 });
 /* ----------------------- */
