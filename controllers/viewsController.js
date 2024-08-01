@@ -25,10 +25,34 @@ exports.getAdminDashboard = async (req, res, next) => {
     const allVehicles = await Vehicle.find({}).populate({ path: "owner", select: "lastName firstName" });
     const allReceipts = await Receipt.find({});
 
-    const products = allReceipts.flatMap((receipt) => {
-      return receipt.products;
+    const productMap = new Map();
+
+    allReceipts.forEach((receipt) => {
+      receipt.products.forEach((product) => {
+        if (product.name.includes('WASH')) {
+          return;
+        }
+        console.log(`Processing product: ${product.name}, Quantity: ${product.quantity}, Price: ${product.price}`);
+        if (productMap.has(product.name)) { // if product already exists in the map
+          const existingProduct = productMap.get(product.name);
+          console.log(`Updating existing product: ${product.name}`);
+          existingProduct.totalQuantity += product.quantity;
+          existingProduct.totalPrice += (product.quantity * product.price);
+          console.log(`Updated product: ${product.name}, New Quantity: ${existingProduct.totalQuantity}, New Total Price: ${existingProduct.totalPrice}`);
+        } else {
+          console.log(`Adding new product: ${product.name}`);
+          productMap.set(product.name, {
+            name: product.name,
+            totalQuantity: product.quantity,
+            totalPrice: product.quantity * product.price,
+          });
+          console.log(`Added product: ${product.name}, Quantity: ${product.quantity}, Total Price: ${product.quantity * product.price}`);
+        }
+      });
     });
 
+    const products = Array.from(productMap.values());
+    
     res.status(200).render("adminDashboard", {
       title: "Admin Dashboard",
       allVehicles,

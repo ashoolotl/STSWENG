@@ -118,8 +118,9 @@ const updateVehicleClassification = async (data, id) => {
       document.getElementById("closePopupSuccess").innerText = "";
       document.getElementById("successPopup").style.display = "block";
       document.getElementById("successText").innerText = "The Vehicle Classification has been updated successfully.\n\nReloading...";
+      document.getElementById("error-message-edit").innerText = "";
       setTimeout(() => {
-        window.location.reload();
+        location.reload();
       }, 1000);
     }
   } catch (err) {
@@ -130,24 +131,40 @@ const updateVehicleClassification = async (data, id) => {
 };
 
 // edit a vehicle classification on submit
-document.getElementById("editCarForm").addEventListener("submit", function (event) {
+document.getElementById("editCarForm").addEventListener("submit", async (event) => {
   event.preventDefault();
-  const form = new FormData();
-  form.append("name", document.getElementById("vehicleClassificationEdit").value);
-  var id = document.getElementById("vehicleClassId").value;
-  var fileInput = document.getElementById("photoEdit");
-  // Check if any file is selected
-  if (fileInput.files && fileInput.files[0]) {
-    // An image is uploaded
-    form.append("photo", document.getElementById("photoEdit").files[0]);
-  }
+  const allVCs = await getAllVehicleClassification();
+  console.log(allVCs);
+  const vcNameInput = document.getElementById("vehicleClassificationEdit").value;
+  
+  if (document.getElementById("vehicleClassificationEdit").value.trim() === "") {
+    document.getElementById("error-message-edit").innerText = "Vehicle classification name is required. Please enter a name.";
+  } else if (document.getElementById("originalVehicleName").value === vcNameInput) {
+    document.getElementById("error-message-edit").innerText = "Name has not been changed. Please make changes to update.";
+  } else if (allVCs.data.vehicleClassification.find(vc => vc.name === vcNameInput)) {
+    document.getElementById("error-message-edit").innerText = "Vehicle classification with the same name already exists.";
+  } else {
+    const form = new FormData();
+    form.append("name", document.getElementById("vehicleClassificationEdit").value);
+    var id = document.getElementById("vehicleClassId").value;
+    var fileInput = document.getElementById("photoEdit");
+    // Check if any file is selected
+    if (fileInput.files && fileInput.files[0]) {
+      // An image is uploaded
+      form.append("photo", document.getElementById("photoEdit").files[0]);
+    }
 
-  updateVehicleClassification(form, id);
+    console.log(form);
+    console.log(id);
+    await updateVehicleClassification(form, id);
+  }
+  
 });
 
 // closing of edit car popup through x button
 document.getElementById("closePopupEdit").addEventListener("click", function () {
   document.getElementById("editCarPopup").style.display = "none";
+  document.getElementById("error-message-edit").innerText = "";
 });
 
 const deleteVehicleClassification = async (id) => {
@@ -204,6 +221,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       // display the popup to edit
 
       if (vehicle) {
+        document.getElementById("originalVehicleName").value = vehicle.name;
         document.getElementById("editCarPopup").style.display = "block";
         document.getElementById("vehicleClassificationEdit").value = vehicle.name;
         document.getElementById("vehicleClassId").value = vehicle._id;

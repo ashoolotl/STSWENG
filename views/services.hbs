@@ -36,8 +36,9 @@
 
     <div class="bottom-container">
       {{#each services}}
-        
-        <div class="bottom-item" serviceName ={{this.name}}>
+        {{!-- eg. EXPRESS-WASH --}}
+        <div class="bottom-item" servicename="{{hyphenate this.name}}"> 
+
           <img src="/images/services/{{this.photo}}" alt="Image of {{this.name}}">
           <div class="bottom-item-content">
             <h2>{{this.name}}</h2>
@@ -107,13 +108,14 @@
             <fieldset>
               <legend>Select Vehicle Classification and Input Price</legend>
               {{#each vehicleClassification}}
-                <label>
+                <label data-vehicle-classification="{{this.name}}">
                   <input type="checkbox" name="selectedItems" value="{{this.name}}">
                   {{this.name}}
                   <input type="number" name="price" min="1" value="1" step="0.01">
                 </label>
               {{/each}}
             </fieldset>
+
 
             <p id="error-message" style="color: rgb(255, 72, 72) !important;"></p>
             <button type="submit">Submit</button>
@@ -143,6 +145,7 @@
             <fieldset>
               <legend>Select Vehicle Classification and Input Price</legend>
               {{#each vehicleClassification}}
+              <label data-vehicle-classification="{{this.name}}">
                 <label>
                   <input type="checkbox" name="selectedItemsEdit" value="{{this.name}}" id="{{this.name}}">
                   {{this.name}}
@@ -185,5 +188,11 @@
     <script src="/js/availService.js"></script>
     <script src="/js/useSubscription.js"></script>
     <script src="/js/logout.js"></script>
+    <script> //hyphenate servicename identifiers for cypress
+      Handlebars.registerHelper('hyphenate', function(str) {
+        return str.replace(/\s+/g, '-');
+      });
+   </script>
+
   </body>
 </html>

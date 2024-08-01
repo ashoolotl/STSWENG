@@ -296,7 +296,7 @@ if (closeEditPopupBtn) {
   closeEditPopupBtn.addEventListener("click", function () {
     hideOverlay();
     document.getElementById("editProductPopup").style.display = "none";
-    document.getElementById("error-message").innerText = "";
+    document.getElementById("error-message-edit").innerText = "";
   });
 }
 
@@ -337,6 +337,7 @@ if (closeAddPopupBtn) {
   closeAddPopupBtn.addEventListener("click", function () {
     hideOverlay();
     document.getElementById("addProductPopup").style.display = "none";
+    document.getElementById("error-message-add").innerText = "";
   });
 }
 
@@ -403,12 +404,13 @@ if (editSubmitBtn) {
 
 const addSubmitBtn = document.getElementById("addSubmit");
 if (addSubmitBtn) {
-  addSubmitBtn.addEventListener("click", function (e) {
+  addSubmitBtn.addEventListener("click", async (e) => {
     e.preventDefault();
     const addProductNameElem = document.getElementById("addProductName");
     const addProductDescElem = document.getElementById("addProductDesc");
     const addProductPriceElem = document.getElementById("addProductPrice");
     const addProductAvailabilityElem = document.getElementById("addProductAvailability");
+    const currentProducts = await getAllProducts();
 
     if (addProductNameElem && addProductDescElem && addProductPriceElem && addProductAvailabilityElem) {
       const addProductName = addProductNameElem.value;
@@ -421,13 +423,17 @@ if (addSubmitBtn) {
       } else if (addProductPrice <= 0) {
         document.getElementById("error-message-add").innerText = "Price cannot be zero or negative. Please enter a valid price.";
       } else {
-        const data = {
-          name: addProductName,
-          description: addProductDesc,
-          price: addProductPrice,
-          quantity: addProductAvailability,
-        };
-        addProduct(data);
+        if (currentProducts.find((product) => product.name === addProductNameElem.value)) {
+          document.getElementById("error-message-add").innerText = "Product name already exists. Please choose a different name.";
+        } else {
+          const data = {
+            name: addProductName,
+            description: addProductDesc,
+            price: addProductPrice,
+            quantity: addProductAvailability,
+          };
+          await addProduct(data);
+        }
       }
     }
   });
