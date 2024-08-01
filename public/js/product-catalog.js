@@ -388,6 +388,7 @@ if (editSubmitBtn) {
         if (product) {
           document.getElementById("error-message-edit").innerText = "Product name already exists. Please choose a different name.";
         } else {
+          console.log("Edit product");
           const data = {
             name: editProductName,
             description: editProductDesc,
@@ -428,6 +429,8 @@ if (addSubmitBtn) {
         if (currentProducts.find((product) => product.name.toLowerCase() === addProductNameElem.value.toLowerCase())) {
           document.getElementById("error-message-add").innerText = "Product name already exists. Please choose a different name.";
         } else {
+          console.log("Add product");
+
           const data = {
             name: addProductName,
             description: addProductDesc,
