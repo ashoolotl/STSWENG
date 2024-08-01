@@ -92,6 +92,7 @@ header {
 .car-info {
     display: flex;
     align-items: center;
+    min-width: 130px;
 }
 
 .car-text {
