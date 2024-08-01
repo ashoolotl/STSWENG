@@ -29,6 +29,10 @@ const cartSchema = new mongoose.Schema({
     type: String,
     default: "None",
   },
+  image: {
+    type: String,
+    default: "default-product-image",
+  },
 });
 
 const Cart = mongoose.model("Cart", cartSchema);
