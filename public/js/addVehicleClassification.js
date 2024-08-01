@@ -50,6 +50,7 @@ const addVehicle = async (data) => {
       document.getElementById("closePopupSuccess").innerText = "";
       document.getElementById("successPopup").style.display = "block";
       document.getElementById("successText").innerText = "The Vehicle Classification has been added successfully.\n\nReloading...";
+      document.getElementById("error-message-add").innerText = "";
       setTimeout(() => {
         window.location.reload();
       }, 1000);
@@ -57,7 +58,7 @@ const addVehicle = async (data) => {
   } catch (err) {
     console.error(err);
     if (err.message.includes("E11000 duplicate key error")) {
-      document.getElementById("error-message").innerText = "Vehicle classification already exists.";
+      document.getElementById("error-message-add").innerText = "Vehicle classification already exists.";
     } else {
       document.getElementById("errorPopup").style.display = "block";
       document.getElementById("errorText").innerText = "An error occurred while adding vehicle classifications. Please try again later.";
@@ -67,6 +68,7 @@ const addVehicle = async (data) => {
 // opening of add car popup
 document.getElementById("add").addEventListener("click", function () {
   document.getElementById("addCarPopup").style.display = "block";
+  document.getElementById("error-message-add").innerText = "";
 });
 // closing of add car popup through x button
 document.getElementById("closePopup").addEventListener("click", function () {
@@ -74,12 +76,17 @@ document.getElementById("closePopup").addEventListener("click", function () {
 });
 
 // add a new vehicle classification on submit
-document.getElementById("addCarForm").addEventListener("submit", function (event) {
+document.getElementById("addCarForm").addEventListener("submit", async (event) => {
   event.preventDefault();
   const name = document.getElementById("vehicleClassification").value;
+  const allVCs = await getAllVehicleClassification();
+
 
   if (name.trim() === "") {
-    document.getElementById("error-message").innerText = "Vehicle classification name is required. Please enter a name.";
+    console.log("Name is empty");
+    document.getElementById("error-message-add").innerText = "Vehicle classification name is required. Please enter a name.";
+  } else if (allVCs.data.vehicleClassification.find(vc => vc.name.toLowerCase() === vcNameInput.toLowerCase())) {
+    document.getElementById("error-message-add").innerText = "Vehicle classification with the same name already exists.";
   } else {
     // create a form data since we are uploading photo
     const formData = new FormData();
@@ -87,7 +94,7 @@ document.getElementById("addCarForm").addEventListener("submit", function (event
 
     formData.append("name", name);
     formData.append("photo", photo);
-    addVehicle(formData);
+    await addVehicle(formData);
   }
 });
 
@@ -137,7 +144,7 @@ document.getElementById("editCarForm").addEventListener("submit", async (event) 
     document.getElementById("error-message-edit").innerText = "Vehicle classification name is required. Please enter a name.";
   } else if (document.getElementById("originalVehicleName").value === vcNameInput) {
     document.getElementById("error-message-edit").innerText = "Name has not been changed. Please make changes to update.";
-  } else if (allVCs.data.vehicleClassification.find((vc) => vc.name === vcNameInput)) {
+  } else if (allVCs.data.vehicleClassification.find(vc => vc.name.toLowerCase() === vcNameInput.toLowerCase())) {
     document.getElementById("error-message-edit").innerText = "Vehicle classification with the same name already exists.";
   } else {
     const data = {
