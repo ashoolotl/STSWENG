@@ -94,13 +94,13 @@
 
           <form id="form">
             <label for="name">Service Name</label>
-            <input type="text" id="name" name="name" required>
+            <input type="text" id="name" name="name">
 
             <label for="description">Service Description</label>
-            <input type="text" id="description" name="description" required>
+            <input type="text" id="description" name="description">
 
             <label for="duration">Service Duration in Minutes</label>
-            <input type="number" id="duration" name="duration" required min="1">
+            <input type="number" id="duration" name="duration" min="1">
 
             <label for="photo">Upload Image</label>
             <input type="file" id="photo" name="photo" accept="image/*">
@@ -117,7 +117,7 @@
             </fieldset>
 
 
-            <p id="error-message" style="color: rgb(255, 72, 72) !important;"></p>
+            <p id="error-message-add" style="color: rgb(255, 72, 72) !important;"></p>
             <button type="submit">Submit</button>
           </form>
         </div>
@@ -130,6 +130,12 @@
           <h1>Edit a Service</h1>
 
           <form id="formEdit">
+            {{!-- original values --}}
+            <input type="hidden" id="nameOriginal" name="nameOriginal">
+            <input type="hidden" id="descriptionOriginal" name="descriptionOriginal">
+            <input type="hidden" id="durationOriginal" name="durationOriginal">
+            <input type="hidden" id="vehicleClassificationsOriginal" name="vehicleClassificationsOriginal">
+
             <label for="nameEdit">Service Name</label>
             <input type="text" id="nameEdit" name="nameEdit">
 
@@ -137,7 +143,7 @@
             <input type="text" id="descriptionEdit" name="descriptionEdit">
 
             <label for="durationEdit">Service Duration in Minutes</label>
-            <input type="number" id="durationEdit" name="durationEdit" >
+            <input type="number" id="durationEdit" name="durationEdit" min="1" onkeypress="preventMinus(event)">
 
             <label for="photoEdit">Upload Image</label>
             <input type="file" id="photoEdit" name="photoEdit" accept="image/*">
@@ -149,12 +155,12 @@
                 <label>
                   <input type="checkbox" name="selectedItemsEdit" value="{{this.name}}" id="{{this.name}}">
                   {{this.name}}
-                  <input type="number" name="priceEdit" min="1" value="1" step="0.01" id="{{this.name}}">
+                  <input type="number" name="priceEdit" min="1" value="1" step="0.01" id="price-{{this.name}}" onkeypress="preventMinus(event)">
                 </label>
               {{/each}}
             </fieldset>
             
-            <p id="error-message" style="color: rgb(255, 72, 72) !important;"></p>
+            <p id="error-message-edit" style="color: rgb(255, 72, 72) !important;"></p>
 
             <button type="submit">Submit</button>
             <input type="hidden" id="serviceId" name="serviceId">

@@ -322,3 +322,11 @@ fieldset {
     resize: none;
     height: auto;
 }
+
+#addServicePopup {
+    height: 90%;
+}
+
+#editServicePopup {
+    height: 90%;
+}
