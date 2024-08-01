@@ -61,39 +61,13 @@
                     <input type="text" id="vehicleClassificationEdit" name="vehicleClassificationEdit">
                     <label for="photoEdit">Upload Image</label>
                     <input type="file" id="photoEdit" name="photoEdit" accept="image/*">
+                    <input type="hidden" id="originalVehicleName" value="">
+                    <p id="error-message-edit" style="color: rgb(255, 72, 72) !important;"></p>
                     <button type="submit">Submit</button>
-                    <input type="hidden" id="vehicleClassId" name="vehicleClassId">
+                    <input type="hidden" id="vehicleClassId" name="vehicleClassId" value="">
                 </form>
             </div>
         </div>
-
-        {{!-- <div id="addCarSuccessPopup" class="popupContainer">
-            <div class="popupContent">
-                <span id="closeSuccessPopup" class="closePopup">&times;</span>
-                <h1>Completed</h1>
-                <p>The Vehicle Classification has been added successfully.</p>
-                <button id="closeBtn" type="submit">Done</button>
-            </div>
-        </div>
-
-        <div id="successPopupEdit" class="popupContainer">
-            <div class="popupContent">
-                <span id="closeSuccessPopupEdit" class="closePopup">&times;</span>
-                <h1>Completed</h1>
-                <p>The Vehicle Classification has been updated successfully.</p>
-                <button id="closeBtnEdit" type="submit">Done</button>
-            </div>
-        </div>
-
-        <div id="successPopupDelete" class="popupContainer">
-            <div class="popupContent">
-                <span id="closeSuccessPopupDelete" class="closePopup">&times;</span>
-                <h1>Completed</h1>
-                <p>The Vehicle Classification has been deleted successfully.</p>
-                <button id="closeBtnEdit" type="submit">Done</button>
-            </div>
-        </div> --}}
-
     </div>
 
     <!-- Success Popup -->
