@@ -53,10 +53,18 @@
                   <a href="/reviews/{{this.name}}"><button class="adminReviewBtn review-btn" type="button" data-id="{{this._id}}" data-owner="{{../user._id}}">Reviews</button></a>
                 </div>
               {{else}}
-                <div class="buttons-container">
-                  <button class="serviceAddToCart edit-btn" type="button" data-id="{{this._id}}" data-owner="{{../user._id}}">Add To Cart</button>
-                  <a href="/reviews/{{this.name}}"><button class="review-btn" type="button" data-id="{{this._id}}" data-owner="{{../user._id}}">Reviews</button></a>
-                </div>
+                {{#unless (eq ../user 'nouser')}}
+                  <div class="buttons-container">
+                    <button class="serviceAddToCart edit-btn" type="button" data-id="{{this._id}}" data-owner="{{../user._id}}">Add To Cart</button>
+                    <a href="/reviews/{{this.name}}"><button class="review-btn" type="button" data-id="{{this._id}}" data-owner="{{../user._id}}">Reviews</button></a>
+                  </div>
+                {{/unless}}
+                {{#if (eq ../user 'nouser')}}
+                  <div class="buttons-container">
+                    <button class="serviceAddToCartNoUser edit-btn" type="button" onclick="showErrorNotLoggedIn()">Add to Cart</button>
+                    <a href="/reviews/{{this.name}}"><button class="noUserReviewBtn review-btn" type="button" data-id="{{this._id}}">Reviews</button></a>
+                  </div>
+                {{/if}}
               {{/if}}
             {{else}}
             <div class="buttons-container">
@@ -185,7 +193,12 @@
       {{#if (eq user.role 'admin')}}
           <script src="/js/addService.js"></script>
       {{else}}
+        {{#unless (eq user 'nouser')}}
           <script src="/js/addToCart.js"></script>
+        {{/unless}}
+        {{#if (eq user 'nouser')}}
+          <script src="/js/errorNotLoggedIn.js"></script>
+        {{/if}}
       {{/if}}
     {{else}}
         <script src="/js/errorNotLoggedIn.js"></script>
