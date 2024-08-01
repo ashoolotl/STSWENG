@@ -283,7 +283,7 @@ header {
     display: flex;
 }
 
-.add-to-cart-btn,
+.add-to-cart-btn, .add-product-btn,
 .book-appointment-btn,
 .edit-btn,
 .delete-btn,
@@ -301,7 +301,7 @@ header {
     z-index: 1;
 }
 
-.add-to-cart-btn:hover,
+.add-to-cart-btn:hover, .add-product-btn:hover,
 .book-appointment-btn:hover,
 .edit-btn:hover,
 .delete-btn:hover,
