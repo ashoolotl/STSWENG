@@ -59,20 +59,20 @@ exports.getDashboard = async (req, res, next) => {
     });
   }
   if (user.role === "admin") {
-    const serviceBookings = await Booking.find({
-      status: { $ne: "Completed" },
-      scheduledDate: { $exists: true },
-    });
-    console.log(serviceBookings);
-    const subscriptionBookings = await BookingSubscription.find({
-      status: { $ne: "none" },
-      scheduledDate: { $exists: true },
-    });
+    // const serviceBookings = await Booking.find({
+    //   status: { $ne: "Completed" },
+    //   scheduledDate: { $exists: true },
+    // });
+    // console.log(serviceBookings);
+    // const subscriptionBookings = await BookingSubscription.find({
+    //   status: { $ne: "none" },
+    //   scheduledDate: { $exists: true },
+    // });
     res.status(200).render("adminDashboard", {
       title: "Admin Dashboard",
-      user,
-      serviceBookings,
-      subscriptionBookings,
+      user
+      // serviceBookings,
+      // subscriptionBookings,
     });
   }
 };
