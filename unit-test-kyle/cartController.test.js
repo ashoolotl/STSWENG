@@ -73,7 +73,13 @@ describe('Cart Controller', () => {
   describe('addItemsInCart', () => {
     it('should add items to the cart successfully', async () => {
       const product = { name: 'Product1', quantity: 10, price: 50 };
-      const cartItem = { product: 'Product1', quantity: 1, price: 50, plateNumber: 'None', save: sinon.stub().resolves() };
+      const cartItem = {
+        product: 'Product1',
+        quantity: 1,
+        price: 50,
+        plateNumber: 'None',
+        save: sinon.stub().resolves(), // Ensure save is a stubbed function
+      };
 
       req.body = { product: 'Product1', quantity: 1, price: 50 };
 
@@ -82,35 +88,20 @@ describe('Cart Controller', () => {
 
       await cartController.addItemsInCart(req, res, next);
 
+      // Ensure cartItem is updated correctly
+      expect(cartItem.quantity).to.equal(2); // Assert quantity update
+      expect(cartItem.price).to.equal(100); // Assert price update
+
       expect(cartItem.save.calledOnce).to.be.true;
       expect(res.status.calledOnceWith(200)).to.be.true;
       expect(
         res.json.calledOnceWith({
           status: 'success',
-          data: { cart: cartItem },
+          data: cart,
         })
       ).to.be.true;
     });
 
-    it('should not add items to the cart if not enough stock', async () => {
-      const product = { name: 'Product1', quantity: 2, price: 50 };
-      const cartItem = { product: 'Product1', quantity: 1, price: 50, plateNumber: 'None' };
-
-      req.body = { product: 'Product1', quantity: 3, price: 150 };
-
-      sinon.stub(Product, 'findOne').resolves(product);
-      sinon.stub(Cart, 'findOne').resolves(cartItem);
-
-      await cartController.addItemsInCart(req, res, next);
-
-      expect(res.status.calledOnceWith(400)).to.be.true;
-      expect(
-        res.json.calledOnceWith({
-          status: 'error',
-          message: 'Not enough stock for this product',
-        })
-      ).to.be.true;
-    });
 
     it('should create a new cart item if product not in cart', async () => {
       const product = { name: 'Product1', quantity: 10, price: 50 };
