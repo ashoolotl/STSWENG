@@ -32,13 +32,25 @@
     </div>
 
     <div class="registered-cars">
-      <h2>Service Bookings</h2>
+      <div class="header-separator">
+        <h2>Service Bookings</h2>
+        <div class="dropdown-container">
+          <h2>Filter By Status: </h2>
+        
+          <select id="status-filter">
+            <option value="All">All</option>
+            <option value="Pending">Pending</option>
+            <option value="In Progress">To Review</option>
+            <option value="Complete">Complete</option>
+          </select>
+        </div>
+          
+      </div>
       <hr />
       <!-- Display service bookings -->
       {{#each allVehicles}}
-      <p></p>
         {{#if (eq this.status "Pending:")}}
-          <div class="car" data-carDetails="{{this.classification}}-{{this.plateNumber}}">
+          <div class="car" data-carDetails="{{this.classification}}-{{this.plateNumber}}" data-status="{{this.status}}">
             <img src="/images/vehicleClassification/{{this.classification}}.jpeg" alt="Image for {{this.classification}}.jpeg" />
             <div class="car-status">
               <div class="car-info">
@@ -58,8 +70,11 @@
               </div>
             </div>
           </div>
-        {{else}}
-          <div class="car" data-carDetails="{{this.classification}}-{{this.plateNumber}}">
+        {{/if}}
+      {{/each}}
+      {{#each allVehicles}}
+        {{#unless (eq this.status "Pending:")}}
+          <div class="car" data-carDetails="{{this.classification}}-{{this.plateNumber}}" data-status="{{this.status}}">
             <img src="/images/vehicleClassification/{{this.classification}}.jpeg" alt="Image for {{this.classification}}.jpeg" />
             <div class="car-status">
               <div class="car-info">
@@ -78,7 +93,7 @@
               </div>
             </div>
           </div>
-        {{/if}}
+        {{/unless}}
       {{/each}}
     </div>
 

@@ -25,3 +25,27 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+  const statusFilter = document.getElementById('status-filter');
+  console.log(statusFilter.value);
+  const serviceBookings = document.querySelectorAll('.car');
+  console.log(serviceBookings.length);
+
+  statusFilter.addEventListener('change', function (e) {
+    const selectedStatus = statusFilter.value.toLowerCase() == 'pending' ? 'pending:' : statusFilter.value.toLowerCase();
+    console.log(selectedStatus);
+    filterBookings(selectedStatus);
+  });
+
+  function filterBookings(status) {
+    serviceBookings.forEach((booking) => {
+      const bookingStatus = booking.getAttribute('data-status').toLowerCase();
+      if (status === 'all' || bookingStatus === status) {
+        booking.classList.remove('hide');
+      } else {
+        booking.classList.add('hide');
+      }
+    });
+  }
+});
