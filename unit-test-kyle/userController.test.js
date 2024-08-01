@@ -14,6 +14,7 @@ before(async () => {
 
 describe('User Controller', () => {
   let req, res, next;
+  let consoleLogStub; // Declare a variable to hold the stub for console.log
 
   beforeEach(() => {
     req = {
@@ -31,6 +32,9 @@ describe('User Controller', () => {
 
     // Stub console.error to suppress error logs during tests
     sinon.stub(console, 'error');
+
+    // Stub console.log to suppress output during tests
+    consoleLogStub = sinon.stub(console, 'log');
   });
 
   afterEach(() => {
@@ -56,10 +60,12 @@ describe('User Controller', () => {
       await userController.getUser(req, res, next);
 
       expect(res.status.calledOnceWith(200)).to.be.true;
-      expect(res.json.calledOnceWith({
-        status: 'success',
-        data: { user },
-      })).to.be.true;
+      expect(
+        res.json.calledOnceWith({
+          status: 'success',
+          data: { user },
+        })
+      ).to.be.true;
     });
 
     it('should catch errors when user is not found', async () => {
@@ -82,9 +88,16 @@ describe('User Controller', () => {
 
       await userController.getUser(req, res, next);
 
-      expect(next.calledOnce).to.be.true;
-      expect(next.firstCall.args[0]).to.be.an.instanceOf(Error);
-      expect(next.firstCall.args[0].message).to.equal(errorMessage);
+      // Check if res.status was called with 500
+      expect(res.status.calledOnceWith(500)).to.be.true;
+
+      // Check if res.json was called with the correct error message
+      expect(
+        res.json.calledOnceWith({
+          status: 'error',
+          message: 'An error occurred.',
+        })
+      ).to.be.true;
     });
   });
 
@@ -98,10 +111,12 @@ describe('User Controller', () => {
       await userController.getUserById(req, res, next);
 
       expect(res.status.calledOnceWith(200)).to.be.true;
-      expect(res.json.calledOnceWith({
-        status: 'success',
-        data: { user },
-      })).to.be.true;
+      expect(
+        res.json.calledOnceWith({
+          status: 'success',
+          data: { user },
+        })
+      ).to.be.true;
     });
 
     it('should catch errors when user is not found by userId', async () => {
@@ -124,9 +139,16 @@ describe('User Controller', () => {
 
       await userController.getUserById(req, res, next);
 
-      expect(next.calledOnce).to.be.true;
-      expect(next.firstCall.args[0]).to.be.an.instanceOf(Error);
-      expect(next.firstCall.args[0].message).to.equal(errorMessage);
+      // Check if res.status was called with 500
+      expect(res.status.calledOnceWith(500)).to.be.true;
+
+      // Check if res.json was called with the correct error message
+      expect(
+        res.json.calledOnceWith({
+          status: 'error',
+          message: 'An error occurred.',
+        })
+      ).to.be.true;
     });
   });
 
@@ -142,11 +164,13 @@ describe('User Controller', () => {
       await userController.getAllUser(req, res, next);
 
       expect(res.status.calledOnceWith(200)).to.be.true;
-      expect(res.json.calledOnceWith({
-        status: 'success',
-        results: users.length,
-        data: { users },
-      })).to.be.true;
+      expect(
+        res.json.calledOnceWith({
+          status: 'success',
+          results: users.length,
+          data: { users },
+        })
+      ).to.be.true;
     });
 
     it('should catch errors during fetching all users', async () => {
@@ -155,9 +179,16 @@ describe('User Controller', () => {
 
       await userController.getAllUser(req, res, next);
 
-      expect(next.calledOnce).to.be.true;
-      expect(next.firstCall.args[0]).to.be.an.instanceOf(Error);
-      expect(next.firstCall.args[0].message).to.equal(errorMessage);
+      // Check if res.status was called with 500
+      expect(res.status.calledOnceWith(500)).to.be.true;
+
+      // Check if res.json was called with the correct error message
+      expect(
+        res.json.calledOnceWith({
+          status: 'error',
+          message: 'An error occurred.',
+        })
+      ).to.be.true;
     });
   });
 
@@ -173,10 +204,12 @@ describe('User Controller', () => {
       await userController.updateMe(req, res, next);
 
       expect(res.status.calledOnceWith(200)).to.be.true;
-      expect(res.json.calledOnceWith({
-        status: 'success',
-        data: { user: updatedUser },
-      })).to.be.true;
+      expect(
+        res.json.calledOnceWith({
+          status: 'success',
+          data: { user: updatedUser },
+        })
+      ).to.be.true;
     });
 
     it('should catch errors when trying to update password', async () => {
@@ -200,9 +233,16 @@ describe('User Controller', () => {
 
       await userController.updateMe(req, res, next);
 
-      expect(next.calledOnce).to.be.true;
-      expect(next.firstCall.args[0]).to.be.an.instanceOf(Error);
-      expect(next.firstCall.args[0].message).to.equal(errorMessage);
+      // Check if res.status was called with 500
+      expect(res.status.calledOnceWith(500)).to.be.true;
+
+      // Check if res.json was called with the correct error message
+      expect(
+        res.json.calledOnceWith({
+          status: 'error',
+          message: 'An error occurred.',
+        })
+      ).to.be.true;
     });
   });
 
@@ -215,10 +255,12 @@ describe('User Controller', () => {
       await userController.deleteMe(req, res, next);
 
       expect(res.status.calledOnceWith(204)).to.be.true;
-      expect(res.json.calledOnceWith({
-        status: 'success',
-        data: null,
-      })).to.be.true;
+      expect(
+        res.json.calledOnceWith({
+          status: 'success',
+          data: null,
+        })
+      ).to.be.true;
     });
 
     it('should catch errors during user deactivation', async () => {
@@ -229,9 +271,16 @@ describe('User Controller', () => {
 
       await userController.deleteMe(req, res, next);
 
-      expect(next.calledOnce).to.be.true;
-      expect(next.firstCall.args[0]).to.be.an.instanceOf(Error);
-      expect(next.firstCall.args[0].message).to.equal(errorMessage);
+      // Check if res.status was called with 500
+      expect(res.status.calledOnceWith(500)).to.be.true;
+
+      // Check if res.json was called with the correct error message
+      expect(
+        res.json.calledOnceWith({
+          status: 'error',
+          message: 'An error occurred.',
+        })
+      ).to.be.true;
     });
   });
 });
