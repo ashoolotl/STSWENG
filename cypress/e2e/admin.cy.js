@@ -38,7 +38,7 @@ const productData = [
    //Duplicate Name [1]
    {
       productName: "WD-40 Multi-use Product 11.2oz.", 
-      productDescription: "Invalid Product",
+      productDescription: "INVALID PRODUCT",
       productPrice: 199,
       productStock: 29,
    },
@@ -136,7 +136,8 @@ describe("Manage Product Catalog", () => {
       cy.reload();
       cy.visit(siteURL + "/product-catalog");
       cy.wait(3000)
-      cy.get(`[productname="${productData[0].productName}"]`).should('be.visible');
+      cy.get(`[productname="${productData[4].productName}"]`).should('be.visible');
+      cy.get(`[productname="${productData[0].productName}"]`).should('not.exist');
    });
 
    after (() => {

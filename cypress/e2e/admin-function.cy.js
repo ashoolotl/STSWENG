@@ -47,7 +47,7 @@ export function editProduct(productName, newProduct) {
        if (newProduct.productPrice) cy.get('#editProductPrice').type(newProduct.productPrice.toString());
        if (newProduct.productStock) cy.get('#editProductAvailability').type(newProduct.productStock.toString());
    }
-   cy.get('#editSubmit').wait(50000).click();
+   cy.get('#editSubmit').wait(10000).click();
 }
 
 export function addService(service) {
