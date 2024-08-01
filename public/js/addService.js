@@ -47,7 +47,7 @@ const addService = async (data) => {
   } catch (err) {
     console.error(err);
     if (err.message.includes("E11000 duplicate key error")) {
-      document.getElementById("error-message").innerText = "Service already exists.";
+      document.getElementById("error-message-add").innerText = "Service already exists.";
     } else {
       document.getElementById("errorPopup").style.display = "block";
       document.getElementById("errorText").innerText = "An error occurred while adding service. Please try again later.";
@@ -80,9 +80,14 @@ const updateService = async (data, id) => {
       }, 1000);
     }
   } catch (err) {
-    console.log(err.message);
-    document.getElementById("errorPopup").style.display = "block";
-    document.getElementById("errorText").innerText = "An error occurred while updating services. Please try again later.";
+    console.error(err);
+    if (err.message.includes("E11000 duplicate key error")) {
+      document.getElementById("error-message").innerText = "Service already exists.";
+    } else {
+      console.log(err.message);
+      document.getElementById("errorPopup").style.display = "block";
+      document.getElementById("errorText").innerText = "An error occurred while updating services. Please try again later.";
+    }
   }
 };
 
@@ -222,12 +227,13 @@ document.getElementById("formEdit").addEventListener("submit", async (event) => 
 
   const services = await getAllService();
   const serviceNames = services.data.services.map(service => service.name.toLowerCase());
+  console.log(serviceNames);
 
   if (name.trim() === "" || description.trim() === "" || isNaN(duration) ) {
     document.getElementById("error-message-edit").innerText = "One or more fields is empty. Please fill in all fields and try again";
   } else if (checkboxes.length === 0) {
     document.getElementById("error-message-edit").innerText = "Please select at least one vehicle classification. Please try again.";
-  } else if (serviceNames.includes(name.toLowerCase())) {
+  } else if (serviceNames.includes(name.toLowerCase()) && name.toLowerCase() !== nameOriginal.toLowerCase()) {
     document.getElementById("error-message-edit").innerText = "Service already exists. Please try again.";
   } else if (nameOriginal === name && descriptionOriginal === description && durationOriginal === duration && isVehicleClassificationsSame) {
     document.getElementById("error-message-edit").innerText = "No changes were made. Please make changes and try again.";

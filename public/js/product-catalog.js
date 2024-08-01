@@ -383,23 +383,22 @@ if (editSubmitBtn) {
         document.getElementById("error-message-edit").innerText = "No changes detected. Please make changes to update product.";
       } else if (editProductPrice <= 0) {
         document.getElementById("error-message-edit").innerText = "Price cannot be zero or negative. Please enter a valid price.";
+      } else if (currentProducts.find((product) => product.name.toLowerCase() === editProductName.toLowerCase() && product.name.toLowerCase() !== originalProductName.toLowerCase())){
+        document.getElementById("error-message-edit").innerText = "Product name already exists. Please choose a different name.";
       } else {
-        const product = currentProducts.find((product) => product.name.toLowerCase() === editProductNameElem.value.toLowerCase() && product.name.toLowerCase !== originalProductName.toLowerCase);
-        if (product) {
-          document.getElementById("error-message-edit").innerText = "Product name already exists. Please choose a different name.";
-        } else {
-          console.log("Edit product");
-          const data = {
-            name: editProductName,
-            description: editProductDesc,
-            price: editProductPrice,
-            quantity: editProductAvailability,
-          };
-  
-          await editProduct(data, productId);
-        }
+        console.log("Edit product");
+        const data = {
+          name: editProductName,
+          description: editProductDesc,
+          price: editProductPrice,
+          quantity: editProductAvailability,
+        };
+
+        await editProduct(data, productId);
+        
       }
-    }
+    } 
+
   });
 }
 
