@@ -45,8 +45,6 @@ const addVehicle = async (data) => {
     }
 
     const resData = await res.json();
-    console.log(resData.status);
-
     if (resData.status === "success") {
       document.getElementById("addCarPopup").style.display = "none";
       document.getElementById("closePopupSuccess").innerText = "";
@@ -81,7 +79,6 @@ document.getElementById("addCarForm").addEventListener("submit", function (event
   const name = document.getElementById("vehicleClassification").value;
 
   if (name.trim() === "") {
-    console.log("Name is empty");
     document.getElementById("error-message").innerText = "Vehicle classification name is required. Please enter a name.";
   } else {
     // create a form data since we are uploading photo
@@ -105,14 +102,12 @@ const updateVehicleClassification = async (data, id) => {
       body: JSON.stringify(data),
     });
 
-    // Check if the response is successful (status code 2xx)
     if (!res.ok) {
       const errorData = await res.json();
       throw new Error(errorData.message);
     }
 
     const resData = await res.json();
-    console.log(resData.status);
     if (resData.status === "success") {
       document.getElementById("editCarPopup").style.display = "none";
       document.getElementById("closePopupSuccess").innerText = "";
@@ -133,32 +128,30 @@ const updateVehicleClassification = async (data, id) => {
 // edit a vehicle classification on submit
 document.getElementById("editCarForm").addEventListener("submit", async (event) => {
   event.preventDefault();
+
   const allVCs = await getAllVehicleClassification();
-  console.log(allVCs);
   const vcNameInput = document.getElementById("vehicleClassificationEdit").value;
-  
+  const id = document.getElementById("vehicleClassId").value;
+
   if (document.getElementById("vehicleClassificationEdit").value.trim() === "") {
     document.getElementById("error-message-edit").innerText = "Vehicle classification name is required. Please enter a name.";
   } else if (document.getElementById("originalVehicleName").value === vcNameInput) {
     document.getElementById("error-message-edit").innerText = "Name has not been changed. Please make changes to update.";
-  } else if (allVCs.data.vehicleClassification.find(vc => vc.name === vcNameInput)) {
+  } else if (allVCs.data.vehicleClassification.find((vc) => vc.name === vcNameInput)) {
     document.getElementById("error-message-edit").innerText = "Vehicle classification with the same name already exists.";
   } else {
-    const form = new FormData();
-    form.append("name", document.getElementById("vehicleClassificationEdit").value);
-    var id = document.getElementById("vehicleClassId").value;
-    var fileInput = document.getElementById("photoEdit");
-    // Check if any file is selected
+    const data = {
+      name: vcNameInput,
+      id: document.getElementById("vehicleClassId").value,
+    };
+
+    const fileInput = document.getElementById("photoEdit");
     if (fileInput.files && fileInput.files[0]) {
-      // An image is uploaded
-      form.append("photo", document.getElementById("photoEdit").files[0]);
+      data.photoFilename = fileInput.files[0].name;
     }
 
-    console.log(form);
-    console.log(id);
-    await updateVehicleClassification(form, id);
+    await updateVehicleClassification(data, id);
   }
-  
 });
 
 // closing of edit car popup through x button
@@ -186,8 +179,6 @@ const deleteVehicleClassification = async (id) => {
     if (res.status !== 204) {
       resData = await res.json();
     }
-
-    console.log(resData.status);
     if (resData.status === "success" || res.status === 204) {
       document.getElementById("closePopupSuccess").innerText = "";
       document.getElementById("successPopup").style.display = "block";
@@ -208,7 +199,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const deleteButtons = document.querySelectorAll(".vehicleClassificationDeleteBtn");
 
   const vehicleClassifications = await getAllVehicleClassification();
-  console.log(vehicleClassifications);
 
   if (!editButtons || !deleteButtons) {
     return;
@@ -217,9 +207,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   editButtons.forEach((button) => {
     button.addEventListener("click", function () {
       const vehicle = vehicleClassifications.data.vehicleClassification.find((vehicle) => vehicle._id === this.dataset.id);
-
-      // display the popup to edit
-
       if (vehicle) {
         document.getElementById("originalVehicleName").value = vehicle.name;
         document.getElementById("editCarPopup").style.display = "block";
@@ -241,17 +228,3 @@ document.addEventListener("DOMContentLoaded", async () => {
 document.getElementById("closePopupError").addEventListener("click", function () {
   document.getElementById("errorPopup").style.display = "none";
 });
-
-// closing of success popup through x button
-// document.getElementById("closeSuccessPopupDelete").addEventListener("click", function () {
-//   setTimeout(function () {}, 2000);
-//   document.getElementById("successPopupDelete").style.display = "none";
-//   window.location.reload();
-// });
-// // closing of success popup after clicking done button
-// document.getElementById("closeBtnEdit").addEventListener("click", function () {
-//   document.getElementById("successPopupEdit").style.display = "none";
-//   setTimeout(() => {
-//     window.location.reload();
-//   }, 1000);
-// });

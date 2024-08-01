@@ -12,17 +12,12 @@ router
     .get(vehicleClassification.getAllClassification)
     .post(
         vehicleClassification.validateVehicleClassificationData,
-        vehicleClassification.uploadVehicleClassificationPhoto,
-        vehicleClassification.resizeVehicleClassificationPhoto,
         vehicleClassification.createClassification
     );
 
 router
     .route('/:classificationId')
     .patch(
-        // vehicleClassification.updateServiceWithVehicleClass,
-        vehicleClassification.uploadVehicleClassificationPhoto,
-        vehicleClassification.resizeVehicleClassificationPhoto,
         vehicleClassification.updateServiceWithVehicleClass,
         vehicleClassification.updateClassification
     )
