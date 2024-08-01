@@ -435,3 +435,6 @@ header {
     min-width: 400px;
 }
 
+.txn-header {
+    font-size: 1.3rem;
+}

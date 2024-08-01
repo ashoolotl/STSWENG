@@ -70,16 +70,22 @@ exports.getDashboard = async (req, res, next) => {
     const vehicleClassifications = await VehicleClassification.find();
     const vehicles = await Vehicle.find({ owner: user._id });
     const serviceAvailed = await ServiceAvailed.find({ owner: user._id });
-    const subscriptionsAvailed = await SubscriptionAvailed.find({
-      owner: user._id,
-    });
+    const receipts = await Receipt.find({ owner: user._id });
+
+    const filteredReceipts = receipts.map((receipt) => {
+      const filteredProducts = receipt._doc.products.filter((product) => !product.name.includes('WASH'));
+      return { ...receipt._doc, products: filteredProducts };
+    }).filter((receipt) => receipt.products.length > 0);
+
+    console.log(filteredReceipts);
+
     res.status(200).render("dashboard", {
       title: "Dashboard",
       user,
       vehicleClassifications,
       vehicles,
       serviceAvailed,
-      subscriptionsAvailed,
+      filteredReceipts,
     });
   }
   if (user.role === "admin") {
