@@ -59,3 +59,19 @@ export function buyService(serviceData) {
    });
    cy.contains('Item added to cart.').should('be.visible');
 }
+
+export function buyProduct(productData) {
+
+   //click increment by productData.quantity
+   for (let i = 0; i < productData.quantity - 1; i++) {
+      cy.get(`[productname="${productData.name}"] > .product-details`).within(() => {
+         cy.get('button.counter-button[id$="-increment"]').click();
+      });
+   }
+   //check if quantity is correct
+   cy.get(`[productname="${productData.name}"] > .product-details`).within(() => {
+      cy.get('.quantity').should('have.text', productData.quantity.toString());
+   });
+   cy.get(`[productname="${productData.name}"] > .product-details > .productAddToCart`).wait(2000).click();
+   cy.contains("Item added to cart.").should('be.visible');
+}

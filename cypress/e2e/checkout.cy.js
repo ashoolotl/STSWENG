@@ -24,42 +24,41 @@ describe("Service Checkout + Review", () => {
       cy.visit(siteURL + "/login");
    });
 
-   //USER Actions -> Buy Service
-   // it("Add Service to Cart", () => {
-   //    func.login(userEmail, userPassword);
-   //    func.viewPage("services");
-   //    cy.url().should('include', '/services');
-   //    user.buyService(serviceData);
-   // });
+   // USER Actions -> Buy Service
+   it("Add Service to Cart", () => {
+      func.login(userEmail, userPassword);
+      func.viewPage("services");
+      cy.url().should('include', '/services');
+      user.buyService(serviceData);
+   });
 
-   // it("View Cart Contents", () => {
-   //  func.login(userEmail, userPassword);
-   //  cy.get('.cart-icon > img').click();
-   //  cy.get('#servicesCartTab').click();
-   //  //verify correct service was added 
-   //  cy.get('.item-details').should('have.length', 1).within(() => {
-   //    cy.get('h1').should('have.text', serviceData.name);
-   //    cy.get('input[type="text"]').should('have.value', serviceData.plateNumber);zz
-   //  });
+   it("View Cart Contents", () => {
+    func.login(userEmail, userPassword);
+    cy.get('.cart-icon > img').click();
+    cy.get('#servicesCartTab').click();
+    //verify correct service was added 
+    cy.get('.item-details').should('have.length', 1).within(() => {
+      cy.get('h1').should('have.text', serviceData.caseName.toUpperCase());
+      cy.get('input[type="text"]').should('have.value', serviceData.plateNumber);
+    });
 
-   // });
+   });
 
-   // it("Checkout Service + Receipt", () => {
-   //    func.login(userEmail, userPassword);
-   //    cy.get('.cart-icon > img').click();
-   //    cy.get('#servicesCartTab').click();
-   //    //simulate purchase
-   //    cy.visit( siteURL + '/carts?payment=success');
-   //    cy.contains("Payment successful. Thank you for your purchase!").should('be.visible');
-   //    cy.wait(5000)
-   //    cy.url().should('include', '/receipt');
-   //    //check receipt 
-   //    cy.contains(serviceData.name.replace(/-/g, ' ')).should('be.visible');
-   // });
-
+   it("Checkout Service + Receipt", () => {
+      func.login(userEmail, userPassword);
+      cy.get('.cart-icon > img').click();
+      cy.get('#servicesCartTab').click();
+      //simulate purchase
+      cy.visit( siteURL + '/carts?payment=success');
+      cy.contains("Payment successful. Thank you for your purchase!").should('be.visible');
+      cy.wait(5000)
+      cy.url().should('include', '/receipt');
+      //check receipt 
+      cy.contains(serviceData.name.replace(/-/g, ' ')).should('be.visible');
+   });
 
    //ADMIN Actions -> Mark service as completed
-   it.skip("Admin Login", () => {
+   it("Admin Login", () => {
       func.login(adminEmail, adminPassword);
       func.selectDropdown("Manage Bookings")
       cy.get(`[data-cardetails="${serviceData.classification}-${serviceData.plateNumber}"] > .car-status > .car-info`)
@@ -108,7 +107,7 @@ describe("Service Checkout + Review", () => {
       cy.get('#reply-text').type(adminText);
       cy.get('#admin-input').find('button[type="submit"]').click();
       cy.contains('reply has been successfully posted').should('be.visible');
-      cy.contains('This is a reply to the review').should('be.visible');
+      cy.contains(adminText).should('be.visible');
    });
 
 
@@ -132,6 +131,59 @@ describe("Service Checkout + Review", () => {
       cy.get('#delete-review').click();
       cy.contains('successfully deleted').should('be.visible');
       cy.contains(editText).should('not.exist');
+   });
+
+});
+
+const productData = {
+   name: "Turtle Wax T-230A Rubbing Compound",
+   quantity: 3,
+}
+let transactionID = "";
+const restockAmount = 10;
+describe("Product Checkout", () => {
+
+   beforeEach(() => {
+      cy.visit(siteURL + "/login");
+   });
+
+   // USER Actions -> Buy Product
+   it("Add Product to Cart", () => {
+      func.login(userEmail, userPassword);
+      func.viewPage("product-catalog");
+      cy.url().should('include', '/product-catalog');
+      user.buyProduct(productData);
+   });
+
+   it("Checkout Product", () => {
+      func.login(userEmail, userPassword);
+      cy.get('.cart-icon > img').click();
+      cy.get('.item-details').within(() => {
+         cy.contains(productData.name);
+         cy.contains(`Quantity: x${productData.quantity}`);
+      });
+      //simulate purchase
+      cy.visit( siteURL + '/carts?payment=success');
+      cy.contains("Payment successful. Thank you for your purchase!").should('be.visible');
+      cy.wait(5000)
+      cy.url().should('include', '/receipt');
+      cy.contains(productData.name).should('be.visible');
+      cy.contains(`Quantity: x${productData.quantity}`).should('be.visible');
+   });
+
+   it("View Order History", () => {
+      func.login(userEmail, userPassword);
+      cy.url().should('include', '/dashboard');
+      cy.contains(productData.name);
+      cy.contains(`Quantity: x${productData.quantity}`);
+   });
+
+   //ADMIN Actions -> View Transaction
+   it("Admin Login", () => {
+      func.login(adminEmail, adminPassword);
+      func.selectDropdown("Manage Bookings")
+      cy.contains(productData.name);
+      cy.contains(`Quantity Sold: x${productData.quantity}`);
    });
 
 });
