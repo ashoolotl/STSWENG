@@ -40,7 +40,10 @@ describe('Product Controller', () => {
 
   describe('getAllProducts', () => {
     it('should return all products', async () => {
-      const products = [{ id: '1', name: 'Product 1' }, { id: '2', name: 'Product 2' }];
+      const products = [
+        { _id: new mongoose.Types.ObjectId(), name: 'Product 1', description: 'Description 1', price: 10, quantity: 2, image: 'image1.png' },
+        { _id: new mongoose.Types.ObjectId(), name: 'Product 2', description: 'Description 2', price: 20, quantity: 3, image: 'image2.png' }
+      ];
       sinon.stub(Product, 'find').resolves(products);
 
       await productController.getAllProducts(req, res, next);
@@ -68,8 +71,8 @@ describe('Product Controller', () => {
 
   describe('getProductById', () => {
     it('should return a product by ID', async () => {
-      const product = { id: '1', name: 'Product 1' };
-      req.params.id = '1';
+      const product = { _id: new mongoose.Types.ObjectId(), name: 'Product 1', description: 'Description 1', price: 10, quantity: 2, image: 'image1.png' };
+      req.params.id = product._id.toString();
 
       sinon.stub(Product, 'findById').resolves(product);
 
@@ -82,8 +85,8 @@ describe('Product Controller', () => {
       })).to.be.true;
     });
 
-    it('should return an error if product is not found', async () => {
-      req.params.id = '999'; // Non-existent ID
+    it('should return null if product is not found', async () => {
+      req.params.id = new mongoose.Types.ObjectId().toString(); // Non-existent ID
       sinon.stub(Product, 'findById').resolves(null);
 
       await productController.getProductById(req, res, next);
@@ -98,8 +101,8 @@ describe('Product Controller', () => {
 
   describe('createProduct', () => {
     it('should create and return the new product', async () => {
-      const newProduct = { id: '1', name: 'New Product' };
-      req.body = { name: 'New Product' };
+      const newProduct = { _id: new mongoose.Types.ObjectId(), name: 'New Product', description: 'New Description', price: 30, quantity: 1, image: 'new_image.png' };
+      req.body = { name: 'New Product', description: 'New Description', price: 30, quantity: 1, image: 'new_image.png' };
 
       sinon.stub(Product, 'create').resolves(newProduct);
 
@@ -128,24 +131,41 @@ describe('Product Controller', () => {
 
   describe('editProduct', () => {
     it('should update and return the product', async () => {
-      const updatedProduct = { id: '1', name: 'Updated Product' };
-      req.params.id = '1';
-      req.body = { name: 'Updated Product' };
-
+      const updatedProduct = {
+        _id: new mongoose.Types.ObjectId(),
+        name: 'Updated Product',
+        description: 'Updated Description',
+        price: 40,
+        quantity: 5,
+        image: 'updated_image.png',
+      };
+  
+      req.params.id = updatedProduct._id.toString();
+      req.body = {
+        name: 'Updated Product',
+        description: 'Updated Description',
+        price: 40,
+        quantity: 5,
+        image: 'updated_image.png',
+      };
+  
       sinon.stub(Product, 'findByIdAndUpdate').resolves(updatedProduct);
-
+  
       await productController.editProduct(req, res, next);
-
+  
       expect(res.status.calledOnceWith(200)).to.be.true;
       expect(res.json.calledOnceWith({
         status: 'success',
         data: { product: updatedProduct },
       })).to.be.true;
+  
+
+      Product.findByIdAndUpdate.restore();
     });
 
     it('should return 404 if product not found for update', async () => {
-      req.params.id = '999'; // Non-existent ID
-      req.body = { name: 'Updated Product' };
+      req.params.id = new mongoose.Types.ObjectId().toString(); // Non-existent ID
+      req.body = { name: 'Updated Product', description: 'Updated Description', price: 40, quantity: 5, image: 'updated_image.png' };
 
       sinon.stub(Product, 'findByIdAndUpdate').resolves(null);
 
@@ -160,6 +180,9 @@ describe('Product Controller', () => {
 
     it('should return an error if product update fails', async () => {
       const errorMessage = 'Database error';
+      req.params.id = new mongoose.Types.ObjectId().toString();
+      req.body = { name: 'Updated Product', description: 'Updated Description', price: 40, quantity: 5, image: 'updated_image.png' };
+
       sinon.stub(Product, 'findByIdAndUpdate').rejects(new Error(errorMessage));
 
       await productController.editProduct(req, res, next);
@@ -174,7 +197,7 @@ describe('Product Controller', () => {
 
   describe('updateStock', () => {
     it('should update and return the product stock', async () => {
-      const product = { id: '1', name: 'Product 1', quantity: 10 };
+      const product = { _id: new mongoose.Types.ObjectId(), name: 'Product 1', description: 'Description 1', price: 10, quantity: 10, image: 'image1.png' };
       req.body = { name: 'Product 1', quantity: 5 };
 
       sinon.stub(Product, 'findOne').resolves(product);
@@ -187,9 +210,10 @@ describe('Product Controller', () => {
         status: 'success',
         data: { product },
       })).to.be.true;
+      expect(product.quantity).to.equal(15); // Check if the quantity is updated correctly
     });
 
-    it('should return next middleware if product not found', async () => {
+    it('should call next middleware if product not found', async () => {
       req.body = { name: 'Non-existent Product', quantity: 5 };
 
       sinon.stub(Product, 'findOne').resolves(null);
@@ -201,6 +225,8 @@ describe('Product Controller', () => {
 
     it('should return an error if stock update fails', async () => {
       const errorMessage = 'Database error';
+      req.body = { name: 'Product 1', quantity: 5 };
+
       sinon.stub(Product, 'findOne').rejects(new Error(errorMessage));
 
       await productController.updateStock(req, res, next);
