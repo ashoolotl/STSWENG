@@ -11,13 +11,29 @@ const Product = require("../models/productModel");
 const Receipt = require("../models/receiptModel");
 
 exports.getLoginForm = (req, res, next) => {
-  res.status(200).render("login", {
-    title: "Log into your account",
-  });
+  try {
+    res.status(200).render("login", {
+      title: "Log into your account",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred.",
+    });
+  }
 };
 
 exports.getHomepage = (req, res, next) => {
-  res.status(200).render("homepage");
+  try {
+    res.status(200).render("homepage");
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred.",
+    });
+  }
 };
 
 exports.getAdminDashboard = async (req, res, next) => {
@@ -59,40 +75,44 @@ exports.getAdminDashboard = async (req, res, next) => {
       products,
     });
   } catch (error) {
-    next(error);
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred.",
+    });
   }
 };
 
 exports.getDashboard = async (req, res, next) => {
-  const user = req.user;
+  try {
+    const user = req.user;
 
-  if (user.role === "user") {
-    const vehicleClassifications = await VehicleClassification.find();
-    const vehicles = await Vehicle.find({ owner: user._id });
-    const serviceAvailed = await ServiceAvailed.find({ owner: user._id });
-    const receipts = await Receipt.find({ owner: user._id });
+    if (user.role === "user") {
+      const vehicleClassifications = await VehicleClassification.find();
+      const vehicles = await Vehicle.find({ owner: user._id });
+      const serviceAvailed = await ServiceAvailed.find({ owner: user._id });
+      const receipts = await Receipt.find({ owner: user._id });
 
-    const filteredReceipts = receipts.map((receipt) => {
-      const filteredProducts = receipt._doc.products.filter((product) => !product.name.includes('WASH'));
-      return { ...receipt._doc, products: filteredProducts };
-    }).filter((receipt) => receipt.products.length > 0);
+      const filteredReceipts = receipts.map((receipt) => {
+        const filteredProducts = receipt._doc.products.filter((product) => !product.name.includes('WASH'));
+        return { ...receipt._doc, products: filteredProducts };
+      }).filter((receipt) => receipt.products.length > 0);
 
-    res.status(200).render("dashboard", {
-      title: "Dashboard",
-      user,
-      vehicleClassifications,
-      vehicles,
-      serviceAvailed,
-      filteredReceipts,
-    });
-  }
-  if (user.role === "admin") {
-    try {
+      res.status(200).render("dashboard", {
+        title: "Dashboard",
+        user,
+        vehicleClassifications,
+        vehicles,
+        serviceAvailed,
+        filteredReceipts,
+      });
+    }
+    if (user.role === "admin") {
       const allVehicles = await Vehicle.find({}).populate({ path: "owner", select: "lastName firstName" });
       const allReceipts = await Receipt.find({});
-  
+
       const productMap = new Map();
-  
+
       allReceipts.forEach((receipt) => {
         receipt.products.forEach((product) => {
           if (product.name.includes('WASH')) {
@@ -116,7 +136,7 @@ exports.getDashboard = async (req, res, next) => {
           }
         });
       });
-  
+
       const products = Array.from(productMap.values());
       
       res.status(200).render("adminDashboard", {
@@ -124,40 +144,60 @@ exports.getDashboard = async (req, res, next) => {
         allVehicles,
         products,
       });
-    } catch (error) {
-      next(error);
     }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred.",
+    });
   }
 };
 
 exports.getVehicleClassifications = async (req, res, next) => {
-  const vehicleClassification = await VehicleClassification.find();
+  try {
+    const vehicleClassification = await VehicleClassification.find();
 
-  res.status(200).render("vehicleClassification", {
-    title: "Vehicle Classification",
-    vehicleClassification,
-  });
+    res.status(200).render("vehicleClassification", {
+      title: "Vehicle Classification",
+      vehicleClassification,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred.",
+    });
+  }
 };
 
 exports.getServices = async (req, res, next) => {
-  const services = await Service.find();
-  const vehicleClassification = await VehicleClassification.find();
-  if (res.locals.user === "nouser") {
-    console.log("no user");
-  }
-  let user = res.locals.user;
-  let vehicles = undefined;
-  if (user && user.role === "user") {
-    vehicles = await Vehicle.find({ owner: user._id });
-  }
+  try {
+    const services = await Service.find();
+    const vehicleClassification = await VehicleClassification.find();
+    if (res.locals.user === "nouser") {
+      console.log("no user");
+    }
+    let user = res.locals.user;
+    let vehicles = undefined;
+    if (user && user.role === "user") {
+      vehicles = await Vehicle.find({ owner: user._id });
+    }
 
-  res.status(200).render("services", {
-    title: "Services",
-    services,
-    vehicleClassification,
-    user,
-    vehicles,
-  });
+    res.status(200).render("services", {
+      title: "Services",
+      services,
+      vehicleClassification,
+      user,
+      vehicles,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred.",
+    });
+  }
 };
 
 exports.getReviews = async (req, res, next) => {
@@ -176,69 +216,113 @@ exports.getReviews = async (req, res, next) => {
       serviceName,
     });
   } catch (error) {
-    next(error);
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred.",
+    });
   }
 };
 
 exports.getSubscriptions = async (req, res, next) => {
-  const services = await Service.find();
-  const subscriptions = await Subscription.find();
-  const vehicleClassifications = await VehicleClassification.find();
+  try {
+    const services = await Service.find();
+    const subscriptions = await Subscription.find();
+    const vehicleClassifications = await VehicleClassification.find();
 
-  let vehiclesOwned = undefined;
-  if (res.locals.user === "nouser") {
-    console.log("no user");
+    let vehiclesOwned = undefined;
+    if (res.locals.user === "nouser") {
+      console.log("no user");
+    }
+    let user = res.locals.user;
+    if (user && user.role == "user") {
+      vehiclesOwned = await Vehicle.find({ owner: user._id });
+      console.log(vehiclesOwned);
+    }
+    res.status(200).render("subscriptions", {
+      title: "Subscriptions",
+      subscriptions,
+      services,
+      vehicleClassifications,
+      user,
+      vehiclesOwned,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred.",
+    });
   }
-  let user = res.locals.user;
-  if (user && user.role == "user") {
-    vehiclesOwned = await Vehicle.find({ owner: user._id });
-    console.log(vehiclesOwned);
-  }
-  res.status(200).render("subscriptions", {
-    title: "Subscriptions",
-    subscriptions,
-    services,
-    vehicleClassifications,
-    user,
-    vehiclesOwned,
-  });
 };
 
 exports.getRegister = async (req, res, next) => {
-  res.status(200).render("register", {
-    title: "Create new Account",
-  });
+  try {
+    res.status(200).render("register", {
+      title: "Create new Account",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred.",
+    });
+  }
 };
 
 exports.getCart = async (req, res, next) => {
-  let user = res.locals.user;
-  let cartItems = undefined;
+  try {
+    let user = res.locals.user;
+    let cartItems = undefined;
 
-  if (user.role === "user") {
-    cartItems = await Cart.find({ owner: res.locals.user });
+    if (user.role === "user") {
+      cartItems = await Cart.find({ owner: res.locals.user });
+    }
+
+    res.status(200).render("cart", {
+      title: "Cart",
+      cartItems,
+      user,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred.",
+    });
   }
-
-  res.status(200).render("cart", {
-    title: "Cart",
-    cartItems,
-    user,
-  });
 };
 
 exports.getProducts = async (req, res, next) => {
-  const products = await Product.find();
+  try {
+    const products = await Product.find();
 
-  res.status(200).render("product-catalog", {
-    title: "Products",
-    products,
-  });
+    res.status(200).render("product-catalog", {
+      title: "Products",
+      products,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred.",
+    });
+  }
 };
 
 exports.getReceiptById = async (req, res, next) => {
-  const receipt = await Receipt.findById(req.params.id);
+  try {
+    const receipt = await Receipt.findById(req.params.id);
 
-  res.status(200).render("receipt", {
-    title: "Receipt",
-    receipt,
-  });
+    res.status(200).render("receipt", {
+      title: "Receipt",
+      receipt,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred.",
+    });
+  }
 };
