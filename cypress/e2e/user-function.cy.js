@@ -31,31 +31,31 @@ export function registerVehicle(vehicle) {
    });
 }
 export function createReview(reviewText) {
-   cy.get('#reviewBtn').click();
    cy.get('[data-rating="2"]').click();
    cy.get('#reviewText').type(reviewText);
    cy.get('#reviewForm').submit();
 }
 
 export function editReview(editText) {
-   cy.get('#userReviewBtn').click();
-   cy.get('#edit-review').click({ force: true });
+   // cy.get('#userReviewBtn').click();
+   // cy.get('#edit-review').click({ force: true });
+   cy.get('.review-top > .dropdown').realHover();
+   cy.wait(2000)
+   cy.get('#edit-review').click();
    cy.get('#reviewEditText').clear();
    cy.get('#reviewEditText').type(editText);
    cy.get('#submitEditReview').click();
 }
 
-//NOTE: only works for pages on navbar
-export function viewPage(page) {
-   cy.get('a[href="/' + page + '"]').click();
-   cy.url().should('include', '/' + page);
+export function buyService(serviceData) {
+   cy.get(`[servicename="${serviceData.name}"] > .bottom-item-content > .buttons-container > .serviceAddToCart`).wait(2000).click();
+   cy.get('#bookingPopup').should('be.visible');
+   cy.get('#bookingPopup').within(() => {
+      cy.get('button[type="submit"]').contains('Add to Cart').click();
+   });
+   //TODO: Select what vehicle
+      cy.on('window:alert', () => {
+      return true;
+   });
+   cy.contains('Item added to cart.').should('be.visible');
 }
-
-
-
-
-//TODO: Function to login on different account to see created/edited reviews
-
-// cy.get(':nth-child(3) > .car-status > :nth-child(1)').should('contain', 'See Review');
-      // cy.get('#reviewBtn').click();
-      // cy.url().should('include', '/reviews');

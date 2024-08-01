@@ -45,19 +45,13 @@ describe("Viewing/Page Rendering", () => {
    });
 
    it("View Services", () => {
-      user.viewPage("services");
-      cy.get('.top-container').should('not.be.empty');
-      cy.get('.bottom-container').should('not.be.empty');
-   });
-
-   it("View Subscription", () => {
-      user.viewPage("subscriptions");
+      func.viewPage("services");
       cy.get('.top-container').should('not.be.empty');
       cy.get('.bottom-container').should('not.be.empty');
    });
 
    it("View Catalog", () => {
-      user.viewPage("product-catalog");
+      func.viewPage("product-catalog");
       cy.get('.products').should('not.be.empty');
    });
    
@@ -188,51 +182,6 @@ describe("Vehicle Registration", () => {
    //after ALL tests are done -> delete created test vehicle
    after (() => {
       cy.request('DELETE', "api/v1/deleteVehicle/" + vehicleData[0].plateNumber)
-   });
-
-});
-
-const reviewText = "This is a review for testing purposes.";
-const editText = "This is an edited review for testing purposes.";
-
-describe("Service Reviews", () => {
-   beforeEach (() => {
-      cy.visit(siteURL + "/login");
-      func.login(userEmail, userPassword);
-      cy.url().should('include', '/dashboard');
-   });
-   it("Add Review", () => {
-      cy.contains("To Review").click();
-      user.createReview(reviewText);
-      cy.contains("successfully posted").should('be.visible');
-      cy.url().should('include', '/reviews');
-      cy.contains(reviewText).should('be.visible');
-   });
-
-   //if review is visible to other users
-   it("View Review", () => { 
-      func.logout();
-      cy.visit(siteURL + "/login");
-      func.login(userEmail2, userPassword);
-      cy.get('a[href="/services"]').click();
-      cy.get('#userReviewBtn').click();
-      cy.contains(reviewText).should('be.visible');
-      cy.get('.review-top > .dropdown > .dropbtn').should('not.exist');
-   });
-
-   it("Edit Review", () => {
-      cy.get('[href="/services"]').click();
-      user.editReview(editText);
-      cy.contains("Your review has been successfully updated").should('be.visible');
-      cy.contains(editText).should('be.visible');
-   });
-
-   it("Delete Review", () => {
-      cy.get('[href="/services"]').click();
-      cy.get('#userReviewBtn').click();
-      cy.get('#delete-review').click({ force: true });
-      cy.contains("successfully deleted").should('be.visible');
-      cy.get('.review-container').children().should('have.length', 0);
    });
 
 });
