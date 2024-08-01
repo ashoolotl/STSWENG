@@ -97,6 +97,7 @@ function generateAvailableServices(classNameToGenerate, vehiclesOwner, serviceDe
     radioButtonInput.setAttribute("type", "radio");
     radioButtonInput.setAttribute("name", "vehicle");
     radioButtonInput.setAttribute("value", `${counter}`);
+    radioButtonInput.setAttribute("id", `${vehicle.plateNumber}`);
 
     var carImage = document.createElement("img");
     carImage.classList.add("bookingPopupImage");
@@ -151,7 +152,7 @@ function generateAvailableServices(classNameToGenerate, vehiclesOwner, serviceDe
     counter++;
   }
 
-  var radioButtons = document.querySelectorAll('input[type="radio"][name="vehicle"]');
+  var radioButtons = document.querySelectorAll(`input[type="radio"][name="vehicle"]`);
 
   if (radioButtons.length > 0) {
     radioButtons[0].checked = true;
