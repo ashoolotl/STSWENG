@@ -397,7 +397,8 @@ if (editSubmitBtn) {
         await editProduct(data, productId);
         
       }
-    }
+    } 
+
   });
 }
 
@@ -423,18 +424,20 @@ if (addSubmitBtn) {
         document.getElementById("error-message-add").innerText = "One or more fields is empty. Please fill in all fields.";
       } else if (addProductPrice <= 0) {
         document.getElementById("error-message-add").innerText = "Price cannot be zero or negative. Please enter a valid price.";
-      } else if (currentProducts.find((product) => product.name.toLowerCase() === addProductNameElem.value.toLowerCase())) {
-        document.getElementById("error-message-add").innerText = "Product name already exists. Please choose a different name.";
       } else {
-        console.log("Add product");
+        if (currentProducts.find((product) => product.name.toLowerCase() === addProductNameElem.value.toLowerCase())) {
+          document.getElementById("error-message-add").innerText = "Product name already exists. Please choose a different name.";
+        } else {
+          console.log("Add product");
 
-        const data = {
-          name: addProductName,
-          description: addProductDesc,
-          price: addProductPrice,
-          quantity: addProductAvailability,
-        };
-        addProduct(data);
+          const data = {
+            name: addProductName,
+            description: addProductDesc,
+            price: addProductPrice,
+            quantity: addProductAvailability,
+          };
+          await addProduct(data);
+        }
       }
     }
   });
@@ -457,7 +460,7 @@ document.getElementById("closePopupSuccess").addEventListener("click", function 
 });
 
 function preventMinus(event) {
-  if (event.key === "-" || (event.key === "0" && event.target.value.length === 0)) {
+  if (event.key === "-") {
     event.preventDefault();
   }
 }
