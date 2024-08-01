@@ -39,6 +39,7 @@ const addService = async (data) => {
       document.getElementById("addServicePopup").style.display = "none";
       document.getElementById("successPopup").style.display = "block";
       document.getElementById("successText").innerText = "The service has been successfully added.\n\nReloading...";
+      document.getElementById("error-message-add").innerText = "";
       setTimeout(() => {
         window.location.reload();
       }, 1000);
@@ -73,6 +74,7 @@ const updateService = async (data, id) => {
       document.getElementById("editServicePopup").style.display = "none";
       document.getElementById("successPopup").style.display = "block";
       document.getElementById("successText").innerText = "The service has been successfully updated.\n\nReloading...";
+      document.getElementById("error-message-edit").innerText = "";
       setTimeout(() => {
         window.location.reload();
       }, 1000);
@@ -93,6 +95,7 @@ document.getElementById("add").addEventListener("click", function () {
 document.getElementById("closePopup").addEventListener("click", function () {
   hideOverlay();
   document.getElementById("addServicePopup").style.display = "none";
+  document.getElementById("error-message-add").innerText = "";
 });
 
 // Function to show  the overlay
@@ -103,21 +106,27 @@ function showOverlay() {
 function hideOverlay() {
   document.getElementById("overlay").style.display = "none";
 }
-// on create of a new service when submit button is clicked
-document.getElementById("form").addEventListener("submit", function (event) {
+
+// on create of a new service when submit button is clicked add new service
+document.getElementById("form").addEventListener("submit", async (event) => {
   event.preventDefault();
+  const services = await getAllService();
   const name = document.getElementById("name").value;
   const description = document.getElementById("description").value;
   const duration = document.getElementById("duration").value;
   const prices = [];
   const checkboxes = document.querySelectorAll('input[name="selectedItems"]:checked');
 
+  const serviceNames = Array.from(services, service => service.name.toLowerCase());
+
   console.log(checkboxes);
 
-  if (name.trim === "" || description.trim === "" || duration.trim === "") {
-    document.getElementById("error-message").innerText = "One or more fields is empty. Please fill in all fields and try again";
+  if (name.trim() === "" || description.trim() === "" || isNaN(duration)) {
+    document.getElementById("error-message-add").innerText = "One or more fields is empty. Please fill in all fields and try again";
+  } else if (serviceNames.includes(name.toLowerCase()))  {
+    document.getElementById("error-message-add").innerText = "Please select at least one vehicle classification. Please try again.";
   } else if (checkboxes.length === 0) {
-    document.getElementById("error-message").innerText = "Please select at least one vehicle classification. Please try again.";
+    document.getElementById("error-message-add").innerText = "Service already exists. Please try again.";
   } else {
     const formData = new FormData();
 
@@ -141,7 +150,7 @@ document.getElementById("form").addEventListener("submit", function (event) {
     });
 
     // Call addService with the FormData object
-    addService(formData);
+    await addService(formData);
     hideOverlay();
   }
 });
@@ -184,16 +193,44 @@ const deleteService = async (id) => {
 document.getElementById("closePopupEdit").addEventListener("click", function () {
   hideOverlay();
   document.getElementById("editServicePopup").style.display = "none";
+  document.getElementById("error-message-edit").innerText = "";
 });
 
-document.getElementById("formEdit").addEventListener("submit", function (event) {
+document.getElementById("formEdit").addEventListener("submit", async (event) => {
   event.preventDefault();
-  const name = document.getElementById("name").value;
-  const description = document.getElementById("description").value;
-  const duration = document.getElementById("duration").value;
+  const name = document.getElementById("nameEdit").value;
+  const description = document.getElementById("descriptionEdit").value;
+  const duration = document.getElementById("durationEdit").value;
 
-  if (name.trim === "" || description.trim === "" || duration.trim === "") {
-    document.getElementById("error-message").innerText = "One or more fields is empty. Please fill in all fields and try again";
+  const nameOriginal = document.getElementById("nameOriginal").value;
+  const descriptionOriginal = document.getElementById("descriptionOriginal").value;
+  const durationOriginal = document.getElementById("durationOriginal").value;
+  const vehicleClassificationsOriginal = JSON.parse(document.getElementById('vehicleClassificationsOriginal').value);
+  const checkboxes = document.querySelectorAll('input[type="checkbox"][name="selectedItemsEdit"]:checked');
+
+  console.log(vehicleClassificationsOriginal);
+
+  const vehicleClassificationsInput = {};
+  checkboxes.forEach(item => {
+    const priceInput = document.getElementById(`price-${item.value}`);
+    vehicleClassificationsInput[item.value] = priceInput.value;
+  });
+
+  console.log(vehicleClassificationsInput);
+
+  const isVehicleClassificationsSame = JSON.stringify(vehicleClassificationsOriginal) === JSON.stringify(vehicleClassificationsInput);
+
+  const services = await getAllService();
+  const serviceNames = Array.from(services, service => service.name.toLowerCase());
+
+  if (name.trim() === "" || description.trim() === "" || isNaN(duration) ) {
+    document.getElementById("error-message-edit").innerText = "One or more fields is empty. Please fill in all fields and try again";
+  } else if (checkboxes.length === 0) {
+    document.getElementById("error-message-edit").innerText = "Please select at least one vehicle classification. Please try again.";
+  } else if (serviceNames.includes(name.toLowerCase())) {
+    document.getElementById("error-message-edit").innerText = "Service already exists. Please try again.";
+  } else if (nameOriginal === name && descriptionOriginal === description && durationOriginal === duration && isVehicleClassificationsSame) {
+    document.getElementById("error-message-edit").innerText = "No changes were made. Please make changes and try again.";
   } else {
     const formData = new FormData();
 
@@ -208,7 +245,6 @@ document.getElementById("formEdit").addEventListener("submit", function (event) 
     }
 
     const prices = [];
-    const checkboxes = document.querySelectorAll('input[type="checkbox"][name="selectedItemsEdit"]:checked');
     checkboxes.forEach(function (checkbox) {
       const priceInput = checkbox.nextElementSibling;
       const price = Number(priceInput.value);
@@ -223,7 +259,7 @@ document.getElementById("formEdit").addEventListener("submit", function (event) 
       formData.append(`prices[${index}][price]`, price.price);
     });
 
-    updateService(formData, id);
+    await updateService(formData, id);
   }
 });
 // for edit and delete button add functionalities
@@ -245,8 +281,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         showOverlay();
         document.getElementById("editServicePopup").style.display = "block";
         document.getElementById("nameEdit").value = service.name;
+        document.getElementById("nameOriginal").value = service.name;
         document.getElementById("descriptionEdit").value = service.description;
+        document.getElementById("descriptionOriginal").value = service.description;
         document.getElementById("durationEdit").value = service.duration;
+        document.getElementById("durationOriginal").value = service.duration;
 
         // set the id
         document.getElementById("serviceId").value = service._id;
@@ -271,11 +310,22 @@ document.addEventListener("DOMContentLoaded", async () => {
         numberInputs.forEach(function (input) {
           // Access attributes of each input element
           for (price of service.prices) {
-            if (input.id === price.vehicleClassification) {
+            if (input.id === `price-${price.vehicleClassification}`) {
               input.value = price.price;
             }
           }
         });
+
+        const selectedItems = document.querySelectorAll('input[name="selectedItemsEdit"]:checked');
+        const classificationsMap = {};
+
+        selectedItems.forEach(item => {
+          const priceInput = document.getElementById(`price-${item.value}`);
+          classificationsMap[item.value] = priceInput.value;
+        });
+
+        const vehicleClassificationsOriginal = document.getElementById('vehicleClassificationsOriginal');
+        vehicleClassificationsOriginal.value = JSON.stringify(classificationsMap);
       }
     });
   });
@@ -290,3 +340,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 document.getElementById("closePopupError").addEventListener("click", function () {
   document.getElementById("errorPopup").style.display = "none";
 });
+
+function preventMinus(event) {
+  if (event.key === "-" || (event.key === "0" && event.target.value.length === 0)) {
+    event.preventDefault();
+  }
+}
