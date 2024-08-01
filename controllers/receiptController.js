@@ -14,7 +14,7 @@ exports.createReceipt = async (req, res, next) => {
   } catch (error) {
     res.status(400).json({
       status: "fail",
-      message: error,
+      message: "An error occurred.",
     });
   }
 };
@@ -22,6 +22,12 @@ exports.createReceipt = async (req, res, next) => {
 exports.getReceiptById = async (req, res, next) => {
   try {
     const receipt = await Receipt.findById(req.params.id);
+    if (!receipt) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Receipt not found.",
+      });
+    }
     res.status(200).json({
       status: "success",
       data: {
@@ -31,16 +37,17 @@ exports.getReceiptById = async (req, res, next) => {
   } catch (error) {
     res.status(404).json({
       status: "fail",
-      message: error,
+      message: "An error occurred.",
     });
   }
 };
 
-exports.getAllReceiptsOfUser = async (req, res, next) => {
-  const userId = req.params.userId;
-  const allReceiptsOfUser = await Receipt.find({ owner: userId });
 
+exports.getAllReceiptsOfUser = async (req, res, next) => {
   try {
+    const userId = req.params.userId;
+    const allReceiptsOfUser = await Receipt.find({ owner: userId });
+
     res.status(201).json({
       status: "success",
       data: {
@@ -50,16 +57,16 @@ exports.getAllReceiptsOfUser = async (req, res, next) => {
   } catch (error) {
     res.status(404).json({
       status: "fail",
-      message: error,
+      message: "An error occurred.",
     });
-    next();
   }
 };
 
+
 exports.getAllReceipts = async (req, res, next) => {
-  const allReceipts = await Receipt.find();
-  
   try {
+    const allReceipts = await Receipt.find();
+
     res.status(200).json({
       status: "success",
       data: {
@@ -69,8 +76,8 @@ exports.getAllReceipts = async (req, res, next) => {
   } catch (error) {
     res.status(404).json({
       status: "fail",
-      message: error,
+      message: "An error occurred.",
     });
-    next();
   }
 };
+
