@@ -188,3 +188,7 @@
 .update-status:hover {
     background-color: #FF5555;
 }
+
+#addProductDesc, #editProductDesc {
+    font-family: Arial, sans-serif;
+}
