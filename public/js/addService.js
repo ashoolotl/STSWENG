@@ -117,7 +117,7 @@ document.getElementById("form").addEventListener("submit", async (event) => {
   const prices = [];
   const checkboxes = document.querySelectorAll('input[name="selectedItems"]:checked');
 
-  const serviceNames = Array.from(services, service => service.name.toLowerCase());
+  const serviceNames = services.data.services.map(service => service.name.toLowerCase());
 
   console.log(checkboxes);
 
@@ -221,7 +221,7 @@ document.getElementById("formEdit").addEventListener("submit", async (event) => 
   const isVehicleClassificationsSame = JSON.stringify(vehicleClassificationsOriginal) === JSON.stringify(vehicleClassificationsInput);
 
   const services = await getAllService();
-  const serviceNames = Array.from(services, service => service.name.toLowerCase());
+  const serviceNames = services.data.services.map(service => service.name.toLowerCase());
 
   if (name.trim() === "" || description.trim() === "" || isNaN(duration) ) {
     document.getElementById("error-message-edit").innerText = "One or more fields is empty. Please fill in all fields and try again";

@@ -384,7 +384,7 @@ if (editSubmitBtn) {
       } else if (editProductPrice <= 0) {
         document.getElementById("error-message-edit").innerText = "Price cannot be zero or negative. Please enter a valid price.";
       } else {
-        const product = currentProducts.find((product) => product.name === editProductNameElem.value && product.name !== originalProductName);
+        const product = currentProducts.find((product) => product.name.toLowerCase() === editProductNameElem.value.toLowerCase() && product.name.toLowerCase !== originalProductName.toLowerCase);
         if (product) {
           document.getElementById("error-message-edit").innerText = "Product name already exists. Please choose a different name.";
         } else {
@@ -412,6 +412,8 @@ if (addSubmitBtn) {
     const addProductAvailabilityElem = document.getElementById("addProductAvailability");
     const currentProducts = await getAllProducts();
 
+    console.log(currentProducts.find((product) => product.name.toLowerCase() === addProductNameElem.value.toLowerCase()))
+
     if (addProductNameElem && addProductDescElem && addProductPriceElem && addProductAvailabilityElem) {
       const addProductName = addProductNameElem.value;
       const addProductDesc = addProductDescElem.value;
@@ -423,7 +425,7 @@ if (addSubmitBtn) {
       } else if (addProductPrice <= 0) {
         document.getElementById("error-message-add").innerText = "Price cannot be zero or negative. Please enter a valid price.";
       } else {
-        if (currentProducts.find((product) => product.name === addProductNameElem.value)) {
+        if (currentProducts.find((product) => product.name.toLowerCase() === addProductNameElem.value.toLowerCase())) {
           document.getElementById("error-message-add").innerText = "Product name already exists. Please choose a different name.";
         } else {
           const data = {
