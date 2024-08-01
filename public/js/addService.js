@@ -124,9 +124,9 @@ document.getElementById("form").addEventListener("submit", async (event) => {
   if (name.trim() === "" || description.trim() === "" || isNaN(duration)) {
     document.getElementById("error-message-add").innerText = "One or more fields is empty. Please fill in all fields and try again";
   } else if (serviceNames.includes(name.toLowerCase()))  {
-    document.getElementById("error-message-add").innerText = "Please select at least one vehicle classification. Please try again.";
-  } else if (checkboxes.length === 0) {
     document.getElementById("error-message-add").innerText = "Service already exists. Please try again.";
+  } else if (checkboxes.length === 0) {
+    document.getElementById("error-message-add").innerText = "Please select at least one vehicle classification. Please try again.";
   } else {
     const formData = new FormData();
 

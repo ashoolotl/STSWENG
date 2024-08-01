@@ -100,7 +100,7 @@
             <input type="text" id="description" name="description">
 
             <label for="duration">Service Duration in Minutes</label>
-            <input type="number" id="duration" name="duration" min="1">
+            <input type="number" id="duration" name="duration" min="1" onkeypress="preventMinus(event)">
 
             <label for="photo">Upload Image</label>
             <input type="file" id="photo" name="photo" accept="image/*">
@@ -111,7 +111,7 @@
                 <label data-vehicle-classification="{{this.name}}">
                   <input type="checkbox" name="selectedItems" value="{{this.name}}">
                   {{this.name}}
-                  <input type="number" name="price" min="1" value="1" step="0.01">
+                  <input type="number" name="price" min="1" value="1" step="0.01" onkeypress="preventMinus(event)">
                 </label>
               {{/each}}
             </fieldset>

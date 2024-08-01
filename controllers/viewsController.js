@@ -77,8 +77,6 @@ exports.getDashboard = async (req, res, next) => {
       return { ...receipt._doc, products: filteredProducts };
     }).filter((receipt) => receipt.products.length > 0);
 
-    console.log(filteredReceipts);
-
     res.status(200).render("dashboard", {
       title: "Dashboard",
       user,
@@ -89,21 +87,46 @@ exports.getDashboard = async (req, res, next) => {
     });
   }
   if (user.role === "admin") {
-    // const serviceBookings = await Booking.find({
-    //   status: { $ne: "Completed" },
-    //   scheduledDate: { $exists: true },
-    // });
-    // console.log(serviceBookings);
-    // const subscriptionBookings = await BookingSubscription.find({
-    //   status: { $ne: "none" },
-    //   scheduledDate: { $exists: true },
-    // });
-    res.status(200).render("adminDashboard", {
-      title: "Admin Dashboard",
-      user
-      // serviceBookings,
-      // subscriptionBookings,
-    });
+    try {
+      const allVehicles = await Vehicle.find({}).populate({ path: "owner", select: "lastName firstName" });
+      const allReceipts = await Receipt.find({});
+  
+      const productMap = new Map();
+  
+      allReceipts.forEach((receipt) => {
+        receipt.products.forEach((product) => {
+          if (product.name.includes('WASH')) {
+            return;
+          }
+          console.log(`Processing product: ${product.name}, Quantity: ${product.quantity}, Price: ${product.price}`);
+          if (productMap.has(product.name)) { // if product already exists in the map
+            const existingProduct = productMap.get(product.name);
+            console.log(`Updating existing product: ${product.name}`);
+            existingProduct.totalQuantity += product.quantity;
+            existingProduct.totalPrice += (product.quantity * product.price);
+            console.log(`Updated product: ${product.name}, New Quantity: ${existingProduct.totalQuantity}, New Total Price: ${existingProduct.totalPrice}`);
+          } else {
+            console.log(`Adding new product: ${product.name}`);
+            productMap.set(product.name, {
+              name: product.name,
+              totalQuantity: product.quantity,
+              totalPrice: product.quantity * product.price,
+            });
+            console.log(`Added product: ${product.name}, Quantity: ${product.quantity}, Total Price: ${product.quantity * product.price}`);
+          }
+        });
+      });
+  
+      const products = Array.from(productMap.values());
+      
+      res.status(200).render("adminDashboard", {
+        title: "Admin Dashboard",
+        allVehicles,
+        products,
+      });
+    } catch (error) {
+      next(error);
+    }
   }
 };
 
