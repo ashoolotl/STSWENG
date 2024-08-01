@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Auto Worx Pro",
   "main": "server.js",
-  "type": "commonjs", 
+  "type": "commonjs",
   "scripts": {
     "start": "node server.js",
     "start:dev": "nodemon server.js",
