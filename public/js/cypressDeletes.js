@@ -1,8 +1,9 @@
 const Vehicle = require("../../models/vehicleModel");
 const User = require("../../models/userModel");
 const Product = require("../../models/productModel");
+const Receipt = require("../../models/receiptModel");
 
-const deleteCarByPlateNumber = async (plateNumber) => {
+exports.deleteCarByPlateNumber = async (plateNumber) => {
   try {
     const result = await Vehicle.findOneAndDelete({ plateNumber: plateNumber });
     if (result) {
@@ -16,7 +17,7 @@ const deleteCarByPlateNumber = async (plateNumber) => {
   }
 };
 
-const deleteUserByEmail = async (email) => {
+exports.deleteUserByEmail = async (email) => {
   try {
     const result = await User.findOneAndDelete({ email: email });
     if (result) {
@@ -30,7 +31,7 @@ const deleteUserByEmail = async (email) => {
   }
 };
 
-const deleteProductByName = async (name) => {
+exports.deleteProductByName = async (name) => {
   try {
     const result = await Product.findOneAndDelete({ name: name });
     if (result) {
@@ -43,4 +44,15 @@ const deleteProductByName = async (name) => {
   }
 };
 
-module.exports = { deleteCarByPlateNumber, deleteUserByEmail, deleteProductByName };
+exports.deleteReceiptById = async (id) => {
+  try {
+    const result = await Receipt.findOneAndDelete({ _id: id });
+    if (result) {
+      console.log(`Receipt with id ${id} was deleted.`);
+    } else {
+      console.log(`Receipt with id ${id} not found.`);
+    }
+  } catch (error) {
+    console.error("Error deleting receipt:", error);
+  }
+};
