@@ -296,7 +296,7 @@ if (closeEditPopupBtn) {
   closeEditPopupBtn.addEventListener("click", function () {
     hideOverlay();
     document.getElementById("editProductPopup").style.display = "none";
-    document.getElementById("error-message").innerText = "";
+    document.getElementById("error-message-edit").innerText = "";
   });
 }
 
@@ -337,6 +337,7 @@ if (closeAddPopupBtn) {
   closeAddPopupBtn.addEventListener("click", function () {
     hideOverlay();
     document.getElementById("addProductPopup").style.display = "none";
+    document.getElementById("error-message-add").innerText = "";
   });
 }
 
