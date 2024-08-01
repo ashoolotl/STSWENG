@@ -85,7 +85,7 @@ document.getElementById("addCarForm").addEventListener("submit", async (event) =
   if (name.trim() === "") {
     console.log("Name is empty");
     document.getElementById("error-message-add").innerText = "Vehicle classification name is required. Please enter a name.";
-  } else if (allVCs.data.vehicleClassification.find(vc => vc.name.toLowerCase() === vcNameInput.toLowerCase())) {
+  } else if (allVCs.data.vehicleClassification.find(vc => vc.name.toLowerCase() === name.toLowerCase())) {
     document.getElementById("error-message-add").innerText = "Vehicle classification with the same name already exists.";
   } else {
     // create a form data since we are uploading photo
