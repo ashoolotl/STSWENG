@@ -197,11 +197,10 @@ describe('Product Controller', () => {
 
   describe('updateStock', () => {
     it('should update and return the product stock', async () => {
-      const product = { _id: new mongoose.Types.ObjectId(), name: 'Product 1', description: 'Description 1', price: 10, quantity: 10, image: 'image1.png' };
+      const product = { _id: new mongoose.Types.ObjectId(), name: 'Product 1', description: 'Description 1', price: 10, quantity: 10, image: 'image1.png', save: sinon.stub().resolves() };
       req.body = { name: 'Product 1', quantity: 5 };
 
       sinon.stub(Product, 'findOne').resolves(product);
-      sinon.stub(product, 'save').resolves();
 
       await productController.updateStock(req, res, next);
 

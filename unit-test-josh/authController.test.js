@@ -40,9 +40,8 @@ describe('AuthController - Login', () => {
     const res = { status: sinon.stub().returnsThis(), json: sinon.stub() };
 
     const findOneStub = sandbox.stub(User, 'findOne').resolves(null);
-
-    await authController.login(req, res);
     
+    await authController.login(req, res);
 
     expect(res.status.calledWith(401)).to.be.true;
     expect(res.json.calledWith({ message: "Incorrect email or password" })).to.be.true;
@@ -54,9 +53,9 @@ describe('AuthController - Login', () => {
 
     const findOneStub = sandbox.stub(User, 'findOne').resolves({ 
        email: 'correct@gmail.com',
-       password: 'hashedpassword',  });
+       password: 'hashedpassword',  
+       correctPassword: sinon.stub().resolves(false)});
 
-    // Assuming you have a method to compare passwords, stub it to return false
     
     await authController.login(req, res);
 

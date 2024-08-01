@@ -151,7 +151,7 @@ describe('Vehicle Controller', () => {
       expect(res.status.calledWith(200)).to.be.true;
       expect(res.json.calledWith({
         status: "success",
-        data: { vehicle: vehicle.status }
+        data: { vehicle: vehicle.status, }
       })).to.be.true;
     });
   });
