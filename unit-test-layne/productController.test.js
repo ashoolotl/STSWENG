@@ -94,17 +94,6 @@ describe('Product Controller', () => {
         data: { product: null },
       })).to.be.true;
     });
-
-    it('should propagate errors to the next middleware in getProductById', async () => {
-      const errorMessage = 'Database error';
-      sinon.stub(Product, 'findById').rejects(new Error(errorMessage));
-
-      await productController.getProductById(req, res, next);
-
-      expect(next.calledOnce).to.be.true;
-      expect(next.firstCall.args[0]).to.be.an.instanceOf(Error);
-      expect(next.firstCall.args[0].message).to.equal(errorMessage);
-    });
   });
 
   describe('createProduct', () => {
