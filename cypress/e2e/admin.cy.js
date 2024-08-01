@@ -181,39 +181,6 @@ describe("Manage Vehicle Classifications", () => {
 
 });
 
-// describe("Reviews", () => {
-//    before(() => {
-//       cy.visit(siteURL + "/login");
-//       func.login(userEmail, userPassword);
-//       user.createReview("This is a test review for Admin");
-//       func.logout();
-//    });
-
-
-//    it.skip("Reply to Review", () => {
-//       cy.visit(siteURL + "/login");
-//       func.login(adminEmail, adminPassword);
-//       func.viewPage('services');
-//       cy.get(':nth-child(1) > .bottom-item-content > .buttons-container > a > #adminReviewBtn').click();
-//       cy.get('.reply-button').click();
-//       cy.get('#reply-text').type("This is a reply to the review");
-//       cy.get('#admin-input').find('button[type="submit"]').click();
-//       cy.contains('reply has been successfully posted').should('be.visible');
-//       cy.contains('This is a reply to the review').should('be.visible');
-//    });
-
-
-//    after(() => {
-//       cy.visit(siteURL + "/login");
-//       func.login(userEmail, userPassword);
-//       func.viewPage('services');
-//       cy.get('#userReviewBtn').click();
-//       cy.get('#delete-review').click({ force: true });
-//       cy.contains("successfully deleted").should('be.visible');
-//    });
-// });
-
-
 const serviceData = [
   // Valid Case [0]
   {
@@ -356,9 +323,5 @@ describe("Manage Services", () => {
     
 });
 
-describe("Manage Bookings", () => {
-
-
-});
 
 
