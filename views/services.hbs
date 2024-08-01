@@ -145,6 +145,7 @@
             <fieldset>
               <legend>Select Vehicle Classification and Input Price</legend>
               {{#each vehicleClassification}}
+              <label data-vehicle-classification="{{this.name}}">
                 <label>
                   <input type="checkbox" name="selectedItemsEdit" value="{{this.name}}" id="{{this.name}}">
                   {{this.name}}
