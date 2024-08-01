@@ -49,32 +49,20 @@ describe("Manage Vehicle Classifications", () => {
       admin.editVehicleClassification(testClassification, newClassification);
       cy.contains('updated successfully').should('be.visible');
       cy.url().should('eq', siteURL + "/vehicle-classifications");
+      cy.wait(20000)
+      cy.reload();
       cy.get(`[classification="${newClassification}"]`).should('be.visible');
    }); 
 
    it.skip("Delete Vehicle Classification", () => {
-      // cy.get(`[classification="${newClassification}"]`).find('#vehicleClassificationDeleteBtn').click();
-      // cy.get(`[classification="SUV"]`).find('vehicleClassificationDeleteBtn').click();
-      cy.get('.car[classification="SUV"]').within(() => {
-         cy.contains('button', 'Delete').click();
-       });
-       
+      cy.get(`[classification="${testClassification}"] > .car-status > .vehicleClassificationDeleteBtn`).wait(10000).click();
       cy.contains('deleted successfully').should('be.visible');
       cy.get(`[classification="SUV"]`).should('not.exist');
    });
-   it("Test Button Click", () => {
-      cy.contains('Services').click();
-      cy.get('[servicename="EXPRESS"] > .bottom-item-content > .buttons-container > a > .adminReviewBtn').click();
-      func.logout();
-      cy.visit(siteURL + "/login");
-      func.login(userEmail, userPassword);
-      cy.contains('Services').click();
-      cy.get('[servicename="EXPRESS"] > .bottom-item-content > .buttons-container > a > .review-btn').click();
-
-
-   });
+ 
 
 });
+
 // describe("Reviews", () => {
 //    before(() => {
 //       cy.visit(siteURL + "/login");
@@ -84,7 +72,7 @@ describe("Manage Vehicle Classifications", () => {
 //    });
 
 
-//    it("Reply to Review", () => {
+//    it.skip("Reply to Review", () => {
 //       cy.visit(siteURL + "/login");
 //       func.login(adminEmail, adminPassword);
 //       func.viewPage('services');
@@ -111,14 +99,14 @@ describe("Manage Vehicle Classifications", () => {
 const productData = [
    //Valid [0]
    {
-      productName: "Turtle Wax Car Wash 64oz", 
+      productName: "Autogard Tire Black 500ml", 
       productDescription: "The high-foaming formula surrounds dirt and road grime and lifts them off the surface of your clear coat for scratch-free cleaning.",
       productPrice: 799,
       productStock: 29,
    },
    //Duplicate Name [1]
    {
-      productName: "Turtle Wax Car Wash 64oz", 
+      productName: "Auto Foam Wash 500ml", 
       productDescription: "The high-foaming formula surrounds dirt and road grime and lifts them off the surface of your clear coat for scratch-free cleaning.",
       productPrice: 799,
       productStock: 29,
@@ -127,43 +115,75 @@ const productData = [
    {
       productName: "", 
       productDescription: "",
-      productPrice: 799,
-      productStock: 29,
+      productPrice: 899,
+      productStock: 32,
    },
    //Invalid Price [3]
    {
-      productName: "Turtle Wax Car Wash 32oz", 
+      productName: "Invalid Price Product", 
       productDescription: "The high-foaming formula surrounds dirt and road grime and lifts them off the surface of your clear coat for scratch-free cleaning.",
       productPrice: 0,
       productStock: 29,
-   },
-   //Invalid Stock [4]
+   }, 
+   //Valid Edit [4]
    {
-      productName: "Turtle Wax Car Wash 32oz", 
-      productDescription: "The high-foaming formula surrounds dirt and road grime and lifts them off the surface of your clear coat for scratch-free cleaning.",
-      productPrice: 799,
-      productStock: 0,
-   },
-   
+      productName: "Autogard Tire Black 250ml", 
+      productDescription: "The high-foaming formula surrounds dirt and road grime.",
+      productPrice: 499,
+      productStock: 27,
+   }
 ];
-// describe("Manage Product Catalog", () => {
-//    beforeEach(() => {
-//       cy.visit(siteURL + "/login");
-//       func.login(adminEmail, adminPassword);
-//       func.viewPage('product-catalog');
-//    });
+describe("Manage Product Catalog", () => {
+   beforeEach(() => {
+      cy.visit(siteURL + "/login");
+      func.login(adminEmail, adminPassword);
+      func.viewPage('product-catalog');
+   });
 
 
-//    it("Add Product", () => {
-//       cy.get("#addProduct").click();
-//       cy.get('[productname="Midwest Gasoline Can 5-Gallon"] > .product-details > .productEdit')
+   it("Add Valid Product", () => {
+      admin.addProduct(productData[0]);
+      cy.contains('Product successfully added.').should('be.visible');
+      cy.get(`[productname="${productData[0].productName}"]`).should('be.visible');
+   });
 
+   //TODO Add Invalid Products
 
-//    });
-//    it("Edit Product", () => {
-//       cy.get("#productEdit").click();
-//    });
+   it("Duplicate Name Edit", () => {  
+      admin.editProduct(productData[0].productName, productData[1]);
+      cy.contains('Product name already exists. Please choose a different name.').should('be.visible');
+      cy.reload();
+      cy.visit(siteURL + "/product-catalog");
+      cy.get(`[productname="${productData[0].productName}"]`).should('be.visible'); //product remains unchanged
+   });
+   
+   it("Empty Values Edit", () => {
+      admin.editProduct(productData[0].productName, productData[2]);
+      cy.contains('One or more fields is empty. Please fill in all fields.').should('be.visible');
+      cy.reload();
+      cy.visit(siteURL + "/product-catalog");
+      cy.get(`[productname="${productData[0].productName}"]`).should('be.visible'); //product remains unchanged
+   });
+
+   it("Invalid Price Edit", () => {
+      admin.editProduct(productData[0].productName, productData[3]);
+      cy.contains('Price cannot be zero or negative. Please enter a valid price.').should('be.visible');
+      cy.reload();
+      cy.visit(siteURL + "/product-catalog");
+      cy.get(`[productname="${productData[0].productName}"]`).should('be.visible'); //product remains unchanged
+   });
+   it("Valid Edit Product", () => {
+      admin.editProduct(productData[0].productName, productData[4]);
+      cy.contains('Product updated.').should('be.visible');
+      cy.get(`[productname="${productData[0].productName}"]`).should('be.visible');
+   });
 
    
-// });
+   
+   after (() => {
+      cy.request('DELETE', "api/v1/deleteProduct/" + productData[0].productName)
+      cy.request('DELETE', "api/v1/deleteProduct/" + productData[4].productName)
+   });
+   
+});
 
