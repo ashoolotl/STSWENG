@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "start:dev": "nodemon server.js",
-    "start:prod": "SET NODE_ENV=production && nodemon server.js"
+    "start:prod": "SET NODE_ENV=production && nodemon server.js",
+    "test": "mocha"
   },
   "author": "Layne Ashley",
   "license": "ISC",
@@ -36,7 +37,10 @@
     "validator": "^13.11.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.3"
+    "chai": "^5.1.1",
+    "mocha": "^10.7.0",
+    "nodemon": "^3.0.3",
+    "sinon": "^18.0.0"
   },
   "keywords": []
 }
