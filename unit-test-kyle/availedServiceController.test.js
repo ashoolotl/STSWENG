@@ -1,19 +1,14 @@
-// unit-test-kyle/availedServiceController.test.js
-
 const sinon = require('sinon');
-const mongoose = require('mongoose');
-const { describe, it, beforeEach, afterEach } = require('mocha');
-
-// Dynamically import chai for ESM support
-let chai, expect;
-(async () => {
-  chai = await import('chai');
-  expect = chai.expect;
-})();
-
-// Import CommonJS modules
+const { describe, it, before, beforeEach, afterEach } = require('mocha');
 const ServiceAvailed = require('../models/serviceAvailedModel');
 const serviceAvailedController = require('../controllers/availedServiceController');
+
+let chai, expect;
+
+before(async () => {
+  chai = await import('chai');
+  expect = chai.expect;
+});
 
 describe('ServiceAvailed Controller', () => {
   let req, res, next;
@@ -21,6 +16,7 @@ describe('ServiceAvailed Controller', () => {
   beforeEach(() => {
     req = {
       params: {},
+      body: {},
     };
 
     res = {
@@ -73,15 +69,26 @@ describe('ServiceAvailed Controller', () => {
       ).to.be.true;
     });
 
-    it('should handle errors properly', async () => {
-      // Simulate a database error
+    it('should handle database errors', async () => {
+      // Simulate a database error by rejecting the promise
       sinon.stub(ServiceAvailed, 'find').rejects(new Error('Database error'));
+
+      await serviceAvailedController.getAllServiceAvailed(req, res, next);
+
+      // Assert that next was called with an error
+      expect(next.calledOnce).to.be.true;
+      expect(next.firstCall.args[0]).to.be.an.instanceOf(Error);
+      expect(next.firstCall.args[0].message).to.equal('Database error');
+    });
+
+    it('should handle unexpected errors', async () => {
+      sinon.stub(ServiceAvailed, 'find').throws(new Error('Unexpected error'));
 
       await serviceAvailedController.getAllServiceAvailed(req, res, next);
 
       expect(next.calledOnce).to.be.true;
       expect(next.firstCall.args[0]).to.be.an.instanceOf(Error);
-      expect(next.firstCall.args[0].message).to.equal('Database error');
+      expect(next.firstCall.args[0].message).to.equal('Unexpected error');
     });
   });
 
@@ -123,8 +130,7 @@ describe('ServiceAvailed Controller', () => {
       ).to.be.true;
     });
 
-    it('should handle errors properly', async () => {
-      // Simulate a database error
+    it('should handle database errors', async () => {
       sinon.stub(ServiceAvailed, 'findById').rejects(new Error('Database error'));
 
       await serviceAvailedController.getAvailedServiceById(req, res, next);
@@ -132,6 +138,16 @@ describe('ServiceAvailed Controller', () => {
       expect(next.calledOnce).to.be.true;
       expect(next.firstCall.args[0]).to.be.an.instanceOf(Error);
       expect(next.firstCall.args[0].message).to.equal('Database error');
+    });
+
+    it('should handle unexpected errors', async () => {
+      sinon.stub(ServiceAvailed, 'findById').throws(new Error('Unexpected error'));
+
+      await serviceAvailedController.getAvailedServiceById(req, res, next);
+
+      expect(next.calledOnce).to.be.true;
+      expect(next.firstCall.args[0]).to.be.an.instanceOf(Error);
+      expect(next.firstCall.args[0].message).to.equal('Unexpected error');
     });
   });
 
@@ -168,8 +184,7 @@ describe('ServiceAvailed Controller', () => {
       ).to.be.true;
     });
 
-    it('should handle errors properly', async () => {
-      // Simulate a database error
+    it('should handle database errors', async () => {
       sinon.stub(ServiceAvailed, 'findOneAndDelete').rejects(new Error('Database error'));
 
       await serviceAvailedController.deleteAvailedService(req, res, next);
@@ -177,6 +192,16 @@ describe('ServiceAvailed Controller', () => {
       expect(next.calledOnce).to.be.true;
       expect(next.firstCall.args[0]).to.be.an.instanceOf(Error);
       expect(next.firstCall.args[0].message).to.equal('Database error');
+    });
+
+    it('should handle unexpected errors', async () => {
+      sinon.stub(ServiceAvailed, 'findOneAndDelete').throws(new Error('Unexpected error'));
+
+      await serviceAvailedController.deleteAvailedService(req, res, next);
+
+      expect(next.calledOnce).to.be.true;
+      expect(next.firstCall.args[0]).to.be.an.instanceOf(Error);
+      expect(next.firstCall.args[0].message).to.equal('Unexpected error');
     });
   });
 });
