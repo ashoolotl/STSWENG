@@ -90,14 +90,9 @@
           <div class="dashboardProduct">
             <img src="/images/products/car wash shampoo.png" />
             <div class="order-details">
-              Name:
-              <span id="product-name">{{this.name}}</span>
-              Quantity:
-              <span id="product-quantity">x{{this.quantity}}</span>
-            </div>
-            <div class="order-details">
-              Price:
-              <span id="product-status" class="status current">{{this.price}}</span>
+              <p><strong>Name:</strong> <span id="product-name">{{this.name}}</span></p>
+              <p><strong>Quantity Sold:</strong> <span id="product-quantity">x{{this.totalQuantity}}</span></p>
+              <p><strong>Total Sales:</strong> <span id="product-price">&euro; {{this.totalPrice}}</span></p>
             </div>
           </div>
         {{/each}}

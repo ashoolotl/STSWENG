@@ -162,6 +162,9 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    width: 25%;
+    margin-top:auto;
+    margin-bottom:auto;
 }
 
 .product-name, .product-quantity {
