@@ -1,9 +1,7 @@
 import * as func from './function.cy.js';
-import * as user from './user-function.cy.js';
 import * as admin from './admin-function.cy.js';
 //variables
 import {adminEmail, adminPassword} from './admin-function.cy.js';
-import {userEmail, userPassword} from './user-function.cy.js';
 import {siteURL} from './function.cy.js';
 //plugin
 import 'cypress-real-events/support';
