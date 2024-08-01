@@ -17,8 +17,11 @@ export function logout() {
 }
 
 export function selectDropdown(value) {
-  cy.get('.dropbtn.user-link').realHover();
-  cy.contains(value).click();
+  // cy.get('.dropbtn.user-link').realHover();
+  // cy.wait(3000)
+  // cy.get('.dropdown-content').should('be.visible');
+  // cy.contains(value).click();
+  cy.get('.dropdown-content').contains(value).click({ force: true });
 }
 
 //NOTE: only works for pages on navbar

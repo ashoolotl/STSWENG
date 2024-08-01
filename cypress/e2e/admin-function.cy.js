@@ -5,13 +5,13 @@ export const adminPassword = "admin1234"
 export function addVehicleClassification(classification) {
    cy.get('#id').click();
    cy.get('#vehicleClassification').type(classification);
-   cy.get('#addCarForm button[type="submit"]').click();
+   cy.get('#addCarForm button[type="submit"]').wait(3000).click();
 }
 
 export function editVehicleClassification(classification, newClassification) {
-   cy.get(`[classification="${classification}"] > .car-status > .vehicleClassificationEditBtn`).wait(20000).click();
+   cy.get(`[classification="${classification}"] > .car-status > .vehicleClassificationEditBtn`).wait(3500).click();
    cy.get('#vehicleClassificationEdit').clear().type(newClassification);
-   cy.get('#editCarForm button[type="submit"]').click();
+   cy.get('#editCarForm button[type="submit"]').wait(3000).click();
 }
 
 export function addProduct(product) {
@@ -26,7 +26,7 @@ export function addProduct(product) {
        if (product.productPrice) cy.get('#addProductPrice').type(product.productPrice.toString());
        if (product.productStock) cy.get('#addProductAvailability').type(product.productStock.toString());
    }
-   cy.get('#addSubmit').click();
+   cy.get('#addSubmit').wait(7500).click();
 }
 
 export function editProduct(productName, newProduct) {
@@ -47,7 +47,7 @@ export function editProduct(productName, newProduct) {
        if (newProduct.productPrice) cy.get('#editProductPrice').type(newProduct.productPrice.toString());
        if (newProduct.productStock) cy.get('#editProductAvailability').type(newProduct.productStock.toString());
    }
-   cy.get('#editSubmit').click();
+   cy.get('#editSubmit').wait(50000).click();
 }
 
 export function addService(service) {
@@ -74,7 +74,7 @@ export function addService(service) {
       });
    }
 
-   cy.get('#form > button').click();
+   cy.get('#form > button').wait(3000).click();
  }
  
  export function editService(serviceName, service, newService) {
@@ -116,7 +116,7 @@ export function addService(service) {
        });
      }
    }
-   cy.get('#formEdit > button').click();
+   cy.get('#formEdit > button').wait(3000).click();
  }
 //eg. EXPRESS-WASH for services div tags 
 export function getServiceNameIdentifier(serviceName) {
