@@ -140,13 +140,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         const product = products.find((product) => product._id === productId);
         const quantity = document.getElementById(`${productId}-quantity`).textContent;
         const price = quantity * product.price;
+        const image = product.image;
         const userId = document.getElementById("userId").value;
         const data = {
           product: product.name,
           description: product.description,
           price: price,
+          image: image,
           quantity: quantity,
           owner: userId,
+          image: product.image,
         };
         await addItemToCart(data);
       });
@@ -371,7 +374,7 @@ if (editSubmitBtn) {
       const editProductDesc = editProductDescElem.value;
       const editProductPrice = editProductPriceElem.value;
       const editProductAvailability = editProductAvailabilityElem.value;
-      
+
       if (editProductName.trim() === "" || editProductDesc.trim() === "" || isNaN(editProductPrice) || isNaN(editProductAvailability)) {
         document.getElementById("error-message-edit").innerText = "One or more fields is empty. Please fill in all fields.";
       } else if (
@@ -383,7 +386,12 @@ if (editSubmitBtn) {
         document.getElementById("error-message-edit").innerText = "No changes detected. Please make changes to update product.";
       } else if (editProductPrice <= 0) {
         document.getElementById("error-message-edit").innerText = "Price cannot be zero or negative. Please enter a valid price.";
-      } else if (currentProducts.find((product) => product.name.toLowerCase() === editProductName.toLowerCase() && product.name.toLowerCase() !== originalProductName.toLowerCase())){
+      } else if (
+        currentProducts.find(
+          (product) =>
+            product.name.toLowerCase() === editProductName.toLowerCase() && product.name.toLowerCase() !== originalProductName.toLowerCase()
+        )
+      ) {
         document.getElementById("error-message-edit").innerText = "Product name already exists. Please choose a different name.";
       } else {
         console.log("Edit product");
@@ -395,10 +403,8 @@ if (editSubmitBtn) {
         };
 
         await editProduct(data, productId);
-        
       }
-    } 
-
+    }
   });
 }
 
@@ -412,7 +418,7 @@ if (addSubmitBtn) {
     const addProductAvailabilityElem = document.getElementById("addProductAvailability");
     const currentProducts = await getAllProducts();
 
-    console.log(currentProducts.find((product) => product.name.toLowerCase() === addProductNameElem.value.toLowerCase()))
+    console.log(currentProducts.find((product) => product.name.toLowerCase() === addProductNameElem.value.toLowerCase()));
 
     if (addProductNameElem && addProductDescElem && addProductPriceElem && addProductAvailabilityElem) {
       const addProductName = addProductNameElem.value;
@@ -458,6 +464,12 @@ document.getElementById("closePopupError").addEventListener("click", function ()
 document.getElementById("closePopupSuccess").addEventListener("click", function () {
   document.getElementById("successPopup").style.display = "none";
 });
+
+function preventMinusZero(event) {
+  if (event.key === "-" || (event.key === "0" && event.target.value.length === 0)) {
+    event.preventDefault();
+  }
+}
 
 function preventMinus(event) {
   if (event.key === "-") {
