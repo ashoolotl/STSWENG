@@ -28,7 +28,7 @@
         {{#each products}}
           {{#if (greaterThan this.quantity 0)}}
           <div class="product" productName="{{this.name}}">
-            <img src="/images/products/{{this.image}}" alt="{{this.name}}">
+            <img src="/images/products/{{this.name}}.png" alt="{{this.name}}">
             <div class="product-details">
               <h3>{{this.name}}</h3>
               <p>{{this.desc}}</p>
@@ -62,7 +62,7 @@
         {{#each products}}
           {{#if (eq this.quantity 0)}}
           <div class="product" productName="{{this.name}}">
-            <img src="/images/products/{{this.image}}" alt="{{this.name}}">
+            <img src="/images/products/{{this.name}}.png" alt="{{this.name}}">
             <div class="product-details">
               <h3>{{this.name}}</h3>
               <p>{{this.desc}}</p>
