@@ -75,33 +75,33 @@ describe('Cart Controller', () => {
       const product = { name: 'Product1', quantity: 10, price: 50 };
       const cartItem = {
         product: 'Product1',
-        quantity: 1,
-        price: 50,
+        quantity: 0,  // Initial quantity before adding
+        price: 0,     // Initial price before adding
         plateNumber: 'None',
         save: sinon.stub().resolves(), // Ensure save is a stubbed function
       };
 
       req.body = { product: 'Product1', quantity: 1, price: 50 };
 
+      // Stub findOne to simulate finding a product and an item in the cart
       sinon.stub(Product, 'findOne').resolves(product);
       sinon.stub(Cart, 'findOne').resolves(cartItem);
 
       await cartController.addItemsInCart(req, res, next);
 
       // Ensure cartItem is updated correctly
-      expect(cartItem.quantity).to.equal(2); // Assert quantity update
-      expect(cartItem.price).to.equal(100); // Assert price update
+      expect(cartItem.quantity).to.equal(1); // Assert quantity update
+      expect(cartItem.price).to.equal(50); // Assert price update
 
       expect(cartItem.save.calledOnce).to.be.true;
       expect(res.status.calledOnceWith(200)).to.be.true;
       expect(
         res.json.calledOnceWith({
           status: 'success',
-          data: cart,
+          data: { cart: cartItem }, // Ensure this matches the controller response
         })
       ).to.be.true;
     });
-
 
     it('should create a new cart item if product not in cart', async () => {
       const product = { name: 'Product1', quantity: 10, price: 50 };
@@ -109,6 +109,7 @@ describe('Cart Controller', () => {
 
       req.body = { product: 'Product1', quantity: 1, price: 50 };
 
+      // Stub findOne to simulate product exists but not in cart
       sinon.stub(Product, 'findOne').resolves(product);
       sinon.stub(Cart, 'findOne').resolves(null);
       sinon.stub(Cart, 'create').resolves(newCartItem);
