@@ -44,7 +44,12 @@
                 {{#if (eq ../user.role 'admin')}}
                 <button class="productEdit edit-btn" type="button" data-edit-product="{{this._id}}">Edit Product</button>
                 {{else}}
-                <button class="productAddToCart add-to-cart-btn" type="button" data-id="{{this._id}}" data-owner="{{../user._id}}">Add to Cart</button>
+                {{#unless (eq ../user 'nouser')}}
+                  <button class="productAddToCart add-to-cart-btn" type="button" data-id="{{this._id}}" data-owner="{{../user._id}}">Add to Cart</button>
+                {{/unless}}
+                {{#if (eq ../user 'nouser')}}
+                  <button class="productAddToCart add-to-cart-btn" type="button" onclick="showErrorNotLoggedIn()">Add to Cart</button>
+                {{/if}}
                 {{/if}}
               {{else}}
                 <button class="productAddToCart add-to-cart-btn" type="button" onclick="showErrorNotLoggedIn()">Add to Cart</button>
@@ -161,7 +166,11 @@
     </div>
 
     {{#if user}}
-      <script src="/js/product-catalog.js"></script>
+      {{#unless (eq user 'nouser')}}
+        <script src="/js/product-catalog.js"></script>
+      {{else}}
+        <script src="/js/errorNotLoggedIn.js"></script>
+      {{/unless}}
     {{else}}
         <script src="/js/errorNotLoggedIn.js"></script>
     {{/if}}

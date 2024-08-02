@@ -62,14 +62,13 @@ describe('Receipt Controller', () => {
     });
 
     it('should handle errors during receipt creation', async () => {
-      const errorMessage = 'Error creating receipt';
+      const errorMessage = 'An error occurred.';
       sinon.stub(Receipt, 'create').rejects(new Error(errorMessage));
 
       await receiptController.createReceipt(req, res, next);
 
       expect(res.status.calledOnceWith(400)).to.be.true;
       expect(res.json.calledOnce).to.be.true;
-      // Compare the message property of the error
       expect(res.json.firstCall.args[0].message).to.equal(errorMessage);
     });
   });
@@ -81,13 +80,13 @@ describe('Receipt Controller', () => {
         owner: 'userId',
         amount: 100,
       };
-
+  
       sinon.stub(Receipt, 'findById').resolves(receipt);
-
+  
       req.params.id = 'receiptId';
-
+  
       await receiptController.getReceiptById(req, res, next);
-
+  
       expect(res.status.calledOnceWith(200)).to.be.true;
       expect(res.json.calledOnceWith({
         status: 'success',
@@ -96,33 +95,33 @@ describe('Receipt Controller', () => {
         },
       })).to.be.true;
     });
-
+  
     it('should return 404 when receipt is not found', async () => {
       sinon.stub(Receipt, 'findById').resolves(null);
-
+  
       req.params.id = 'nonexistentReceiptId';
-
+  
       await receiptController.getReceiptById(req, res, next);
-
+  
       expect(res.status.calledOnceWith(404)).to.be.true;
       expect(res.json.calledOnce).to.be.true;
-      expect(res.json.firstCall.args[0]).to.have.property('message').that.includes('not found');
+      expect(res.json.firstCall.args[0].message).to.equal('Receipt not found.'); // Check for specific message
     });
-
+  
     it('should handle errors when fetching a receipt by ID', async () => {
-      const errorMessage = 'Error fetching receipt by ID';
+      const errorMessage = 'An error occurred.';
       sinon.stub(Receipt, 'findById').rejects(new Error(errorMessage));
-
+  
       req.params.id = 'receiptId';
-
+  
       await receiptController.getReceiptById(req, res, next);
-
+  
       expect(res.status.calledOnceWith(404)).to.be.true;
       expect(res.json.calledOnce).to.be.true;
-      // Compare the message property of the error
       expect(res.json.firstCall.args[0].message).to.equal(errorMessage);
     });
   });
+  
 
   describe('getAllReceiptsOfUser', () => {
     it('should get all receipts for a user', async () => {
@@ -163,7 +162,7 @@ describe('Receipt Controller', () => {
     });
 
     it('should handle errors during fetching receipts for a user', async () => {
-      const errorMessage = 'Error fetching user receipts';
+      const errorMessage = 'An error occurred.';
       sinon.stub(Receipt, 'find').rejects(new Error(errorMessage));
 
       req.params.userId = 'userId';
@@ -172,7 +171,6 @@ describe('Receipt Controller', () => {
 
       expect(res.status.calledOnceWith(404)).to.be.true;
       expect(res.json.calledOnce).to.be.true;
-      // Compare the message property of the error
       expect(res.json.firstCall.args[0].message).to.equal(errorMessage);
     });
   });
@@ -212,14 +210,13 @@ describe('Receipt Controller', () => {
     });
 
     it('should handle errors during fetching all receipts', async () => {
-      const errorMessage = 'Error fetching all receipts';
+      const errorMessage = 'An error occurred.';
       sinon.stub(Receipt, 'find').rejects(new Error(errorMessage));
 
       await receiptController.getAllReceipts(req, res, next);
 
       expect(res.status.calledOnceWith(404)).to.be.true;
       expect(res.json.calledOnce).to.be.true;
-      // Compare the message property of the error
       expect(res.json.firstCall.args[0].message).to.equal(errorMessage);
     });
   });
