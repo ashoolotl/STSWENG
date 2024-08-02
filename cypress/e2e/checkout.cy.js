@@ -7,7 +7,6 @@ import {userEmail, userEmail2, userPassword} from './user-function.cy.js';
 import {adminEmail, adminPassword} from './admin-function.cy.js';
 //plugin
 import 'cypress-real-events/support';
-import 'cypress-plugin-stripe-elements';
 
 
 const serviceData = {

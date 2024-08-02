@@ -92,7 +92,7 @@
       {{#each this.products}}
         <div class="userDashboardProduct">
           <img src="/images/products/{{this.name}}.png" />
-          <div class="order-details">
+          <div class="order-details" id="order-{{../this._id}}">
             <p><strong>Name:</strong> <span id="product-name">{{this.name}}</span></p>
             <p><strong>Quantity:</strong> <span id="product-quantity">x{{this.quantity}}</span></p>
             <p><strong>Total Price:</strong> <span id="product-price">&euro; {{this.price}}</span></p>

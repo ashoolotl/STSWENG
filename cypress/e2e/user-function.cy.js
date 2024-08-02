@@ -30,6 +30,7 @@ export function registerVehicle(vehicle) {
       }
    });
 }
+
 export function createReview(reviewText) {
    cy.get('[data-rating="2"]').click();
    cy.get('#reviewText').type(reviewText);
