@@ -8,7 +8,7 @@ const catchAsync = require("../utils/catchAsync");
 // Dynamically import chai for ESM support
 let chai, expect;
 before(async () => {
-  chai = await import('chai');
+  chai = await import('chai'); 
   expect = chai.expect;
 });
 
